@@ -8,7 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-
+// alterado por Jose Sousa 18/10/24
+//alterar a logica do login para encaminhar o user ou admin!
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -27,8 +28,13 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        return redirect()->intended(route('dashboard', absolute: false));
+        // redireciona com base no utilizador 
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }else{
+            return redirect()->route('dashboard');
+        }
+        // return redirect()->intended(route('user.dashboard', absolute: false));
     }
 
     /**
