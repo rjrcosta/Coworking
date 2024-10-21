@@ -6,7 +6,10 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
+                'resources/css/appLogin.css',
+                'resources/css/bookForm.css',
                 'resources/js/app.js',
+                'resources/js/bookForm.js',
             ],
             refresh: true,
         }),
