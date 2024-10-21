@@ -25,7 +25,7 @@ class EdificioFactory extends Factory
              //Factory com os campos do Edifício
              'nome' => fake()->name(),
              'morada' =>  fake()->address(),
-             'cidade' =>  fake()->city(),
+             'cod_cidade' =>  fake()->numberBetween(1, 20),
              'cod_postal' => fake()->postcode(),
              'contacto' => fake()->numerify("### ### ###"),
              'created_at' => now(),

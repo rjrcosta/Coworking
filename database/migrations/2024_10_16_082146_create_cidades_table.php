@@ -1,10 +1,5 @@
 <?php
 
-/**
-* Editado por Thiago França
-* 18/10/2024
-*/
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('edificios', function (Blueprint $table) {
+        Schema::create('cidades', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->string('morada');
-            $table->foreignId('cod_cidade')->references('id')->on('cidades');       
-            $table->string('cod_postal');      
-            $table->string('contacto');
             $table->timestamps();
         });
     }
@@ -32,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('edificios');
+        Schema::dropIfExists('cidades');
     }
 };
