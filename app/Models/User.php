@@ -45,4 +45,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    //funçao para autenticar as x-nav-links so para admins
+    public function isAdmin()
+{
+    return $this->role === 'admin'; // Ajuste conforme necessário
+}
 }
