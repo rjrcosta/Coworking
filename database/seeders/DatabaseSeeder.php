@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
         //User::factory(5)->create();
         //Cidade::factory(5)->create();
 
@@ -51,11 +52,14 @@ class DatabaseSeeder extends Seeder
 
         // ************************ Lógica para criar edifícios (END) ************************
 
+
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'password'=>'teste12345',
         //     'email' => 'test@example.com',
         //     'role'=>'admin'
         // ]);
+
     }
+
 }
