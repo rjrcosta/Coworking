@@ -79,7 +79,7 @@
                 })
                 .catch(error => {
                     console.error('Erro:', error);
-                    alert('Erro ao adicionar a cidade: ' + error.message);
+                    alert('Erro ao adicionar a cidade. Verifique se já existe uma Cidade com este nome.');
                 });
         });
     </script>

@@ -13,4 +13,10 @@ class Piso extends Model
     protected $fillable=[
         'numero',
     ];
+
+    // Definir a relação muitos para muitos com Edificio
+    public function edificios()
+    {
+        return $this->belongsToMany(Edificio::class, 'edificio_piso', 'cod_piso', 'cod_edificio');
+    }
 }

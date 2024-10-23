@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('edificios.index')">
                         {{ __('Edifícios') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('cidades.index')">
+                        {{ __('Cidades') }}
+                    </x-nav-link>
                 </div>
             </div>
 

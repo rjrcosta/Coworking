@@ -22,40 +22,41 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        //User::factory(5)->create();
-        //Cidade::factory(5)->create();
-
-
-        // ************************ Lógica para criar edifícios (START) ************************
-
-        $faker = Faker::create();
-
-        //Definir os dados que irão compor o nome do edifício
-        $tipos = ['Edifício', 'Torre', 'Empreendimento'];
-        $posicao = ['Norte', 'Sul', 'Leste', 'Oeste'];
-
-
-        // Criar 50 edifícios
-        for ($i = 0; $i < 50; $i++) {
-            //Factory com os campos do Edifício
-            DB::table('edificios')->insert([
-            'nome' => $faker->randomElement($tipos) . ' ' . $faker->name() . ' ' . $faker->randomElement($posicao),
-            'morada' =>  fake()->address(),
-            'cod_cidade' =>  fake()->numberBetween(1, 6),
-            'cod_postal' => fake()->postcode(),
-            'contacto' => fake()->numerify("### ### ###"),
-            'created_at' => now(),
-            'updated_at' => now(),
-            ]);
-        }
-
-        // ************************ Lógica para criar edifícios (END) ************************
-
+        // User::factory(5)->create();
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'password'=>'teste12345',
         //     'email' => 'test@example.com',
         //     'role'=>'admin'
         // ]);
+
+        // Cidade::factory(5)->create();
+
+
+        // ************************ Lógica para criar edifícios (START) ************************
+
+        // $faker = Faker::create();
+
+        // //Definir os dados que irão compor o nome do edifício
+        // $tipos = ['Edifício', 'Torre', 'Empreendimento'];
+        // $posicao = ['Norte', 'Sul', 'Leste', 'Oeste'];
+
+
+        // // Criar 50 edifícios
+        // for ($i = 0; $i < 50; $i++) {
+        //     //Factory com os campos do Edifício
+        //     DB::table('edificios')->insert([
+        //     'nome' => $faker->randomElement($tipos) . ' ' . $faker->name() . ' ' . $faker->randomElement($posicao),
+        //     'morada' =>  fake()->address(),
+        //     'cod_cidade' =>  fake()->numberBetween(1, 5),
+        //     'cod_postal' => fake()->postcode(),
+        //     'contacto' => fake()->numerify("### ### ###"),
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        //     ]);
+        // }
+
+        // ************************ Lógica para criar edifícios (END) ************************
+
     }
 }
