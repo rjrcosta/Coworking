@@ -36,19 +36,20 @@ class DatabaseSeeder extends Seeder
         // $posicao = ['Norte', 'Sul', 'Leste', 'Oeste'];
 
 
-        // // Criar 50 edifícios
-        // for ($i = 0; $i < 50; $i++) {
-        //     //Factory com os campos do Edifício
-        //     DB::table('edificios')->insert([
-        //     'nome' => $faker->randomElement($tipos) . ' ' . $faker->name() . ' ' . $faker->randomElement($posicao),
-        //     'morada' =>  fake()->address(),
-        //     'cod_cidade' =>  fake()->numberBetween(1, 6),
-        //     'cod_postal' => fake()->postcode(),
-        //     'contacto' => fake()->numerify("### ### ###"),
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        //     ]);
-        // }
+        // Criar 50 edifícios
+        for ($i = 0; $i < 50; $i++) {
+            //Factory com os campos do Edifício
+            DB::table('edificios')->insert([
+            'nome' => $faker->randomElement($tipos) . ' ' . $faker->name() . ' ' . $faker->randomElement($posicao),
+            'morada' =>  fake()->address(),
+            'cod_cidade' =>  fake()->numberBetween(1, 5),
+            'cod_postal' => fake()->postcode(),
+            'contacto' => fake()->numerify("### ### ###"),
+            'created_at' => now(),
+            'updated_at' => now(),
+            ]);
+        }
+
 
         // ************************ Lógica para criar edifícios (END) ************************
 
