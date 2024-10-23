@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -49,5 +50,10 @@ class User extends Authenticatable
     public function isAdmin()
 {
     return $this->role === 'admin'; // Ajuste conforme necessário
+}
+
+public function isUser ()
+{
+    return $this->role === 'user'; // Supondo que você tenha um campo 'role' no seu modelo User
 }
 }
