@@ -20,6 +20,11 @@
                         {{ __('Edifícios') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('cidades.index')">
+                        {{ __('Cidades') }}
+                    </x-nav-link>
+
+
                     @if (Auth::user()->isAdmin())
                         <!-- Verifica se o usuário é admin -->
                         <x-nav-link :href="route('users.index')">

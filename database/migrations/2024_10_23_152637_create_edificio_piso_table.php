@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cidades', function (Blueprint $table) {
+        Schema::create('edificio_piso', function (Blueprint $table) {
             $table->id();
-            $table->string('nome')->unique();
+            // Chave estrangeira para a tabela pisos
+            $table->foreignId('cod_piso')->constrained('pisos')->onDelete('cascade');
+            // Chave estrangeira para a tabela edificios
+            $table->foreignId('cod_edificio')->constrained('edificios')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cidades');
+        Schema::dropIfExists('edificio_piso');
     }
 };

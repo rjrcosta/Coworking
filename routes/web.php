@@ -69,7 +69,9 @@ Route::middleware('auth')->group(function () {
     // Rota para a modal de adição de cidades
     Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store');
 
-
+    // Rota para filtrar cidades pelo nome
+    Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
+});
 
 
 require __DIR__.'/auth.php';

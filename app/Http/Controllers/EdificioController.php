@@ -52,7 +52,7 @@ class EdificioController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        //dd($request->all());
         // Validação dos campos
         $request->validate([
             'nome' => 'required|string|max:255',
@@ -73,7 +73,7 @@ class EdificioController extends Controller
         $edificio->cod_cidade = $request->cod_cidade;  // Salva o código da cidade selecionada
         $edificio->save();
 
-        return redirect()->route('edificios.index');
+        return redirect()->route('edificios.index')->with('success', 'Edifício criado com sucesso!');
     }
 
     /**
@@ -132,7 +132,7 @@ class EdificioController extends Controller
         $nome = $request->input('pesquisa');
 
         $cidades = Cidade::where('nome', 'like', '%' . $nome . '%')->pluck('id');
-        $edificios = Edificio::where('cod_cidade', $cidades)->paginate(20);
+        $edificios = Edificio::whereIn('cod_cidade', $cidades)->paginate(20);
         return view('edificios.index', ['edificios' => $edificios]);
     }
 }

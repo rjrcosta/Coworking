@@ -30,7 +30,7 @@
                 <th scope="col" colspan="3">Opções</th>
               </tr>
             </thead>
-            <tbody> 
+            <tbody>
               <!-- loop para buscar os edifícios -->
               @foreach($edificios as $edificio)
               <tr>
@@ -43,7 +43,7 @@
                 <td><a href="{{route('edificios.show', $edificio->id)}}"><button type="button" class="btn btn-success">Detalhes</button></a></td>
                 <td><a href="{{route('edificios.edit', $edificio->id)}}"><button type="button" class="btn btn-warning">Editar</button></a></td>
                 <td>
-                  <form action="{{ route('edificios.destroy', $edificio->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');">
+                  <form action="{{ route('edificios.destroy', $edificio->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este edifício?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -52,8 +52,13 @@
                 </td>
               </tr>
               @endforeach
-               <!-- Exibe os links de paginação -->
-               {{ $edificios->links() }}
+              <!-- Exibe os links de paginação -->
+              {{ $edificios->links() }}
+              @if (session('success'))
+              <div class="alert alert-success">
+                {{ session('success') }}
+              </div>
+              @endif
             </tbody>
           </table>
         </div>

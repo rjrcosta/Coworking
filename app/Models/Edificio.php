@@ -25,4 +25,10 @@ class Edificio extends Model
         return $this->belongsTo(Cidade::class, 'cod_cidade', 'id');
     }
 
+    // Definir a relação muitos para muitos com Piso
+    public function pisos()
+    {
+        return $this->belongsToMany(Piso::class, 'edificio_piso', 'cod_edificio', 'cod_piso');
+    }
+
 }

@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form action="{{ route('edificios.store') }}" method="POST" onsubmit="event.preventDefault(); console.log('Formulário submetido')">
+                    <form action="{{ route('edificios.store') }}" method="POST" onsubmit="console.log('Formulário submetido')">
                         @csrf
                         <div class="mb-4">
                             <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
