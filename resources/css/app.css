@@ -3,15 +3,63 @@
 @tailwind utilities;
 
 
-.welcomeBody{
+body{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.welcomeHero{
     height: 100vh;
+    width: 100vw;
     margin: 0;
     display: flex;
     background-repeat: no-repeat;
     background-size: cover;
     align-items: center;
     justify-content: center;
+   
 }
+
+.welcomeSpaces{
+   
+    width: 100vw;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+}
+
+.spacesText{
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+.welcomeSpaces h2{
+    font-size: 40px;
+}
+
+.spacesImg{
+    display: flex;
+    justify-content: center;
+  
+   
+}
+.spacesImg img{
+    width: 40vw;
+    max-width: 500px;
+    border-radius: 10px;
+    margin: 10px;
+}
+@media only screen and (max-width: 600px) {
+    .spacesImg img {
+        width: 80vw;
+    }
+    .spacesImg{
+        display:inline;
+        justify-items: center;
+    }
+  }
+
 .headerWelcome{
     background-color: rgba(0, 0, 0, 0.50);
     width: 100vw;
@@ -24,8 +72,9 @@
 
 .footerWelcome{
     width: 100vw;
-    position: fixed;
-    bottom: 0px;
+  
+    /* position: fixed;
+    bottom: 0px; */
 }
 
 .linksWelcome{
@@ -51,6 +100,7 @@
     flex-direction: column;
     padding: 30px 30px;
     border-radius: 5px;
+    
 }
 
 .btn-reserva{
@@ -61,4 +111,67 @@
     
     font-size: 20px;
     color: white;
+}
+
+/* Service */
+
+.service{
+    display: flex;
+    justify-content: center;
+    background-color: #f7f8fc;
+    padding: 40px;
+}
+.service h2{
+    font-size: 40px;
+}
+
+.service-item{
+    background-color: white;
+    width: 30vw;
+    max-width: 300px;
+    height: 30vh;
+    max-height: 300px;
+    margin: 5%;
+    padding: 15px;
+    border-radius: 5px;
+    border: solid 1px rgb(235, 235, 235);
+}
+.service-item h3{
+    font-size: 15px;
+    padding: 20px;
+    font-weight: 700;
+}
+.service-item i{
+    font-size: 40px;
+    padding: 100px;
+    font-weight: 700;
+}
+
+@media only screen and (max-width: 1150px) {
+    .service-item{
+        
+        width: 80vw;
+    }
+  
+    .spacesImg{
+        display:inline;
+        justify-items: center;
+    } 
+  }
+  @media only screen and (max-width: 600px) {
+    .service-item{
+      
+        width: 80vw;
+    }
+    .spacesImg{
+        display:inline;
+        justify-items: center;
+    }
+  }
+
+
+  /* CONTACT FORM */
+.page.header{
+    padding-top: 20px ;
+    padding-bottom: 20px;
 }
