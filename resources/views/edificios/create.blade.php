@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form action="{{ route('edificios.store') }}" method="POST">
+                    <form action="{{ route('edificios.store') }}" method="POST" onsubmit="event.preventDefault(); console.log('Formulário submetido')">
                         @csrf
                         <div class="mb-4">
                             <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
@@ -26,14 +26,32 @@
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
+                        <div class="d-flex align-items-center gap-2 mt-1">
+                            {{-- Escolher uma cidade --}}
+                            <select name='cod_cidade' id="cidade" class="form-select mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" aria-label="Default select example">
+                                <option value="Selecione">Selecione uma cidade</option>
+                                @foreach($cidades as $item)
+                                <option value="{{ $item->id }}">{{ $item->nome }}</option>
+                                @endforeach
+                            </select>
 
-                        <div class="mb-4">
-                            <label for="cidade" class="block text-sm font-medium text-gray-700">cidade</label>
-                            <input type="text" id="cidade" name="cidade" value="{{ old('cidade') }}" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                            @error('cidade')
-                            <span class="text-red-600 text-sm">{{ $message }}</span>
-                            @enderror
+                            {{-- Botão para chamar um modal que irá adicionar uma nova Cidade --}}
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCidadeModal">
+                                +
+                            </button>
                         </div>
+
+
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+                        <br>
 
                         <div class="mb-4">
                             <label for="cod_postal" class="block text-sm font-medium text-gray-700">Código Postal</label>
@@ -56,6 +74,31 @@
                             <button type="submit" class="btn btn-primary">Criar edificio</button>
                         </div>
                     </form>
+                    <!-- Modal -->
+                    <div class="modal fade" id="addCidadeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addCidadeModalLabel">Adicionar Cidade</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" onsubmit="console.log('Formulário do modal submetido')">
+                                        @csrf
+                                        <div class="mb-4">
+                                            <label for="add_mome" class="block text-sm font-medium text-gray-700">Nome da Cidade</label>
+                                            <input type="text" id="add_nome" name="add_nome" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button id="addCidadeButton" onclick="return false;" class="btn btn-primary">Adicionar</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

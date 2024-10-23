@@ -19,7 +19,7 @@
                     {{$edificios->cod_postal}}
                     <br><br>
                     <p><strong>Localidade</strong></p>
-                    {{$edificios->cidade}}
+                    {{$edificios->cidade->nome}}
                     <br><br>
                     <p><strong>Contacto</strong></p>
                     {{$edificios->contacto}}
