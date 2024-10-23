@@ -28,7 +28,18 @@ class CidadeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        // Validação dos campos
+        $request->validate([
+            'nome' => 'required|string|max:255',
+        ]);
+
+        // Se a validação passar, cria uma nova Cidade
+        $cidade = new Cidade();
+        $cidade->nome = $request->nome;
+        $cidade->save();
+
+        return response()->json(['success' => true, 'message' => 'Cidade adicionada com sucesso']);
     }
 
     /**

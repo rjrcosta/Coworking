@@ -31,14 +31,14 @@
               </tr>
             </thead>
             <tbody> 
-              <!-- loop para buscar os utilizadores -->
+              <!-- loop para buscar os edifícios -->
               @foreach($edificios as $edificio)
               <tr>
                 <th scope="row">{{$edificio->id}}</th>
                 <td>{{$edificio->nome}}</td>
                 <!-- <td>{{$edificio->morada}}</td> -->
                 <!-- <td>{{$edificio->cod_postal}}</td> -->
-                <td>{{$edificio->cidade}}</td>
+                <td>{{$edificio->cidade->nome}}</td>
                 <!-- <td>{{$edificio->localidade}}</td> -->
                 <td><a href="{{route('edificios.show', $edificio->id)}}"><button type="button" class="btn btn-success">Detalhes</button></a></td>
                 <td><a href="{{route('edificios.edit', $edificio->id)}}"><button type="button" class="btn btn-warning">Editar</button></a></td>
