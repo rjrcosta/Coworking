@@ -29,6 +29,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// rotas pessoais para os users comuns´
+
+Route::get('/profile/users', [UserController::class, 'showProfile'])->name('users.profile')->middleware('auth');
+Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('users.editProfile')->middleware('auth');
+Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('users.updateProfile')->middleware('auth');
+
+
 
 
 // rotas para os users /clientes
@@ -48,7 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+});
     //**** Rota geral para os clientes, produtos, vendedores ****
     Route::resources([
         'edificios' => EdificioController::class,
@@ -63,6 +70,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store');
 
 
-});
+
 
 require __DIR__.'/auth.php';

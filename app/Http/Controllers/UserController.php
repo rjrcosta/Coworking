@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ class UserController extends Controller
     public function create()
     {
         // Supondo que você tenha uma lista de papéis disponíveis
-        $role = ['admin', 'user ']; // Você pode substituir por dados do banco de dados
+        $role = ['admin','user ']; // Você pode substituir por dados do banco de dados
 
         // Retorna a view de criação de usuário com os papéis
         return view('users.create', compact('role'));
@@ -27,7 +27,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string', // Validação do papel
+            'role' => 'required|string|in:admin,user', // Validação do papel
         ]);
 
         // Criação do novo usuário
@@ -102,4 +102,51 @@ class UserController extends Controller
         }
         return redirect()->route('users.index')->with('error', 'Usuário não encontrado.');
     }
+
+//Metodos especificos so para usuarios 
+
+public function showProfile()
+{
+    // Obter o usuário autenticado
+    $user = Auth::user();
+
+    // Retornar a view com os dados do usuário
+    return view('users.profile', compact('user'));
+}
+
+public function editProfile()
+{
+    // Busca o usuário autenticado
+    $user = Auth::user();
+
+    // Retorna a view com o usuário
+    return view('users.editProfile', compact('user'));
+}
+
+
+
+public function updateProfile(Request $request)
+{
+    // Validação dos dados recebidos
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        // Adicione outras validações conforme necessário
+    ]);
+
+    // Busca o usuário autenticado
+    $user = Auth::user();
+
+    // Atualiza os dados do usuário
+    $user->name = $request->name;
+    $user->email = $request->email;
+    
+   
+
+    // Atualize outros campos conforme necessário
+    $user->save();
+
+    // Redireciona para a página do usuário com uma mensagem de sucesso
+    return redirect()->route('dashboard')->with('success', 'Dados atualizados com sucesso!');
+}
 }

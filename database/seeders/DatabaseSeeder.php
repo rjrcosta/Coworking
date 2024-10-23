@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        //User::factory(5)->create();
-        //Cidade::factory(5)->create();
+        // User::factory(5)->create();
+        // Cidade::factory(5)->create();
 
 
         // ************************ Lógica para criar edifícios (START) ************************
@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
             DB::table('edificios')->insert([
             'nome' => $faker->randomElement($tipos) . ' ' . $faker->name() . ' ' . $faker->randomElement($posicao),
             'morada' =>  fake()->address(),
-            'cod_cidade' =>  fake()->numberBetween(1, 6),
+            'cod_cidade' =>  fake()->numberBetween(1, 5),
             'cod_postal' => fake()->postcode(),
             'contacto' => fake()->numerify("### ### ###"),
             'created_at' => now(),
