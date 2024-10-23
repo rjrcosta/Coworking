@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
         // User::factory(5)->create();
         // User::factory()->create([
         //     'name' => 'Test User',
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         //     'role'=>'admin'
         // ]);
+
 
         // Cidade::factory(5)->create();
 
@@ -40,6 +42,7 @@ class DatabaseSeeder extends Seeder
         // //Definir os dados que irão compor o nome do edifício
         // $tipos = ['Edifício', 'Torre', 'Empreendimento'];
         // $posicao = ['Norte', 'Sul', 'Leste', 'Oeste'];
+
 
 
         // // Criar 50 edifícios
@@ -56,7 +59,9 @@ class DatabaseSeeder extends Seeder
         //     ]);
         // }
 
-        // ************************ Lógica para criar edifícios (END) ************************
 
+
+        // ************************ Lógica para criar edifícios (END) ************************
     }
+
 }
