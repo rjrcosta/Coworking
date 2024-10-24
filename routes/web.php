@@ -2,13 +2,15 @@
 
 
 /**
-* Editado por Jose Sousa
-* 21/10/2024
-*/
+ * Editado por Jose Sousa
+ * 21/10/2024
+ */
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EdificioController;
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PisoController;
 use App\Models\User;
 use Illuminate\Session\Middleware\AuthenticatedSession;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +44,7 @@ Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('
 
 Route::resources([
     'users' => UserController::class,
-    
+
 ]);
 
 Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
@@ -56,20 +58,30 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-    //**** Rota geral para os clientes, produtos, vendedores ****
-    Route::resources([
-        'edificios' => EdificioController::class,
-        'cidades' => CidadeController::class,
-        
-    ]);
+//**** Rota geral para os clientes, produtos, vendedores ****
+Route::resources([
+    'edificios' => EdificioController::class,
+    'cidades' => CidadeController::class,
+    'pisos' => PisoController::class,
 
-    // Rota para filtrar edifícios pela cidade
-    Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
-   
-    // Rota para a modal de adição de cidades
-    Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store');
+]);
 
-    // Rota para filtrar cidades pelo nome
-    Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
-    
-require __DIR__.'/auth.php';
+// Rota para filtrar edifícios pela cidade
+Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
+
+// Rota para a modal de adição de cidades
+Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store');
+
+// Rota para filtrar cidades pelo nome
+Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
+
+// Rota para filtrar pisos pelo andar
+Route::get('/pisos_filtrar', [PisoController::class, 'filtrar'])->name('pisos.filtrar');
+
+// Rota para a modal de adição de pisos
+Route::get('/pisos_show_associate/{id}', [PisoController::class, 'show_associate'])->name('pisos.showAssociate');
+
+// Rota para associar edifícios a um piso
+Route::post('/pisos/associate', [PisoController::class, 'associate'])->name('pisos.associate');
+
+require __DIR__ . '/auth.php';
