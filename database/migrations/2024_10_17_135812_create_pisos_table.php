@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pisos', function (Blueprint $table) {
             $table->id();
-             $table->integer('numero');
+             $table->integer('andar');
             $table->timestamps();
         });
     }

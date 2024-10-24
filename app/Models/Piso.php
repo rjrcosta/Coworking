@@ -11,7 +11,7 @@ class Piso extends Model
     use HasFactory;
 
     protected $fillable=[
-        'numero',
+        'andar',
     ];
 
     // Definir a relação muitos para muitos com Edificio
