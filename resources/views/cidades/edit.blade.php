@@ -19,6 +19,9 @@
                         <div class="mb-4">
                             <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
                             <input type="text" id="nome" name="nome" value="{{ $cidades->nome }}" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            @error('nome')
+                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                            @enderror
                         </div>
                         <br>
                         <div class="flex items-center justify-between">

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('cod_piso')->constrained('pisos')->onDelete('cascade');
             // Chave estrangeira para a tabela edificios
             $table->foreignId('cod_edificio')->constrained('edificios')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 

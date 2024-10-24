@@ -44,16 +44,12 @@
         </main>
     </div>
 
-    // resources/views/edificios/create.blade.php
+    <!-- resources/views/edificios/create.blade.php -->
     <script>
         document.getElementById('addCidadeButton').addEventListener('click', function() {
-            // Obtém o nome da cidade a partir do input
             const nomeCidade = document.getElementById('add_nome').value;
-
-            // Obtém o token CSRF
             const token = document.querySelector('input[name="_token"]').value;
 
-            // Chama o método store do CidadeController via fetch
             fetch('{{ route("cidades.store") }}', {
                     method: 'POST',
                     headers: {
@@ -67,19 +63,103 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Fechar o modal
+                        // Fecha o modal e recarrega a página para mostrar a nova cidade
                         let modal = bootstrap.Modal.getInstance(document.getElementById('addCidadeModal'));
                         modal.hide();
 
-                        // Recarregar a página ou redirecionar para edificios/create
                         window.location.href = "{{ route('edificios.create') }}";
                     } else {
-                        alert('Erro ao adicionar a cidade.');
+                        alert(data.message); // Mostra a mensagem de erro retornada
                     }
                 })
                 .catch(error => {
                     console.error('Erro:', error);
-                    alert('Erro ao adicionar a cidade. Verifique se já existe uma Cidade com este nome.');
+                    alert('Erro ao adicionar a cidade.');
+                });
+        });
+    </script>
+
+    <!-- resources/views/pisos/showAssociated.blade.php -->
+    <script>
+        // Captura os valor dos inputs ocultos e transforma em objeto JavaScript
+        const pisoId = document.getElementById('piso_id').value;
+
+        // Cptura o valor da combobox de cidades
+        let cidade = document.getElementById('cidade');
+
+        // Captura o elemento de seleção de edifícios
+        const edificiosSelect = document.getElementById('edificios');
+
+        // Corre apenas se uma cidade foi selecionada
+        if (cidade.value != "Selecione uma cidade") {
+
+            // Adiciona um evento de mudança na combobox de cidades
+            cidade.addEventListener('change', function() {
+                const cidadeId = this.value;
+                const edificiosSelect = document.getElementById('edificios');
+                edificiosSelect.innerHTML = ''; // Limpar os edifícios existentes
+
+                // Captura o valor do input oculto e transforma em objeto JavaScript
+                let edificios = JSON.parse(document.getElementById('edificio_hidden').value);
+
+                //console.log(edificios);
+
+                // Se a cidade foi selecionada, mostrar os edifícios
+                if (cidadeId) {
+                    // Obter apenas os edifícios da cidade selecionada
+                    edificios.forEach(edificio => {
+                        // Filtra a lista de edifícios pelo id da cidade
+                        if (edificio.cod_cidade == cidadeId) {
+                            // Construir uma nova opção a cada edifínio
+                            const option = document.createElement('option');
+                            option.value = edificio.id;
+                            option.textContent = edificio.nome;
+                            edificiosSelect.appendChild(option);
+                        }
+                    })
+                }
+
+            })
+
+        }
+
+        // Lógica para receber os edifícios selecionados e mandar para o controller
+        // Adicionar evento ao botão de associar
+        associateButton.addEventListener('click', function() {
+            const selectedEdificios = Array.from(edificiosSelect.selectedOptions).map(option => option.value);
+            const token = document.querySelector('input[name="_token"]').value;
+
+            // Verificar se pelo menos um edifício foi selecionado
+            if (selectedEdificios.length === 0) {
+                alert('Por favor, selecione pelo menos um edifício.');
+                return;
+            }
+
+            // Fazer o POST para o método associate do PisoController
+            fetch('{{ route("pisos.associate") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token
+                    },
+                    body: JSON.stringify({
+                        piso_id: pisoId, // Usar o ID do piso obtido do HTML
+                        edificios: selectedEdificios
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Associação realizada com sucesso!');
+                        // Redirecionar ou atualizar a página conforme necessário
+                        window.location.href = '{{ route("pisos.index") }}';
+                    } else {
+                        alert('Erro ao associar os edifícios.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Erro ao associar os edifícios.');
                 });
         });
     </script>

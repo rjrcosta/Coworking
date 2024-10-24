@@ -23,10 +23,16 @@
                     <x-nav-link :href="route('cidades.index')">
                         {{ __('Cidades') }}
                     </x-nav-link>
+
                     <x-nav-link :href="route('msgcontactos.index')">
                         {{ __('Mensagens') }}
                     </x-nav-link>
                     
+
+                    <x-nav-link :href="route('pisos.index')">
+                        {{ __('Pisos') }}
+                    </x-nav-link>
+
 
 
                     @if (Auth::user()->isAdmin())
