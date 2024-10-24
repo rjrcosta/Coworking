@@ -35,32 +35,32 @@ class CidadeController extends Controller
      */
     public function store(Request $request)
     {
-        
         // Validação do nome da cidade
-    $request->validate([
-        'nome' => 'required|string|max:255|unique:cidades,nome',
-    ], [
-        'nome.unique' => 'Já existe uma cidade com esse nome.', // Mensagem personalizada
-    ]);
+        $request->validate([
+            'nome' => 'required|string|max:255|unique:cidades,nome',
+        ], [
+            'nome.unique' => 'Já existe uma cidade com esse nome.',
+        ]);
 
-    try {
-        // Tentativa de criar a cidade
-        $cidade = new Cidade();
-        $cidade->nome = $request->nome;
-        $cidade->save();
+        try {
+            // Criação da cidade
+            $cidade = new Cidade();
+            $cidade->nome = $request->nome;
+            $cidade->save();
 
-        // Redirecionar com mensagem de sucesso
-        return redirect()->route('cidades.index')->with('success', 'Cidade criada com sucesso!');
-    } catch (QueryException $e) {
-        // Captura da exceção de chave única duplicada
-        if ($e->getCode() === '23000') {  // Código 23000 é para violação de integridade
-            return redirect()->route('cidades.index')->with('error', 'Cidade já existente! Não foi possível criar a cidade.');
+            // Retorna a resposta JSON ao invés de redirecionar
+            return response()->json(['success' => true, 'message' => 'Cidade criada com sucesso!'], 200);
+        } catch (QueryException $e) {
+            // Tratamento de exceção de chave duplicada
+            if ($e->getCode() === '23000') {
+                return response()->json(['success' => false, 'message' => 'Cidade já existente!'], 409); // Código 409: Conflito
+            }
+
+            // Lançar exceção para outros erros
+            return response()->json(['success' => false, 'message' => 'Erro ao criar a cidade.'], 500);
         }
+    }
 
-        // Se for outro erro, lança a exceção
-        throw $e;
-    }
-    }
 
     /**
      * Display the specified resource.
@@ -87,10 +87,24 @@ class CidadeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cidade = Cidade::findOrFail($id);
-        $cidade->update($request->all());
-        return redirect()->route('cidades.index')->with('success', 'Cidade modificada com sucesso!');
+        // Validação para garantir que o nome seja único, exceto para a cidade atual
+        $validatedData = $request->validate([
+            'nome' => 'required|unique:cidades,nome,' . $id,
+        ]);
+
+        try {
+            // Encontra a cidade e faz a atualização
+            $cidade = Cidade::findOrFail($id);
+            $cidade->update($validatedData);
+
+            // Redireciona com sucesso
+            return redirect()->route('cidades.index')->with('success', 'Cidade modificada com sucesso!');
+        } catch (\Exception $e) {
+            // Captura qualquer erro, incluindo violação de integridade
+            return redirect()->route('cidades.index')->with('error', 'Erro ao modificar a cidade. O nome já existe.');
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.

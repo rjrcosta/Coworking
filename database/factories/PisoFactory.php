@@ -17,7 +17,7 @@ class PisoFactory extends Factory
     public function definition(): array
     {
         return [
-            'andar' => fake()->numberBetween(1, 10),
+            'andar' => fake()->unique()->numberBetween(1, 10),
         ];
     }
 }

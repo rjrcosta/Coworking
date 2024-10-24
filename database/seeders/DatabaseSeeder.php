@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
         //     ]);
         // }
 
-        // Piso::factory(5)->create();
+        //Piso::factory(5)->create();
 
         // ************************ Lógica para criar edifício_piso **************************
 
