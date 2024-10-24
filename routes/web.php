@@ -71,7 +71,5 @@ Route::middleware('auth')->group(function () {
 
     // Rota para filtrar cidades pelo nome
     Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
-});
-
-
+    
 require __DIR__.'/auth.php';

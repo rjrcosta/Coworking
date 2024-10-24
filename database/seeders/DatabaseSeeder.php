@@ -3,12 +3,14 @@
 namespace Database\Seeders;
 
 /**
-* Editado por Thiago França
-* 18/10/2024
-*/
+ * Editado por Thiago França
+ * 18/10/2024
+ */
 
 use App\Models\Cidade;
 use App\Models\Edificio;
+use App\Models\Piso;
+
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Faker\Factory as Faker;
@@ -22,7 +24,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // SEEDING ORDER
+        // 1) user, cidade, 
+        // 2) edificio, piso 
+        // 3) edificio_piso
 
+        // ****************************** Lógica para criar usuarios e cidades ************************
         // User::factory(5)->create();
         // User::factory()->create([
         //     'name' => 'Test User',
@@ -35,7 +42,7 @@ class DatabaseSeeder extends Seeder
         // Cidade::factory(5)->create();
 
 
-        // ************************ Lógica para criar edifícios (START) ************************
+        // ************************ Lógica para criar edifícios e pisos ************************
 
         // $faker = Faker::create();
 
@@ -59,9 +66,21 @@ class DatabaseSeeder extends Seeder
         //     ]);
         // }
 
+        // Piso::factory(5)->create();
+
+        // ************************ Lógica para criar edifício_piso **************************
 
 
-        // ************************ Lógica para criar edifícios (END) ************************
+        // //Recupera todos os edifícios ou um conjunto específico
+        // $edificios = Edificio::all(); // Ou use where(), etc., para buscar o que precisa
+        // // Para cada edifício, associar pisos aleatórios
+        // foreach ($edificios as $edificio) {
+        //     // Recupera de 1 a 3 pisos aleatórios
+        //     $pisos = Piso::inRandomOrder()->take(rand(1, 3))->pluck('id');
+
+        //     // Associa os pisos ao edifício usando attach()
+        //     $edificio->pisos()->attach($pisos);
+        // }
+        
     }
-
 }
