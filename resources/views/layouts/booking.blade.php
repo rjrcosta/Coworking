@@ -3,26 +3,53 @@
 <!-- SCRIPTS BOOTSTRAP -->
   <!-- Styles / Scripts -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 
 
 <form class="" id="regForm" action="">
 
 <!-- One "tab" for each step in the form: -->
-    <!-- Primeira TAB -->
+<!-- Primeira TAB -->
 <div class="tab">
-
+<h5>Data</h5>
 <input type="text" id="datepicker" placeholder="Choose Date" class="rounded-2">
 
+
+
+<!-- Escolha Horário -->
+<div class="mt-5">
+<h5>Horário</h5>
+<div class="form-check">
+<input class="form-check-input input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+<label class="form-check-label" for="exampleRadios1">
+    Manhã
+</label>
 </div>
+
+<div class="form-check">
+<input class="form-check-input input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+<label class="form-check-label" for="exampleRadios2">
+    Tarde
+</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
+<label class="form-check-label" for="exampleRadios3">
+    Dia completo
+</label>
+</div>
+</div>
+</div>
+
 
 <!-- Segunda TAB -->
 <div class="tab">
 
     <!-- Escolha Cidade -->
     <select class="form-select m-3" aria-label="Default select example">
-    <option selected>Select City</option>
+    <option selected>Selecionar Cidade</option>
     <option value="1">One</option>
     <option value="2">Two</option>
     <option value="3">Three</option>
@@ -30,56 +57,55 @@
 
     <!-- Escolha Edificio -->
     <select class="form-select m-3" aria-label="Default select example">
-    <option selected>Select Building</option>
+    <option selected>Selecionar Edificio</option>
     <option value="1">One</option>
     <option value="2">Two</option>
     <option value="3">Three</option>
     </select>
 
-    <!-- EScolha Horário -->
-     <div class="m-3">
+</div>
 
-        <div class="form-check">
-        <input class="form-check-input input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
-        <label class="form-check-label" for="exampleRadios1">
-            Morning
-        </label>
-        </div>
+<!-- Terceira TAB -->
+<div class="tab">
 
-        <div class="form-check">
-        <input class="form-check-input input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-        <label class="form-check-label" for="exampleRadios2">
-            Afternoon
-        </label>
-        </div>
-
-        <div class="form-check">
-        <input class="form-check-input input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
-        <label class="form-check-label" for="exampleRadios3">
-            Full Day
-        </label>
-        </div>
-
-    </div>
+<select class="form-select m-3" aria-label="Default select example">
+    <option selected>Numero de Lugares a Reservar</option>
+    <?php
+    for ($i = 1; $i <= 20; $i++) {
+        echo "<option value=\"$i\">$i</option>";
+    }
+    ?>
+</select>
 
 </div>
 
+<!-- Quarta TAB -->
+<div class="tab">
+
+<h2>Parabéns</h2>
+
+</div>
 
 
 <!-- Circles which indicates the steps of the form: -->
 <div style="text-align:center;margin-top:40px;">
   <span class="step"></span>
   <span class="step"></span>
+  <span class="step"></span>
+  <span class="step"></span>
   
 </div>
 
-</form>
+</form> 
+<!-- fim do formulário _________________________________________________-->
 
 <!-- DATAPICKER -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+
+<!-- Javascript para escolher data -->
 <script>
   $( function() {
     $( "#datepicker" ).datepicker();
