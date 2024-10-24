@@ -12,12 +12,13 @@ use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Session\Middleware\AuthenticatedSession;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactoController;
 use User as GlobalUser;
 
-Route::get('/', function () {
+Route::match(array('GET','POST'),'/', function () {
     return view('welcome');
 });
-Route::get('/welcome', function () {
+Route::match(array('GET','POST'),'/welcome', function () {
     return view('welcome');
 })->name('welcome');
 
@@ -38,16 +39,14 @@ Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('
 
 
 
-// rotas para os users /clientes
+// rotas para os users /clientes 
 
 Route::resources([
-    'users' => UserController::class,
-    
+    'users' => UserController::class,   
 ]);
 
 Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
-
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.delete');
 
 
@@ -60,8 +59,12 @@ Route::middleware('auth')->group(function () {
     Route::resources([
         'edificios' => EdificioController::class,
         'cidades' => CidadeController::class,
-        
+        'msgcontactos' => ContactoController::class,
+
     ]);
+
+    //Rota para fazer delete de mensagens
+    Route::delete('/msgcontactos/{id}', [ContactoController::class, 'destroy'])->name('msgcontactos.destroy');
 
     // Rota para filtrar edifícios pela cidade
     Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
@@ -71,7 +74,10 @@ Route::middleware('auth')->group(function () {
 
     // Rota para filtrar cidades pelo nome
     Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
-});
+
+
+    //Rota para enviar contacto
+    Route::post('', [ContactoController::class, 'sendEmail'])->name('send.email');
 
 
 require __DIR__.'/auth.php';

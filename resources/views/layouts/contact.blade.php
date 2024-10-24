@@ -13,13 +13,13 @@
             </style>
         @endif
 
-<div class="welcomeSpaces mt-5 text-center col-12">
-<section class="contact-section">
+<div class="welcomeSpaces mt-5 text-center col-8">
+<section class="contact-section" id="contactForm">
   <div class="container">
     <div class="row">
-      <div class="col-lg-10 mx-auto col-md-12">
+      <div class="col-lg-8 mx-auto col-md-10">
         <div class="m-5">
-          <h2 class="m-2">Contact Us</h2>
+          <h2 class="m-4">Contact Us</h2>
           <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
             et dolore magna aliquyam erat, sed diam voluptua. At vero eos accusam et justo duo dolores ea rebum Stet
             clita.</p>
@@ -27,22 +27,26 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-8 mx-auto">
+      <div class="col-lg-6 mx-auto">
         <div class="contact-form">
           
-          <form class="row" method="POST" action="" >
-            <div class="col-md-6 rounded-3">
-              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Your Name" >
+          <form class="row" method="POST" action="{{route('send.email')}}" >
+            @csrf
+            <div class="col-md-6 col-sm-12 ">
+              <input type="text" class="campo" id="exampleFormControlInput1" placeholder="Your Name" name="nomeContacto" >
             </div>
-            <div class="col-md-6">
-              <input type="email" class="form-control" id="validationCustom02" required="" placeholder="Your Email" name="email">
+
+            <div class="col-md-6 col-sm-12 ">
+              <input type="email" class="campo" id="validationCustom02" required="" placeholder="Your Email" name="emailContacto">
             </div>
-            <div class="col-md-12">
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="8"
-                placeholder="Message here…"></textarea>
+
+            <div class="col-md-12 col-sm-12">
+              <textarea class="campo" id="exampleFormControlTextarea1" rows="8"
+                placeholder="Message here…" name="mensagemContacto"></textarea>
             </div>
-            <div class="col-md-12">
-              <div class="form-check">
+
+            <div class="col-md-8 d-flex justify-content-center mb-3">
+              <div class="form-check ">
                 <input class="form-check-input" type="checkbox" id="gridCheck">
                 <label class="form-check-label" for="gridCheck">
                   I agree that my submitted data is being collected and stored.
@@ -50,7 +54,7 @@
               </div>
             </div>
             <div class="col-lg-12">
-              <button type="submit" class="btn btn-primary" formtarget="_blank">Send Message</button>
+              <button type="submit" class="btn btn-outline-dark" formtarget="">Send Message</button>
             </div>
           </form>
         </div>

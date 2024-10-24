@@ -13,52 +13,43 @@
             </style>
         @endif
 
-<div class="welcomeHero" style=" background-image:url('Imagens/hero-bg.jpg')">
 
-                        <div class="containerWelcome">
-                        
-                            <h1 class="centerFont">Welcome</h1>
+              <!-- Button for Reservation -->
+              <button type="button" id="openModal" class="btn-reserva" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Book your place</button>
+                <!-- Modal -->
+              <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                  <div class="modal-content rounded-1">
+                  <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
 
-                            <!-- Button for Reservation -->
-                            <button type="button" id="openModal" class="btn-reserva" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Book your place</button>
-                            <!-- Modal -->
-                            <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered ">
-                                <div class="modal-content rounded-1">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
+                  <!-- CORPO DO formulário de Reserva -->
+                  <div class="modal-body">
+                      
+                      @include('layouts.booking')
 
-                                <!-- CORPO DO formulário de Reserva -->
-                                <div class="modal-body">
-                                    
-                                    @include('layouts.booking')
-                                    
+                  </div>
+                  <!-- @guest
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-dark rounded-1">
+                      <a href="{{ route('login') }}">Login</a>
+                      </button>
+                      <button  type="button" class="btn btn-outline-dark rounded-1">
+                          <a href="{{ route('register') }}">Register</a>
+                      </button>
+                  </div>
+                  @endguest -->
+                  
+                  <div class="modal-footer">
+                      <button id="prevBtn" onclick="nextPrev(-1)" type="button" class="btn btn-outline-dark rounded-1">Previous</button>
+                      <button id="nextBtn" onclick="nextPrev(1)" type="button" class="btn btn-outline-dark rounded-1">Next</button>
+                  </div>
+                
 
-                                </div>
-                                <!-- @guest
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-dark rounded-1">
-                                    <a href="{{ route('login') }}">Login</a>
-                                    </button>
-                                    <button  type="button" class="btn btn-outline-dark rounded-1">
-                                        <a href="{{ route('register') }}">Register</a>
-                                    </button>
-                                </div>
-                                @endguest -->
-                                
-                                <div class="modal-footer">
-                                    <button id="prevBtn" onclick="nextPrev(-1)" type="button" class="btn btn-outline-dark rounded-1">Previous</button>
-                                    <button id="nextBtn" onclick="nextPrev(1)" type="button" class="btn btn-outline-dark rounded-1">Next</button>
-                                </div>
-                             
+                  </div>
+              </div>
+              </div>
 
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-
-                       
-</div>
 </nav>

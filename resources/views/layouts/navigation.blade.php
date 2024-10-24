@@ -23,6 +23,10 @@
                     <x-nav-link :href="route('cidades.index')">
                         {{ __('Cidades') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('msgcontactos.index')">
+                        {{ __('Mensagens') }}
+                    </x-nav-link>
+                    
 
 
                     @if (Auth::user()->isAdmin())
@@ -41,11 +45,16 @@
                         </x-nav-link>
                     @endif
 
+                    
+
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                 
+                @include('layouts.bookingbuttondark')
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button

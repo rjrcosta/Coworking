@@ -112,6 +112,15 @@ body{
     font-size: 20px;
     color: white;
 }
+.btn-reservadark{
+    background: transparent;
+    border: solid rgb(122, 122, 122) 1px;
+    border-radius: 5px;
+    padding: 5px 20px;
+    font-size: 15px;
+    color: rgb(112, 112, 112);
+    margin:5px;
+}
 
 /* Service */
 
@@ -174,4 +183,11 @@ body{
 .page.header{
     padding-top: 20px ;
     padding-bottom: 20px;
+}
+.campo{
+    border-radius: 5px;
+    margin: 10px;
+}
+#exampleFormControlTextarea1{
+    width: 100%;
 }
