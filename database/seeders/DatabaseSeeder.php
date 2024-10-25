@@ -12,6 +12,7 @@ use App\Models\Edificio;
 use App\Models\EdificioPiso;
 use App\Models\Piso;
 use App\Models\Sala;
+use App\Models\Reserva;
 use App\Models\User;
 use App\Models\SalaPiso;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -104,7 +105,7 @@ class DatabaseSeeder extends Seeder
 
         // ************************ Lógica para criar sala_piso ************************
         
-        SalaPiso::factory()->count(50)->create();
+        //SalaPiso::factory()->count(50)->create();
         
         
         
@@ -122,6 +123,15 @@ class DatabaseSeeder extends Seeder
         //     $sala->salaPiso()->attach($pisos);
         // }
 
+
+
+
+        // //*******************criaçao de mesas************************ */
+
+        //Mesa::factory(5)->create();
+
+        // //*************************criaçao de reservas ficticias*************** */
+        // Reserva::factory(20)->create();
 
     }
 }

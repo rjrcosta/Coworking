@@ -52,6 +52,16 @@
                             {{ __('detalhes') }}
                         </x-nav-link>
                     @endif
+                    <x-nav-link :href="route('reserva.index')">
+                        {{ __('Reservas') }}
+                    </x-nav-link>
+                    
+                    <x-nav-link :href="route('mesa.index')">
+                        {{ __('mesa') }}
+                    </x-nav-link>
+
+
+
 
                     
 
