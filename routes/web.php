@@ -19,6 +19,7 @@ use App\Models\User;
 use Illuminate\Session\Middleware\AuthenticatedSession;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\SalaController;
 use User as GlobalUser;
 use App\Http\Controllers\ReservaController;
 
@@ -66,11 +67,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-    //**** Rota geral para os clientes, produtos, vendedores ****
+    //**** Rota geral para os edifícios, cidades, salas ****
+
     Route::resources([
         'edificios' => EdificioController::class,
         'cidades' => CidadeController::class,
         'msgcontactos' => ContactoController::class,
+        'salas' => SalaController::class,
 
     ]);
 
@@ -143,6 +146,9 @@ Route::middleware(['auth'])->group(function () {
 
 // Rota para filtrar pisos pelo andar
 Route::get('/pisos_filtrar', [PisoController::class, 'filtrar'])->name('pisos.filtrar');
+
+// Rota para filtrar salas pela lotação
+Route::get('/salas_filtrar', [SalaController::class, 'filtrar'])->name('salas.filtrar');
 
 // Rota para a modal de adição de pisos
 Route::get('/pisos_show_associate/{id}', [PisoController::class, 'show_associate'])->name('pisos.showAssociate');

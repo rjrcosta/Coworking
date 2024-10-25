@@ -10,6 +10,8 @@ use App\Models\Edificio;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
+
 
 
 class PisoController extends Controller
@@ -87,7 +89,12 @@ class PisoController extends Controller
         //dd($id);
         $pisos = Piso::findOrFail($id);
         $cidades = Cidade::all(); // Busque todas as cidades
-        $edificios = Edificio::all(); // Busque todos os edifícios
+        //$edificios = Edificio::all(); // Busque todos os edifícios
+
+        // Obtenha os edifícios que não estão associados ao piso
+        $edificios = Edificio::whereDoesntHave('pisos', function ($query) use ($id) {
+            $query->where('cod_piso', $id);
+        })->get(); // Busque todos os edifícios não associados ao piso
 
         return view('pisos.showAssociate', compact('pisos', 'cidades', 'edificios'));
     }
@@ -130,8 +137,6 @@ class PisoController extends Controller
         }
     }
 
-
-
     /**
      * Remove the specified resource from storage.
      */
@@ -164,6 +169,23 @@ class PisoController extends Controller
         try {
             // Obter o piso pelo ID
             $piso = Piso::findOrFail($request->piso_id);
+            // Variável para guardar os edifícios já associados
+            $edificiosJaAssociados = [];
+
+            // Verificar se os edifícios ja são associados ao piso e adicionar aos edificiosJaAssociados
+            foreach ($request->edificios as $edificioId) {
+                if ($piso->edificios()->where('cod_edificio', $edificioId)->exists()) {
+                    $edificiosJaAssociados[] = $edificioId;
+                }
+            }
+
+            // Devolver uma resposta de erro se os edifícios ja são associados
+            if (!empty($edificiosJaAssociados)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Os seguintes edifícios já têm esse piso associado: ' . implode(', ', $edificiosJaAssociados)
+                ], 409);
+            }
 
             // Associar os edifícios ao piso usando sync()
             // Isso substituirá as associações anteriores pelas novas
@@ -172,8 +194,10 @@ class PisoController extends Controller
             // Retornar uma resposta de sucesso em JSON
             return response()->json(['success' => true, 'message' => 'Edifícios associados com sucesso!'], 200);
         } catch (\Exception $e) {
+            // Em caso de erro, salvar no log
+            Log::error('Erro ao associar pisos: ' . $e->getMessage());
             // Caso ocorra um erro, capturá-lo e retornar uma resposta de erro
-            return response()->json(['success' => false, 'message' => 'Erro ao associar os edifícios.'], 500);
+            return response()->json(['success' => false, 'message' => 'Erro. Verifique se esse piso já não está associado a algum dos edifícios selecionados.'], 500);
         }
     }
 }
