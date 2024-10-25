@@ -23,7 +23,8 @@
   
   /* Mark input boxes that gets an error on validation: */
   input.invalid {
-    background-color: #ff0000;
+    background-color: #f1b295;
+    color: white;
   }
   
   /* Hide all steps by default: */
@@ -50,7 +51,7 @@
   
   /* Mark the steps that are finished and valid: */
   .step.finish {
-    background-color: Blue;
+    background-color: rgb(43, 43, 43);
   }
 
   .form-select{

@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Piso>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\contacto>
  */
-class PisoFactory extends Factory
+class ContactoFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class PisoFactory extends Factory
     public function definition(): array
     {
         return [
-            'andar' => fake()->unique()->numberBetween(1, 10),
+            //
         ];
     }
 }
