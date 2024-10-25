@@ -66,6 +66,9 @@
                     @include('layouts.hero')
                     @include('layouts.spaces')
                     @include('layouts.service')
+                 
+                   
+  
                     @include('layouts.contact')
                     
                         

@@ -9,8 +9,9 @@ namespace Database\Seeders;
 
 use App\Models\Cidade;
 use App\Models\Edificio;
+use App\Models\Mesa;
 use App\Models\Piso;
-
+use App\Models\Reserva;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Faker\Factory as Faker;
@@ -82,5 +83,12 @@ class DatabaseSeeder extends Seeder
         //     $edificio->pisos()->attach($pisos);
         // }
         
+
+        // //*******************criaçao de mesas************************ */
+
+        Mesa::factory(5)->create();
+
+        // //*************************criaçao de reservas ficticias*************** */
+        // Reserva::factory(20)->create();
     }
 }
