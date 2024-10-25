@@ -10,13 +10,20 @@ class Piso extends Model
     /** @use HasFactory<\Database\Factories\PisoFactory> */
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'andar',
     ];
 
-    // Definir a relação muitos para muitos com Edificio
+    // Relacionamento muitos-para-muitos com Edificio através de `edificio_piso`
     public function edificios()
     {
-        return $this->belongsToMany(Edificio::class, 'edificio_piso', 'cod_piso', 'cod_edificio');
+        return $this->belongsToMany(Edificio::class, 'edificio_piso', 'cod_piso', 'cod_edificio')
+                    ->withTimestamps(); // Mantém o timestamp das relações
+    }
+
+    // Relacionamento com a tabela `EdificioPiso`, que representa a associação
+    public function edificioPisos()
+    {
+        return $this->hasMany(EdificioPiso::class, 'cod_piso');
     }
 }

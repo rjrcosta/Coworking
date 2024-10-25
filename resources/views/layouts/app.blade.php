@@ -154,7 +154,7 @@
                         // Redirecionar ou atualizar a página conforme necessário
                         window.location.href = '{{ route("pisos.index") }}';
                     } else {
-                        alert('Erro ao associar os edifícios.');
+                        alert('Verifique se esse piso já foi associado a algum desses edifícios.');
                     }
                 })
                 .catch(error => {

@@ -16,19 +16,26 @@ class Edificio extends Model
         'morada',
         'cod_cidade',
         'cod_postal',
-        'contacto',   
+        'contacto',
     ];
-   
 
+
+    // Relacionamento com a tabela Cidade
     public function cidade()
     {
         return $this->belongsTo(Cidade::class, 'cod_cidade', 'id');
     }
 
-    // Definir a relação muitos para muitos com Piso
+    // Relacionamento muitos-para-muitos com Piso através de `edificio_piso`
     public function pisos()
     {
-        return $this->belongsToMany(Piso::class, 'edificio_piso', 'cod_edificio', 'cod_piso');
+        return $this->belongsToMany(Piso::class, 'edificio_piso', 'cod_edificio', 'cod_piso')
+            ->withTimestamps(); // Mantém o timestamp das relações
     }
 
+    // Relacionamento com a tabela `EdificioPiso`, que representa a associação
+    public function edificioPisos()
+    {
+        return $this->hasMany(EdificioPiso::class, 'cod_edificio');
+    }
 }
