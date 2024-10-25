@@ -28,7 +28,6 @@
                         {{ __('Mensagens') }}
                     </x-nav-link>
                     
-
                     <x-nav-link :href="route('pisos.index')">
                         {{ __('Pisos') }}
                     </x-nav-link>
