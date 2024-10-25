@@ -3,18 +3,22 @@
     <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
       {{ __('Listagem de cidades') }}
     </h2>
-    <br>
-    <td><a href="{{route('cidades.create')}}"><button type="button" class="btn btn-primary">Criar</button></a></td>
+    <a href="{{route('cidades.create')}}">
+      <x-create-button class="">{{ __('Criar Nova') }}</x-create-button>
+    </a>
   </x-slot>
 
   <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-        <div class="p-6 text-black-900 dark:text-black-100">
-          <nav class="navbar navbar-light bg-light">
-            <form action="{{ route('cidades.filtrar') }}" method="GET">
-              <input type="text" name="pesquisa" id="pesquisa" placeholder="Filtrar pelo nome" class="mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-              <button type="submit">Pesquisar</button>
+        <div class="p-6 text-black-900">
+          <nav class="navbar navbar-light ">
+            <form action="{{ route('cidades.filtrar') }}" method="GET" class="d-flex justify-content-between align-items-center">
+
+            <form action="{{ route('edificios.filtrar') }}" method="GET" class="d-flex justify-content-between align-items-center">
+            <x-text-input type="text" name="pesquisa" id="pesquisa" placeholder="Filtrar por cidade"/>
+            <x-search-button type="submit"></x-search-button>
+
             </form>
           </nav>
           <br><br>
