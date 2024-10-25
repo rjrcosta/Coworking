@@ -2,17 +2,20 @@
 
 
 /**
-* Editado por Jose Sousa
-* 21/10/2024
-*/
+ * Editado por Jose Sousa
+ * 21/10/2024
+ */
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EdificioController;
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MesaController;
 use App\Models\User;
 use Illuminate\Session\Middleware\AuthenticatedSession;
 use Illuminate\Support\Facades\Route;
 use User as GlobalUser;
+use App\Http\Controllers\ReservaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,7 +45,7 @@ Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('
 
 Route::resources([
     'users' => UserController::class,
-    
+
 ]);
 
 Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
@@ -56,20 +59,50 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-    //**** Rota geral para os clientes, produtos, vendedores ****
-    Route::resources([
-        'edificios' => EdificioController::class,
-        'cidades' => CidadeController::class,
-        
-    ]);
+//**** Rota geral para os clientes, produtos, vendedores ****
+Route::resources([
+    'edificios' => EdificioController::class,
+    'cidades' => CidadeController::class,
 
-    // Rota para filtrar edifícios pela cidade
-    Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
-   
-    // Rota para a modal de adição de cidades
-    Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store');
+]);
 
-    // Rota para filtrar cidades pelo nome
-    Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
+// Rota para filtrar edifícios pela cidade
+Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
+
+// Rota para a modal de adição de cidades
+Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store');
+
+// Rota para filtrar cidades pelo nome
+Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
+
+
+
+
+
+
+
+ Route::get('/reserva-failed', [ReservaController::class, 'failed'])->name('reserva.failed');
+
+// Rotas protegidas por autenticação
+Route::middleware(['auth'])->group(function () {
+
+    // // Rotas para Mesas
+    Route::get('/mesa', [MesaController::class, 'index'])->name('mesa.index');
+    Route::get('/mesa/create', [MesaController::class, 'create'])->name('mesa.create');
+    Route::post('/mesa', [MesaController::class, 'store'])->name('mesa.store');
+
+    // // Rotas para Reservas
+    Route::get('/reserva', [ReservaController::class, 'index'])->name('reserva.index');
+    Route::get('/reserva/create', [ReservaController::class, 'create'])->name('reserva.create');
+    Route::post('/reserva', [ReservaController::class, 'store'])->name('reserva.store');
     
-require __DIR__.'/auth.php';
+  
+
+    // // Rota de Check-In via QR Code
+    Route::post('/checkin/{mesaId}', [MesaController::class, 'checkIn'])->name('mesa.checkin');
+});
+
+
+
+
+require __DIR__ . '/auth.php';
