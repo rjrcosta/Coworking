@@ -14,7 +14,7 @@ class Mesa extends Model
         
         'status',
         'qrcode',
-        'cod_sala_piso'
+        'cod_sala_piso',
     ];
     public $timestamps = true;
 }
