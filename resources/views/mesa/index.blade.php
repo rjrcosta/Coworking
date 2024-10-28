@@ -76,26 +76,31 @@
 <body>
     <h1>Lista de Mesas</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Número da Mesa</th>
-                <th>Status</th>
-                <th>QR Code</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($mesas as $mesa)
+
+
+   
+        <h1>Mesas</h1>
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ $mesa->numero }}</td>
-                    <td>{{ $mesa->status }}</td>
-                    <td>
-                        <img src="{{ asset($mesa->qrcode) }}" alt="QR Code da Mesa {{ $mesa->numero }}" style="width: 100px; height: auto;">
-                    </td>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>QR Code</th>
+                    <th>Sala Piso</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach($mesas as $mesa)
+                    <tr>
+                        <td>{{ $mesa->id }}</td>
+                        <td>{{ $mesa->status }}</td>
+                        <td><img src="{{asset( $mesa->qrcode) }}" alt="qrcode"></td>
+                        <td>{{ $mesa->cod_sala_piso }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+   
 </body>
 
 </html>

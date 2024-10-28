@@ -52,41 +52,24 @@
         }
     </style>
 </head>
-<body>
+@extends('layouts.app')
+
+@section('content')
     <h1>Criar Nova Mesa</h1>
-
-    @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <form action="{{ route('mesas.store') }}" method="POST">
         @csrf
         <div>
-            <label for="numero">Número da Mesa:</label>
-            <input type="number" name="numero" id="numero" required>
-        </div>
-        <div>
-            <label for="status">Status:</label>
-            <select name="status" id="status" required>
-                <option value="disponível">Disponível</option>
-                <option value="reservada">Reservada</option>
+            <label for="cod_sala_piso">Sala Piso:</label>
+            <select name="cod_sala_piso" id="cod_sala_piso" required>
+                @foreach($salas as $sala)
+                    <option value="{{ $sala->id }}">{{ $sala->nome }}</option>
+                @endforeach
             </select>
         </div>
-        <div>
-            <label for="descricao">Descrição:</label>
-            <input type="text" name="descricao" id="descricao">
-        </div>
-        <div>
-            <button type="submit">Criar Mesa</button>
-        </div>
+        
+        <button type="submit">Criar Mesa</button>
     </form>
-</body>
+@endsection
 {{-- <body>
     <h1>Criar Mesa</h1>
     <form action="{{ route('mesa.store') }}" method="POST">

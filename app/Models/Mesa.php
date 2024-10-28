@@ -17,4 +17,9 @@ class Mesa extends Model
         'cod_sala_piso'
     ];
     public $timestamps = true;
+
+    public function sala()
+    {
+        return $this->belongsTo(SalaPiso::class, 'cod_sala_piso');
+    }
 }
