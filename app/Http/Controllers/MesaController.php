@@ -36,31 +36,37 @@ class MesaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // $request->validate([
-        //     'numero' => 'required|integer|unique:mesas,numero',
-        //     'descricao' => 'nullable|string|max:255',
-        // ]);
-
-        $mesa = Mesa::create([
-            //'numero' => $request->input('numero'),
-            //'descricao' => $request->input('descricao'),
-            'qrcode' => $this->gerarQrCode($request->id), // Gera o QR Code
-
-
+        //Validação (descomentada se necessário)
+        $request->validate([
+            
+        'status' => 'required|string',
+        'descricao' => 'nullable|string',
         ]);
+    
+        // Cria a mesa sem o QR Code inicialmente
+        $mesa = Mesa::create([
+           
+        'status' => $request->status,
         
+        ]);
+    
+        // Gera o QR Code e salva o caminho na mesa
+        $mesa->qrcode = $this->gerarQrCode($mesa->id); // Gera o QR Code e salva o caminho
+        $mesa->save(); // Salva a mesa com o QR Code
+    
         return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso!');
     }
 
     // Método para gerar QR Code
     private function gerarQrCode($mesaId)
     {
+        // Define o caminho onde o QR Code será salvo
         $qrcodePath = 'qrcodes/mesa_' . $mesaId . '.png';
-        QrCode::format('png')->size(300)->generate(url("/checkin/{$mesaId}"), public_path($qrcodePath));
-        dd($qrcodePath);
         
-
+        // Gera o QR Code e salva na pasta pública
+        QrCode::format('png')->size(300)->generate(url("/checkin/{$mesaId}"), public_path($qrcodePath));
+        
+        // Retorna o caminho do QR Code para ser salvo no banco de dados
         return $qrcodePath;
     }
 

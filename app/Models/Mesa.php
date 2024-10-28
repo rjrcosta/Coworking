@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mesa extends Model
 {
+    
     /** @use HasFactory<\Database\Factories\MesaFactory> */
     use HasFactory;
     protected $fillable = [
-        // 'numero',
-        // 'descricao',
+        
+        'status',
         'qrcode',
+        'cod_sala_piso'
     ];
+    public $timestamps = true;
 }
