@@ -38,6 +38,31 @@ class Sala extends Model
     {
         return $this->belongsTo(Edificio::class, 'edificio_id');
     }
+    
+    // Relacionamento com a tabela Cidade
+    public function cidadeNome()
+    {
+        return $this->hasOneThrough(
+            Cidade::class,               // O modelo final que queremos acessar
+            EdificioPiso::class,         // O modelo intermediário
+            'cod_edificio',              // Chave estrangeira em EdificioPiso
+            'id',                        // Chave primária em Cidade
+            'id',                        // Chave primária em Sala
+            'cod_piso'                   // Chave estrangeira em SalaPiso que conecta a EdificioPiso
+        )->join('edificios', 'edificios.id', '=', 'edificio_piso.cod_edificio')
+            ->select('cidades.nome');
+    }
+
+    //     public function cidade()
+    // {
+    //     // Navega pelos relacionamentos, assumindo que a sala está associada a pelo menos um SalaPiso
+    //     return $this->salaPisos()
+    //                 ->first()   // Pega o primeiro SalaPiso associado
+    //                 ->edificioPiso  // Acessa o EdificioPiso
+    //                 ->edificio    // Acessa o Edificio
+    //                 ->cidades->nome?: 'Cidade não encontrada'; // Obtém o nome da Cidade ou uma mensagem padrão
+    // }
+
     // Sala.php
     // public function cidadeNome()
     // {
@@ -54,16 +79,4 @@ class Sala extends Model
 
     // Sala.php
     // Sala.php
-    public function cidadeNome()
-    {
-        return $this->hasOneThrough(
-            Cidade::class,               // O modelo final que queremos acessar
-            EdificioPiso::class,         // O modelo intermediário
-            'cod_edificio',              // Chave estrangeira em EdificioPiso
-            'id',                        // Chave primária em Cidade
-            'id',                        // Chave primária em Sala
-            'cod_piso'                   // Chave estrangeira em SalaPiso que conecta a EdificioPiso
-        )->join('edificios', 'edificios.id', '=', 'edificio_piso.cod_edificio')
-            ->select('cidades.nome');
-    }
 }

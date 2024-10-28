@@ -28,5 +28,11 @@ class SalaPiso extends Model
     {
         return $this->belongsTo(EdificioPiso::class, 'cod_edificio_piso');
     }
+
+    // Relacionamento com a mesa
+    public function mesa()
+    {
+        return $this->hasMany(Mesa::class, 'cod_sala_piso');
+    }
 }
 
