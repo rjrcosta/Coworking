@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
         // 2) edificio, piso 
         // 3) edificio_piso, sala
         // 4) sala_piso
+        //5)
 
         // ****************************** Lógica para criar usuarios e cidades ************************
         // User::factory(5)->create();
@@ -120,6 +121,7 @@ class DatabaseSeeder extends Seeder
         //     // Recupera de 1 a 3 pisos aleatórios
         //     $edificio_piso = EdificioPiso::with('piso')->inRandomOrder()->take(rand(1, 3))->get();
 
+
         //     foreach ($edificio_piso as $item) {
         //         // Associa os pisos ao sala usando attach()
         //         $sala->salaPiso()->create(['cod_edificio_piso' => $item->id]);
@@ -129,6 +131,7 @@ class DatabaseSeeder extends Seeder
 
 
         // //*******************criaçao de mesas************************ */
+
         
         $faker = Faker::create();
 
@@ -152,6 +155,7 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
 
         // //*************************criaçao de reservas ficticias*************** */
         // Reserva::factory(20)->create();
