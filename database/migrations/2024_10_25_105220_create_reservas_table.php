@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reservas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('mesa_id')->constrained()->onDelete('cascade');
+            $table->foreignId('cod_mesa')->references('id')->on('mesas')->onDelete('cascade');
             $table->date('date');                  // Data da reserva
             $table->time('horario_inicio');        // Hora de início
             $table->time('horario_fim');           // Hora de fim

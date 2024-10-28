@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('mesas', function (Blueprint $table) {
             $table->id();
-            // $table->string('name')->unique();
+            $table->string('qrcode');
+            $table->string('status');
+            $table->foreignId('cod_sala_piso')->constrained('sala_piso')->onDelete('cascade');
             $table->timestamps();
         });
     }

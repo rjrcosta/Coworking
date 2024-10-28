@@ -18,10 +18,11 @@ class MesaFactory extends Factory
     public function definition(): array
     {
         $id= $this->faker->unique()->word;
-        return [
-            // 'name' => $name,
-            'qrcode' => QrCode::generate($id),
-            //
+         return [
+           
+            'status' => $this->faker->randomElement(['disponível', 'reservada']),
+            'qrcode' => 'public/qrcodes'.$this->faker->uuid(), // Você pode gerar um QR Code aqui se necessário
+            
         ];
     }
 }
