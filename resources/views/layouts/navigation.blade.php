@@ -16,25 +16,13 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('edificios.index')">
-                        {{ __('Edifícios') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('cidades.index')">
-                        {{ __('Cidades') }}
-                    </x-nav-link>
+                   
 
                     <x-nav-link :href="route('msgcontactos.index')">
                         {{ __('Mensagens') }}
                     </x-nav-link>
                     
-                    <x-nav-link :href="route('pisos.index')">
-                        {{ __('Pisos') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('salas.index')">
-                        {{ __('Salas') }}
-                    </x-nav-link>
+                    
 
 
                     @if (Auth::user()->isAdmin())
@@ -46,6 +34,22 @@
                         <x-nav-link href="{{ route('users.create') }}">
                             <button class="btn btn-primary">novo user</button>
                         </x-nav-link>
+                        <x-nav-link :href="route('pisos.index')">
+                            {{ __('Pisos') }}
+                        </x-nav-link>
+    
+                        <x-nav-link :href="route('salas.index')">
+                            {{ __('Salas') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('edificios.index')">
+                            {{ __('Edifícios') }}
+                        </x-nav-link>
+    
+                        <x-nav-link :href="route('cidades.index')">
+                            {{ __('Cidades') }}
+                        </x-nav-link>
+    
+    
                     @endif
                     @if (Auth::user()->isUser())
                         <x-nav-link :href=" route('users.profile')">

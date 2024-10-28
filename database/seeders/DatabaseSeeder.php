@@ -15,6 +15,7 @@ use App\Models\Sala;
 use App\Models\Reserva;
 use App\Models\User;
 use App\Models\SalaPiso;
+use App\Models\Mesa;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -34,13 +35,13 @@ class DatabaseSeeder extends Seeder
         // 4) sala_piso
 
         // ****************************** Lógica para criar usuarios e cidades ************************
-        // User::factory(5)->create();
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'password'=>'teste12345',
-        //     'email' => 'test@example.com',
-        //     'role'=>'admin'
-        // ]);
+        User::factory(5)->create();
+        User::factory()->create([
+            'name' => 'Test User',
+            'password'=>'teste12345',
+            'email' => 'test@example.com',
+            'role'=>'admin'
+        ]);
 
 
         // Cidade::factory(5)->create();
@@ -75,7 +76,7 @@ class DatabaseSeeder extends Seeder
         // ************************ Lógica para criar edifício_piso **************************
 
 
-        // //Recupera todos os edifícios ou um conjunto específico
+        //Recupera todos os edifícios ou um conjunto específico
         // $edificios = Edificio::all(); // Ou use where(), etc., para buscar o que precisa
         // // Para cada edifício, associar pisos aleatórios
         // foreach ($edificios as $edificio) {
@@ -86,7 +87,7 @@ class DatabaseSeeder extends Seeder
         //     $edificio->pisos()->attach($pisos);
         // }
 
-        // ************************ Lógica para criar sala ************************
+        // // ************************ Lógica para criar sala ************************
 
         // $faker = Faker::create();
 
@@ -105,14 +106,14 @@ class DatabaseSeeder extends Seeder
 
         // ************************ Lógica para criar sala_piso ************************
         
-        //SalaPiso::factory()->count(50)->create();
+        // SalaPiso::factory()->count(50)->create();
         
         
         
         // ************************ Lógica para unir sala e sala_piso ************************
         
 
-        // //Recupera todas as salas ou um conjunto específico
+        //Recupera todas as salas ou um conjunto específico
         // $salas = Sala::all(); // Ou use where(), etc., para buscar o que precisa
         // // Para cada sala, associar sala_pisos aleatórios
         // foreach ($salas as $sala) {
@@ -128,7 +129,7 @@ class DatabaseSeeder extends Seeder
 
         // //*******************criaçao de mesas************************ */
 
-        //Mesa::factory(5)->create();
+        Mesa::factory(5)->create();
 
         // //*************************criaçao de reservas ficticias*************** */
         // Reserva::factory(20)->create();
