@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sala;
+use App\Models\Edificio;
+use App\Models\Cidade;
+use App\Models\Piso;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+
 
 class SalaController extends Controller
 {
@@ -25,7 +30,8 @@ class SalaController extends Controller
      */
     public function create()
     {
-        //
+        $edificios = Edificio::all(); // Pega todos os edifícios
+        return view('salas.create', compact('edificios'));
     }
 
     /**
@@ -33,31 +39,78 @@ class SalaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validação
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'lotacao' => 'required|integer',
+            'edificio_id' => 'required|exists:edificios,id',
+        ]);
+
+        try {
+            // Tentativa de criar a sala
+            Sala::create([
+                'nome' => $request->nome,
+                'lotacao' => $request->lotacao,
+                'edificio_id' => $request->edificio_id
+            ]);
+
+            // Redirecionar com mensagem de sucesso
+            return redirect()->route('salas.index')->with('success', 'Sala criada com sucesso!');
+        } catch (QueryException $e) {
+            // Captura da exceção de chave única duplicada
+            if ($e->getCode() === '23000') {  // Código 23000 é para violação de integridade
+                return redirect()->route('salas.index')->with('error', 'Sala já existente! Não foi possível criar a sala.');
+            }
+            // Se for outro erro, lança a exceção
+            throw $e;
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Sala $sala)
+    public function show($id)
     {
-        //
+        $salas = Sala::findOrFail($id);
+
+        return view('salas.show', compact('salas'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Sala $sala)
+    public function edit($id)
     {
-        //
+        return view('salas.edit', [
+            'salas' => Sala::findOrFail($id)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Sala $sala)
+    public function update(Request $request, $id)
     {
-        //
+        // Validação para garantir que o nome não esteja em branco
+        $validatedData = $request->validate([
+            'nome' => 'required|max:255|',
+        ]);
+
+        try {
+            // Encontra a sala e faz a atualização
+            $sala = Sala::findOrFail($id);
+            $sala->update($request->all()); // Atualiza com todos os dados do request, inclusive os validados
+
+            // Redireciona com sucesso
+            return redirect()->route('salas.index')->with('success', 'Sala modificada com sucesso!');
+        } catch (QueryException $e) {
+            if ($e->getCode() === '23000') {  // Código 23000 é para violação de integridade
+                return redirect()->route('salas.index')->with('error', 'Sala em brando! Não foi possível modificar a sala.');
+            }
+
+            // Se for outro erro, lança a exceção
+            throw $e;
+        }
     }
 
     /**
@@ -65,7 +118,8 @@ class SalaController extends Controller
      */
     public function destroy(Sala $sala)
     {
-        //
+       $sala->delete();
+       return redirect()->route('salas.index')->with('sucesso', 'sala eliminada com sucesso');
     }
 
     public function filtrar(Request $request)

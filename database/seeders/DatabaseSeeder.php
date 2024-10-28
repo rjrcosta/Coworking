@@ -88,14 +88,14 @@ class DatabaseSeeder extends Seeder
         //     $edificio->pisos()->attach($pisos);
         // }
 
-        // // ************************ Lógica para criar sala ************************
+        // ************************ Lógica para criar sala ************************
 
         // $faker = Faker::create();
 
         // // // Definir os dados que irão compor o nome da sala
         // $tipos = ['Escritório', 'Sala'];
         // $posicao = ['Centro', 'Esquerda', 'Direita', 'Trás', 'Frente', 'Esquerda-frente', 'Direita-frente', 'Esquerda-trás', 'Direita-trás', 'Centro-frente', 'Centro-trás'];
-        
+
         // // Criar 50 salas
         // for ($i = 0; $i < 50; $i++) {
         //     //Factory com os campos da sala
@@ -106,46 +106,56 @@ class DatabaseSeeder extends Seeder
         // }
 
         // ************************ Lógica para criar sala_piso ************************
-        
-        // SalaPiso::factory()->count(50)->create();
-        
-        
-        
+
+        //SalaPiso::factory()->count(50)->create();
+
+
+
         // ************************ Lógica para unir sala e sala_piso ************************
-        
+
 
         // //Recupera todas as salas ou um conjunto específico
-        $salas = Sala::all(); // Ou use where(), etc., para buscar o que precisa
-        // Para cada sala, associar sala_pisos aleatórios
-        foreach ($salas as $sala) {
-            // Recupera de 1 a 3 pisos aleatórios
-            $pisos = Piso::inRandomOrder()->take(rand(1, 3))->pluck('id');
-
-            // Associa os pisos ao sala usando attach()
-            $sala->salaPiso()->attach($pisos);
-        }
+        // $salas = Sala::all(); // Ou use where(), etc., para buscar o que precisa
+        // // Para cada sala, associar sala_pisos aleatórios
+        // foreach ($salas as $sala) {
+        //     // Recupera de 1 a 3 pisos aleatórios
+        //     $edificio_piso = EdificioPiso::with('piso')->inRandomOrder()->take(rand(1, 3))->get();
 
 
+        //     foreach ($edificio_piso as $item) {
+        //         // Associa os pisos ao sala usando attach()
+        //         $sala->salaPiso()->create(['cod_edificio_piso' => $item->id]);
+        //     }
+
+        // }
 
 
         // //*******************criaçao de mesas************************ */
 
-    
-        // $salas = Sala::all();
-
-        // // Passar cada sala
-        // foreach ($salas as $sala) {
-        //     // Buscar a lotação de cada sala
-        //     $lotacao = $sala->lotacao;
         
-        //     // Criar mesas para cada sala
-        //     for ($i = 0; $i < $lotacao; $i++) {
-        //         // Criar mesa usando como cod_sala_piso o id da sala correspondente
-        //         Mesa::factory()->create([
-        //             'cod_sala_piso' => $sala->id // Certifique-se de usar o ID correto da sala
-        //         ]);
-        //     }
-        // }
+        $faker = Faker::create();
+
+        $salas = Sala::all();
+
+        // Passar cada sala
+        foreach ($salas as $sala) {
+            // Buscar a lotação de cada sala
+            $lotacao = $sala->lotacao;
+
+            // Criar mesas para cada sala
+            for ($i = 0; $i < $lotacao; $i++) {
+                // Criar mesa usando como cod_sala_piso o id da sala correspondente
+                DB::table('mesas')->insert([
+                    'cod_sala_piso' => $sala->id,
+                    // Adicione outros campos que você precisa criar uma mesa
+                    'status' =>$faker->randomElement(['Livre', 'Ocupada']),
+                    'qrcode' => 'public/qrcodes/mesa_' . $sala->id . '_' . $i . '.png',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
 
         // //*************************criaçao de reservas ficticias*************** */
         // Reserva::factory(20)->create();
