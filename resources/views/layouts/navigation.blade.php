@@ -16,60 +16,12 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('edificios.index')">
-                        {{ __('Edifícios') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('cidades.index')">
-                        {{ __('Cidades') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('msgcontactos.index')">
-                        {{ __('Mensagens') }}
-                    </x-nav-link>
                     
-                    <x-nav-link :href="route('pisos.index')">
-                        {{ __('Pisos') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('salas.index')">
-                        {{ __('Salas') }}
-                    </x-nav-link>
-
-
-                    @if (Auth::user()->isAdmin())
-                        <!-- Verifica se o usuário é admin -->
-                        <x-nav-link :href="route('users.index')">
-                            {{ __('Usuários') }}
-                        </x-nav-link>
-
-                        <x-nav-link href="{{ route('users.create') }}">
-                            <button class="btn btn-primary">novo user</button>
-                        </x-nav-link>
-                    @endif
-                    @if (Auth::user()->isUser())
-                        <x-nav-link :href=" route('users.profile')">
-                            {{ __('detalhes') }}
-                        </x-nav-link>
-                    @endif
-                    <x-nav-link :href="route('reserva.index')">
-                        {{ __('Reservas') }}
-                    </x-nav-link>
-                    
-                    <x-nav-link :href="route('mesa.index')">
-                        {{ __('mesa') }}
-                    </x-nav-link>
-
-
-
-
-                    
-
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden lg:flex md:flexsm:flex sm:items-center sm:ms-6">
                  
                 @include('layouts.bookingbuttondark')
 
@@ -95,10 +47,56 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href="route('edificios.index')">
+                        {{ __('Edifícios') }}
+                        </x-dropdown-link>
+
+                    <x-dropdown-link :href="route('cidades.index')">
+                        {{ __('Cidades') }}
+                    </x-dropdown-link>
+
+                    <x-dropdown-link :href="route('msgcontactos.index')">
+                        {{ __('Mensagens') }}
+                    </x-dropdown-link>
+                    
+                    <x-dropdown-link :href="route('pisos.index')">
+                        {{ __('Pisos') }}
+                    </x-dropdown-link>
+
+                    <x-dropdown-link :href="route('salas.index')">
+                        {{ __('Salas') }}
+                    </x-dropdown-link>
+
+
+                    @if (Auth::user()->isAdmin())
+                        <!-- Verifica se o usuário é admin -->
+                        <x-nav-link :href="route('users.index')">
+                            {{ __('Usuários') }}
+                        </x-nav-link>
+
+                        <x-nav-link href="{{ route('users.create') }}">
+                            <button class="btn btn-primary">novo user</button>
+                        </x-nav-link>
+                    @endif
+                    <!-- @if (Auth::user()->isUser())
+                        <x-dropdown-link :href=" route('users.profile')">
+                            {{ __('detalhes') }}
+                        </x-dropdown-link>
+                    @endif -->
+                    <x-dropdown-link :href="route('reserva.index')">
+                        {{ __('Reservas') }}
+                    </x-dropdown-link>
+                    
+                    <x-dropdown-link :href="route('mesa.index')">
+                        {{ __('Mesas') }}
+                    </x-dropdown-link>
+
+
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
+                            <!-- Log Out -->
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                                                 this.closest('form').submit();">

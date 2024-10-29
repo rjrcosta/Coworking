@@ -1,10 +1,10 @@
-<x-app-layout>
-  <x-slot name="header"  class="">
+<x-index-layout>
+  <x-slot name="header" class="">
     <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
       {{ __('Listagem de edificios') }}
     </h2>
     <a href="{{route('edificios.create')}}">
-      <x-create-button class="">{{ __('Criar Novo') }}</x-create-button>
+      <x-buttons.create-button class="">{{ __('Criar Novo') }}</x-buttons.create-button>
     </a>
   </x-slot>
 
@@ -14,59 +14,63 @@
         <div class="p-6 text-black-900 dark:text-black-100">
           <nav class="navbar navbar-light">
 
-            <form action="{{ route('edificios.filtrar') }}" method="GET" class="d-flex justify-content-between align-items-center">
-            <x-text-input type="text" name="pesquisa" id="pesquisa" placeholder="Filtrar por cidade"/>
-            <x-search-button type="submit"></x-search-button>
-              
-            </form>
-          </nav>
-          <br><br>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nome</th>
-                <!-- <th scope="col">Morada</th> -->
-                <!-- <th scope="col">Código Postal</th> -->
-                <th scope="col">Cidade</th>
-                <!-- <th scope="col">Localidade</th> -->
-                <th scope="col" colspan="3">Opções</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- loop para buscar os edifícios -->
+
+            <x-slot name="paginacao">
+              {{ $edificios->links() }}
+            </x-slot>
+
+            <!-- Mostrar etiquetas para tabela - Variável "labels" -->
+            <x-slot name="labels">
+              <th scope="col">Id</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Cidade</th>
+              <th scope="col" colspan="3">Opções</th>
+            </x-slot>
+
+            <!-- Loop para  mostrar os dados  nas linhas da tabela - Variável "foreach"  -->
+            <x-slot name="foreach">
               @foreach($edificios as $edificio)
               <tr>
-                <th scope="row">{{$edificio->id}}</th>
+                <td>{{$edificio->id}}</td>
                 <td>{{$edificio->nome}}</td>
-                <!-- <td>{{$edificio->morada}}</td> -->
-                <!-- <td>{{$edificio->cod_postal}}</td> -->
                 <td>{{$edificio->cidade->nome}}</td>
-                <!-- <td>{{$edificio->localidade}}</td> -->
-                <td><a href="{{route('edificios.show', $edificio->id)}}"><button type="button" class="btn btn-success">Detalhes</button></a></td>
-                <td><a href="{{route('edificios.edit', $edificio->id)}}"><button type="button" class="btn btn-warning">Editar</button></a></td>
                 <td>
+                  <!-- Botão Show-->
+                  <a href="{{route('edificios.show', $edificio->id)}}">
+                    <button type="button" class="btn btn-success">Detalhes</button>
+                  </a>
+                  <!-- Botão Edit -->
+                  <a href="{{route('edificios.edit', $edificio->id)}}">
+                    <button type="button" class="btn btn-success">Detalhes</button>
+                  </a>
+                  <!-- Botão  Delete -->
                   <form action="{{ route('edificios.destroy', $edificio->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este edifício?');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <x-buttons.delete-button type="Submit"></x-buttons.delete-button>
                   </form>
-                </td>
                 </td>
               </tr>
               @endforeach
-              <!-- Exibe os links de paginação -->
-              {{ $edificios->links() }}
-              @if (session('success'))
-              <div class="alert alert-success">
-                {{ session('success') }}
-              </div>
-              @endif
-            </tbody>
-          </table>
+
+
+
+
+              <x-slot name="value1">Test</x-slot>
+              <x-slot name="value2">{{$edificio->nome}}</x-slot>
+              <x-slot name="value3">teste</x-slot>
+
+
+
+
+            </x-slot>
+
+
+
+          </nav>
         </div>
       </div>
     </div>
   </div>
 
-</x-app-layout>
+</x-index-layout>

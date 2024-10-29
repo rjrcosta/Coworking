@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
         'cidades' => CidadeController::class,
         'msgcontactos' => ContactoController::class,
         'salas' => SalaController::class,
+        'pisos' => PisoController::class,
 
     ]);
 
@@ -93,16 +94,6 @@ Route::middleware('auth')->group(function () {
     //Rota para enviar contacto
     Route::post('', [ContactoController::class, 'sendEmail'])->name('send.email');
 
-
-//**** Rota geral para os clientes, produtos, vendedores ****
-Route::resources([
-    'edificios' => EdificioController::class,
-    'cidades' => CidadeController::class,
-
-    'pisos' => PisoController::class,
-
-
-]);
 
 // Rota para filtrar edifícios pela cidade
 Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');

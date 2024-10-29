@@ -4,7 +4,6 @@
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
-
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
@@ -39,9 +38,17 @@
                 </a>
             @endif
 
-            <x-primary-button class="ms-3">
+            @if (Route::has('register'))
+                <a
+                    href="{{ route('register') }}"
+                >
+                <p class="fs-5 p-5 text-black"> Register</p> 
+                </a>
+            @endif
+
+            <x-buttons.primary-button class="ms-3">
                 {{ __('Log in') }}
-            </x-primary-button>
+            </x-buttons.primary-button>
         </div>
     </form>
 </x-guest-layout>
