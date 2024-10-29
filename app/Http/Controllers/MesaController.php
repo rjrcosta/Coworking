@@ -10,6 +10,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Models\Sala;
 
 class MesaController extends Controller
 {
@@ -30,57 +31,52 @@ class MesaController extends Controller
     {
         //
         $salas = \App\Models\Sala::all(); // Obter todas as salas
-        return view('mesas.create', compact('salas'));
+        return view('mesa.create', compact('salas'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
+        // Validação dos dados de entrada
         $validated = $request->validate([
             'cod_sala_piso' => 'required|exists:salas,id',
         ]);
 
-       $mesa=Mesa::create([
-            'status' => 'livre', // Definir status inicial como 'livre'
-            'cod_sala_piso' => $validated['cod_sala_piso'],
-        ]);
-        $mesa->update([
-            'qrcode' => 'QR-' . $mesa->id . '-' . Str::uuid(), // Exemplo de QR baseado no ID
-        ]);
+        // Criação da nova mesa
+        $mesa = new Mesa();
+        $mesa->status = 'livre'; // Definindo o status inicial como 'livre'
+        $mesa->cod_sala_piso = $validated['cod_sala_piso'];
 
-        return redirect()->route('mesas.index')->with('success', 'Mesa criada com sucesso.');
+        // Salvar a mesa no banco de dados
+        $mesa->save(); // Salva a mesa primeiro para que o ID esteja disponível
+
+        // Atualizar a lotação da sala correspondente
+        $sala = \App\Models\Sala::find($validated['cod_sala_piso']);
+        $sala->lotacao += 1; // Aumenta a lotação em 1
+        $sala->save(); // Salva as alterações na sala
+
+        // Gera o QR Code e salva o caminho na mesa
+        $mesa->qrcode = $this->gerarQrCode($mesa->id); // Gera o QR Code e salva o caminho
+        $mesa->save(); // Salva a mesa com o QR Code
+
+
+
+
+        return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso.');
     }
-    //     //Validação (descomentada se necessário)
-    //     $request->validate([
 
-    //     'status' => 'required|string',
-    //     'descricao' => 'nullable|string',
-    //     ]);
-
-    //     // Cria a mesa sem o QR Code inicialmente
-    //     $mesa = Mesa::create([
-
-    //     'status' => $request->status,
-
-    //     ]);
-
-    //     // Gera o QR Code e salva o caminho na mesa
-    //     $mesa->qrcode = $this->gerarQrCode($mesa->id); // Gera o QR Code e salva o caminho
-    //     $mesa->save(); // Salva a mesa com o QR Code
-
-    //     return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso!');
-    // }
 
     // Método para gerar QR Code
     private function gerarQrCode($mesaId)
     {
         // Define o caminho onde o QR Code será salvo
-        $qrcodePath = 'qrcodes/mesa_' . $mesaId . '.png';
+        $qrcodePath = 'qrcodes/' . $mesaId . '.svg';
 
         // Gera o QR Code e salva na pasta pública
-        QrCode::format('png')->size(300)->generate(url("/checkin/{$mesaId}"), public_path($qrcodePath));
+        QrCode::format('svg')->size(150)->generate(url("/checkin/{$mesaId}"), public_path($qrcodePath));
 
         // Retorna o caminho do QR Code para ser salvo no banco de dados
         return $qrcodePath;
@@ -127,7 +123,14 @@ class MesaController extends Controller
      */
     public function show(Mesa $mesa)
     {
-        //
+        // Obter a sala correspondente à mesa
+        $salaPiso = $mesa->sala; // SalaPiso que contém a sala e o piso
+        $sala = $salaPiso->sala; // A sala que a mesa está
+        $piso = $salaPiso->edificioPiso->piso; // O piso relacionado ao SalaPiso
+        $edificio = $salaPiso->edificioPiso->edificio; // O edifício relacionado ao SalaPiso
+        $cidade = $edificio->cidade; // A cidade relacionada ao Edificio
+      
+        return view('mesa.show', compact('mesa', 'sala', 'piso', 'edificio', 'cidade'));
     }
 
     /**
@@ -152,5 +155,21 @@ class MesaController extends Controller
     public function destroy(Mesa $mesa)
     {
         //
+        // Verifique se a mesa existe
+        if (!$mesa) {
+            return redirect()->route('mesa.index')->with('error', 'Mesa não encontrada.');
+        }
+
+        // Antes de remover a mesa, atualize a lotação da sala
+        $sala = \App\Models\Sala::find($mesa->cod_sala_piso);
+        if ($sala) {
+            $sala->lotacao -= 1; // Diminui a lotação em 1
+            $sala->save(); // Salva as alterações na sala
+        }
+
+        // Remove a mesa
+        $mesa->delete();
+
+        return redirect()->route('mesa.index')->with('success', 'Mesa removida com sucesso.');
     }
 }
