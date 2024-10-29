@@ -14,11 +14,12 @@ $width = match ($width) {
 @endphp
 
 <div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
-    <div @click="open = ! open">
+    <!-- <div @click="open = ! open"> -->
+    <div @mouseover="open = true" @mouseleave="open = false">
         {{ $trigger }}
     </div>
 
-    <div x-show="open"
+    <div x-show="open" @mouseover="open = true" @mouseleave="open = false"
             x-transition:enter="transition ease-out duration-200"
             x-transition:enter-start="opacity-0 scale-95"
             x-transition:enter-end="opacity-100 scale-100"

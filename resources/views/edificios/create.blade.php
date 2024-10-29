@@ -71,7 +71,8 @@
 
                         <div class="flex items-center justify-between">
                             <a href="{{ route('edificios.index') }}" class="btn btn-secondary">Cancelar</a>
-                            <button type="submit" class="btn btn-primary">Criar edificio</button>
+
+                            <x-buttons.submit-button type="submit" class="ms-4">{{ __('Salvar') }}</x-buttons.submit-button>
                         </div>
                     </form>
                     <!-- Modal -->
@@ -92,6 +93,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                             <button id="addCidadeButton" onclick="return false;" class="btn btn-primary">Adicionar</button>
+                                            
                                         </div>
                                     </form>
 
