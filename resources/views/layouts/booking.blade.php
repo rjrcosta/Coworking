@@ -7,13 +7,13 @@
 
 
 
-  <form class="m-0 w-100" id="regForm" action="">
+  <form class="m-0 w-100" id="regForm" action="#">
 
     <!-- One "tab" for each step in the form: -->
     <!-- Primeira TAB -->
     <div class="tab">
       <h5>Data</h5>
-      <input type="text" id="datepicker" placeholder="Choose Date" class="rounded-2">
+      <input type="text" id="datepicker" placeholder="Choose Date" name="data" class="rounded-2">
 
 
 
@@ -21,21 +21,21 @@
       <div class="mt-5">
         <h5>Horário</h5>
         <div class="form-check">
-          <input class="form-check-input input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+          <input class="form-check-input input" type="radio" name="periodo" id="periodoManha" value="option1">
           <label class="form-check-label" for="exampleRadios1">
             Manhã
           </label>
         </div>
 
         <div class="form-check">
-          <input class="form-check-input input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+          <input class="form-check-input input" type="radio" name="periodo" id="periodoTarde" value="option2">
           <label class="form-check-label" for="exampleRadios2">
             Tarde
           </label>
         </div>
 
         <div class="form-check">
-          <input class="form-check-input input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
+          <input class="form-check-input input" type="radio" name="periodo" id="periodoCompleto" value="option3">
           <label class="form-check-label" for="exampleRadios3">
             Dia completo
           </label>
@@ -48,7 +48,7 @@
     <div class="tab">
 
       <!-- Escolha Cidade -->
-      <select class="form-select m-3" aria-label="Default select example">
+      <select class="form-select m-3" name="cod_cidade" id="cod_cidade_picker" aria-label="Default select example">
         <option selected>Selecionar Cidade</option>
         <option value="1">One</option>
         <option value="2">Two</option>
@@ -56,7 +56,7 @@
       </select>
 
       <!-- Escolha Edificio -->
-      <select class="form-select m-3" aria-label="Default select example">
+      <select class="form-select m-3" name="id"  id="id_edificio_picker" aria-label="Default select example">
         <option selected>Selecionar Edificio</option>
         <option value="1">One</option>
         <option value="2">Two</option>
@@ -68,21 +68,21 @@
     <!-- Terceira TAB -->
     <div class="tab">
 
-      <select class="form-select m-3" aria-label="Default select example">
-        <option selected>Numero de Lugares a Reservar</option>
-        <?php
-        for ($i = 1; $i <= 20; $i++) {
-          echo "<option value=\"$i\">$i</option>";
-        }
-        ?>
-      </select>
+    <div class="tab">
+        <select class="form-select m-3" name="lugares" aria-label="Numero de Lugares a Reservar" required>
+            <option selected disabled>Numero de Lugares a Reservar</option>
+            <?php for ($i = 1; $i <= 20; $i++) : ?>
+                <option value="<?= $i ?>"><?= $i ?></option>
+            <?php endfor; ?>
+        </select>
+    </div>
 
     </div>
 
     <!-- Quarta TAB -->
     <div class="tab">
 
-      <h2>Estás Quase lá!. Só precisas de confirmar a tua reserva ;)</h2>
+      <h5>Estás Quase lá!. Só precisas de confirmar a tua reserva</h5>
 
     </div>
 

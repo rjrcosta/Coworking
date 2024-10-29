@@ -28,4 +28,10 @@ class EdificioPiso extends Model
     {
         return $this->belongsTo(Piso::class, 'cod_piso');
     }
+
+    // Relação com a tabela salaPiso
+    public function salaPiso()
+    {
+        return $this->hasMany(SalaPiso::class, 'cod_edificio_piso', 'id');
+    }
 }

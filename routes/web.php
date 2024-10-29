@@ -16,6 +16,8 @@ use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PisoController;
 
 use App\Models\User;
+use App\Models\Reserva;
+use App\Models\Edificio;
 use Illuminate\Session\Middleware\AuthenticatedSession;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactoController;
@@ -75,10 +77,17 @@ Route::middleware('auth')->group(function () {
         'msgcontactos' => ContactoController::class,
         'salas' => SalaController::class,
         'pisos' => PisoController::class,
+        'reservas' => ReservaController::class,
 
     ]);
 
-    //Rota para fazer delete de mensagens
+    // Rota para buscar edificios por cidade na criação de reserva 
+    Route::get('/reservas/edificios/{cidadeId}', [ReservaController::class, 'buscarEdificiosPorCidade']);
+
+    // Rota para calcular a disponibilidade e mostrar na tela
+    Route::post('/reservas/disponibilidade', [ReservaController::class, 'showAvailability']);
+
+    // Rota para fazer delete de mensagens
     Route::delete('/msgcontactos/{id}', [ContactoController::class, 'destroy'])->name('msgcontactos.destroy');
 
     // Rota para filtrar edifícios pela cidade

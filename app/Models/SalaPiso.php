@@ -30,9 +30,8 @@ class SalaPiso extends Model
     }
 
     // Relacionamento com a mesa
-    public function mesa()
+    public function mesas()
     {
-        return $this->hasMany(Mesa::class, 'cod_sala_piso');
-
+        return $this->hasMany(Mesa::class, 'cod_sala_piso', 'id');
     }
 }
