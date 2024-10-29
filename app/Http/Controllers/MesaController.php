@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 class MesaController extends Controller
 {
     /**
@@ -19,7 +21,6 @@ class MesaController extends Controller
         //
         $mesas = Mesa::all();
         return view('mesa.index', compact('mesas'));
-
     }
 
     /**
@@ -28,7 +29,8 @@ class MesaController extends Controller
     public function create()
     {
         //
-        return view('mesa.create');
+        $salas = \App\Models\Sala::all(); // Obter todas as salas
+        return view('mesas.create', compact('salas'));
     }
 
     /**
@@ -36,69 +38,88 @@ class MesaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // $request->validate([
-        //     'numero' => 'required|integer|unique:mesas,numero',
-        //     'descricao' => 'nullable|string|max:255',
-        // ]);
-
-        $mesa = Mesa::create([
-            //'numero' => $request->input('numero'),
-            //'descricao' => $request->input('descricao'),
-            'qrcode' => $this->gerarQrCode($request->id), // Gera o QR Code
-
-
+        $validated = $request->validate([
+            'cod_sala_piso' => 'required|exists:salas,id',
         ]);
-        
-        return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso!');
+
+       $mesa=Mesa::create([
+            'status' => 'livre', // Definir status inicial como 'livre'
+            'cod_sala_piso' => $validated['cod_sala_piso'],
+        ]);
+        $mesa->update([
+            'qrcode' => 'QR-' . $mesa->id . '-' . Str::uuid(), // Exemplo de QR baseado no ID
+        ]);
+
+        return redirect()->route('mesas.index')->with('success', 'Mesa criada com sucesso.');
     }
+    //     //Validação (descomentada se necessário)
+    //     $request->validate([
+
+    //     'status' => 'required|string',
+    //     'descricao' => 'nullable|string',
+    //     ]);
+
+    //     // Cria a mesa sem o QR Code inicialmente
+    //     $mesa = Mesa::create([
+
+    //     'status' => $request->status,
+
+    //     ]);
+
+    //     // Gera o QR Code e salva o caminho na mesa
+    //     $mesa->qrcode = $this->gerarQrCode($mesa->id); // Gera o QR Code e salva o caminho
+    //     $mesa->save(); // Salva a mesa com o QR Code
+
+    //     return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso!');
+    // }
 
     // Método para gerar QR Code
     private function gerarQrCode($mesaId)
     {
+        // Define o caminho onde o QR Code será salvo
         $qrcodePath = 'qrcodes/mesa_' . $mesaId . '.png';
-        QrCode::format('png')->size(300)->generate(url("/checkin/{$mesaId}"), public_path($qrcodePath));
-        dd($qrcodePath);
-        
 
+        // Gera o QR Code e salva na pasta pública
+        QrCode::format('png')->size(300)->generate(url("/checkin/{$mesaId}"), public_path($qrcodePath));
+
+        // Retorna o caminho do QR Code para ser salvo no banco de dados
         return $qrcodePath;
     }
 
-     // Função para check-in
-     public function checkIn(Request $request, $mesaId)
-     {
-         $user = Auth::user();
-       
-         
-         $mesa = Mesa::findOrFail($mesaId);
- 
+    // Função para check-in
+    public function checkIn(Request $request, $mesaId)
+    {
+        $user = Auth::user();
+
+
+        $mesa = Mesa::findOrFail($mesaId);
+
         //  Verificar se há uma reserva ativa para esta mesa e para este usuário
-          $reserva = Reserva::where('mesa_id', $mesaId)
-                            ->where('user_id', $user->id)
-                            ->whereDate('created_at', now()->toDateString()) // Ajuste para o campo correto
-                            ->where('status', 'reserved')
-                            ->first();
- 
-         if ($reserva) {
-             // Verificar se o check-in é feito até 15 minutos após o início da reserva
-             $checkInDeadline = Carbon::createFromTimeString($reserva->horario_inicio)->addMinutes(15);
- 
-             if (now()->lessThanOrEqualTo($checkInDeadline)) {
-                 $reserva->status = 'checked-in';
-                 $reserva->check_in_time = now();
-                 $reserva->save();
- 
-                 return redirect()->route('reserva.success')->with('success', 'Check-in efetuado com sucesso!');
-             } else {
-                 return redirect()->route('reserva.failed')->with('error', 'Check-in expirado.');
-             }
-         } else {
-             return redirect()->route('reserva.failed')->with('error', 'Nenhuma reserva ativa encontrada para esta mesa.');
-         }
- 
-     }
- 
- 
+        $reserva = Reserva::where('mesa_id', $mesaId)
+            ->where('user_id', $user->id)
+            ->whereDate('created_at', now()->toDateString()) // Ajuste para o campo correto
+            ->where('status', 'reserved')
+            ->first();
+
+        if ($reserva) {
+            // Verificar se o check-in é feito até 15 minutos após o início da reserva
+            $checkInDeadline = Carbon::createFromTimeString($reserva->horario_inicio)->addMinutes(15);
+
+            if (now()->lessThanOrEqualTo($checkInDeadline)) {
+                $reserva->status = 'checked-in';
+                $reserva->check_in_time = now();
+                $reserva->save();
+
+                return redirect()->route('reserva.success')->with('success', 'Check-in efetuado com sucesso!');
+            } else {
+                return redirect()->route('reserva.failed')->with('error', 'Check-in expirado.');
+            }
+        } else {
+            return redirect()->route('reserva.failed')->with('error', 'Nenhuma reserva ativa encontrada para esta mesa.');
+        }
+    }
+
+
 
 
     /**

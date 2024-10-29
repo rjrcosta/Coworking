@@ -52,7 +52,25 @@
         }
     </style>
 </head>
-<body>
+@extends('layouts.app')
+
+@section('content')
+    <h1>Criar Nova Mesa</h1>
+    <form action="{{ route('mesas.store') }}" method="POST">
+        @csrf
+        <div>
+            <label for="cod_sala_piso">Sala Piso:</label>
+            <select name="cod_sala_piso" id="cod_sala_piso" required>
+                @foreach($salas as $sala)
+                    <option value="{{ $sala->id }}">{{ $sala->nome }}</option>
+                @endforeach
+            </select>
+        </div>
+        
+        <button type="submit">Criar Mesa</button>
+    </form>
+@endsection
+{{-- <body>
     <h1>Criar Mesa</h1>
     <form action="{{ route('mesa.store') }}" method="POST">
         @csrf
@@ -71,4 +89,4 @@
         <button type="submit">Criar Mesa</button>
     </form>
 </body>
-</html>
+</html> --}}

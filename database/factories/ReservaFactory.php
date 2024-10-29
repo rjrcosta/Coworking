@@ -27,7 +27,7 @@ class ReservaFactory extends Factory
 
         return [
             'user_id' => User::factory(), // Gera automaticamente um utilizador
-            'mesa_id' => Mesa::factory(), // Gera automaticamente uma mesa
+            'cod_mesa' => Mesa::factory(), // Gera automaticamente uma mesa
             'horario_inicio' => $horarioInicio,
             'horario_fim' => $horarioFim,
             'status' => 'reserved',

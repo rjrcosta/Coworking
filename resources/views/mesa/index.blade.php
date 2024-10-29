@@ -75,28 +75,32 @@
 
 <body>
     <h1>Lista de Mesas</h1>
-    <a href="{{ route('mesa.create') }}">Criar Nova Mesa</a>
-    <ul>
-        @foreach ($mesas as $mesa)
-            <li>
-                <div class="mesa-info">
-                    <span><strong>Mesa {{ $mesa->id }}</strong> </span>
-                    
-                   
 
-                    
-    
-                    <img src="{{asset( $mesa->qrcode )}}" alt="QR Code para Mesa {{ $mesa->id }}">
-                     
-               
-                </div>
-                <form action="{{ route('mesa.checkin', $mesa->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="checkin-button">Check-in</button>
-                </form>
-            </li>
-        @endforeach
-    </ul>
+
+
+   
+        <h1>Mesas</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>QR Code</th>
+                    <th>Sala Piso</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($mesas as $mesa)
+                    <tr>
+                        <td>{{ $mesa->id }}</td>
+                        <td>{{ $mesa->status }}</td>
+                        <td><img src="{{asset( $mesa->qrcode) }}" alt="qrcode"></td>
+                        <td>{{ $mesa->cod_sala_piso }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+   
 </body>
 
 </html>

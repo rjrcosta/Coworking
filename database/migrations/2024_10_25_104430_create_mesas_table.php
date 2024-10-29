@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('mesas', function (Blueprint $table) {
             $table->id();
-            // $table->string('name')->unique();
+            $table->string('status')->default('livre'); // Status da mesa
+            $table->string('qrcode')->unique(); // QR code único para check-in
+            $table->foreignId('cod_sala_piso')->constrained('salas')->onDelete('cascade'); // Associação com sala
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('mesas');
     }
