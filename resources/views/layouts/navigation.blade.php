@@ -67,6 +67,10 @@
                         {{ __('Salas') }}
                     </x-dropdown-link>
 
+                    <x-dropdown-link :href="route('reservas.index')">
+                        {{ __('Reservas') }}
+                    </x-dropdown-link>
+
 
                     @if (Auth::user()->isAdmin())
                         <!-- Verifica se o usuário é admin -->

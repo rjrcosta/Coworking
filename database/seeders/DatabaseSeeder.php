@@ -33,7 +33,9 @@ class DatabaseSeeder extends Seeder
         // 2) edificio, piso 
         // 3) edificio_piso, sala
         // 4) sala_piso
-        //5)
+        // 5) Vincular salas às sala_piso
+        // 6) mesa
+        // 7) Reservas
 
         // ****************************** Lógica para criar usuarios e cidades ************************
         // User::factory(5)->create();
@@ -158,7 +160,8 @@ class DatabaseSeeder extends Seeder
 
 
         // //*************************criaçao de reservas ficticias*************** */
-        // Reserva::factory(20)->create();
+
+        //Reserva::factory()->count(20)->create();
 
     }
 }
