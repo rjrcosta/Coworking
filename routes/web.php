@@ -120,8 +120,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mesa', [MesaController::class, 'index'])->name('mesa.index');
     Route::get('/mesa/create', [MesaController::class, 'create'])->name('mesa.create');
     Route::post('/mesa', [MesaController::class, 'store'])->name('mesa.store');
+    Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('mesa.destroy');
+    Route::get('/mesas/{mesa}', [MesaController::class, 'show'])->name('mesa.show');
 
-    // // Rotas para Reservas
+    
+    // Rotas para Reservas
     Route::get('/reserva', [ReservaController::class, 'index'])->name('reserva.index');
     Route::get('/reserva/create', [ReservaController::class, 'create'])->name('reserva.create');
     Route::post('/reserva', [ReservaController::class, 'store'])->name('reserva.store');
@@ -147,6 +150,8 @@ Route::get('/pisos_show_associate/{id}', [PisoController::class, 'show_associate
 
 // Rota para associar edifícios a um piso
 Route::post('/pisos/associate', [PisoController::class, 'associate'])->name('pisos.associate');
+
+
 
 
 require __DIR__ . '/auth.php';
