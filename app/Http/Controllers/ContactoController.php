@@ -36,7 +36,7 @@ class ContactoController extends Controller
      */
     public function index()
     {
-
+        
     return view('msgcontactos.index',[
         'contactos'=>DB::table('contactos') ->orderBy('id', 'desc')->paginate('10')
     ]);

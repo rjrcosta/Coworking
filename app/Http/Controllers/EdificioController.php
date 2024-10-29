@@ -23,7 +23,7 @@ class EdificioController extends Controller
     {
 
         // Obtém os dados paginados dos edifícios, 20 itens por página
-        $edificios = Edificio::paginate(20);
+        $edificios = Edificio::paginate(10);
 
         return view('edificios.index', compact('edificios'), [
             'edificios' => DB::table('edificios')->orderBy('nome')->get()

@@ -19,7 +19,7 @@ class MesaController extends Controller
     public function index()
     {
         //
-        $mesas = Mesa::all();
+        $mesas = Mesa::paginate(10);
         return view('mesa.index', compact('mesas'));
     }
 

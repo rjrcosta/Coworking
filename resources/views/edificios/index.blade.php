@@ -14,7 +14,7 @@
         <div class="p-6 text-black-900 dark:text-black-100">
           <nav class="navbar navbar-light">
 
-
+            <!-- Paginação -->
             <x-slot name="paginacao">
               {{ $edificios->links() }}
             </x-slot>
@@ -24,7 +24,7 @@
               <th scope="col">Id</th>
               <th scope="col">Nome</th>
               <th scope="col">Cidade</th>
-              <th scope="col" colspan="3">Opções</th>
+              <th scope="col" colspan="3" class="text-end">Opções</th>
             </x-slot>
 
             <!-- Loop para  mostrar os dados  nas linhas da tabela - Variável "foreach"  -->
@@ -34,14 +34,14 @@
                 <td>{{$edificio->id}}</td>
                 <td>{{$edificio->nome}}</td>
                 <td>{{$edificio->cidade->nome}}</td>
-                <td>
+                <td class ="d-flex justify-content-end">
                   <!-- Botão Show-->
                   <a href="{{route('edificios.show', $edificio->id)}}">
-                    <button type="button" class="btn btn-success">Detalhes</button>
+                    <x-buttons.show-button></x-buttons.delete-button>
                   </a>
                   <!-- Botão Edit -->
                   <a href="{{route('edificios.edit', $edificio->id)}}">
-                    <button type="button" class="btn btn-success">Detalhes</button>
+                    <x-buttons.edit-button></x-buttons.delete-button>
                   </a>
                   <!-- Botão  Delete -->
                   <form action="{{ route('edificios.destroy', $edificio->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este edifício?');">
@@ -52,21 +52,8 @@
                 </td>
               </tr>
               @endforeach
-
-
-
-
-              <x-slot name="value1">Test</x-slot>
-              <x-slot name="value2">{{$edificio->nome}}</x-slot>
-              <x-slot name="value3">teste</x-slot>
-
-
-
-
             </x-slot>
-
-
-
+            
           </nav>
         </div>
       </div>

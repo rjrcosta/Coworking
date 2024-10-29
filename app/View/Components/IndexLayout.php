@@ -16,17 +16,15 @@ class IndexLayout extends Component
         $foreach = "";
         $labels = "";
         $rotapesquisa = "";
-        $paginacao = "";
-        $btns = "";
-       
-        
+        $paginacao = [];
+     
 
         return view('layouts.index', [
             'rotapesquisa' => $rotapesquisa,
             'labels' => $labels,
             'foreach ' => $foreach,
-            'paginação' => $paginacao,
-            'btnshow' => $btns,
+            'paginacao' => $paginacao,
+         
         ]);
     }
 }
