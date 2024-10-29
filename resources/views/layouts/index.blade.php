@@ -42,8 +42,6 @@
 
         <!-- Page Content -->
         <main>
-
-
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -67,8 +65,17 @@
                                     {{$foreach}}
 
                                     <!-- Exibe os links de paginação -->
-                                    {{ $paginacao }} 
+                                    {{$paginacao}}
+                                   
 
+                                    <!-- Exibe mensagem de erro quando houver -->
+                                    @if (session('error'))
+                                    <div class="alert alert-danger">
+                                        {{ session('error') }}
+                                    </div>
+                                    @endif
+
+                                    <!-- Exibe mensagem de sucesso -->
                                     @if (session('success'))
                                     <div class="alert alert-success">
                                         {{ session('success') }}

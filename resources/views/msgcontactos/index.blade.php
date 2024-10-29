@@ -1,73 +1,61 @@
-<x-app-layout>
-  <x-slot name="header">
+<x-index-layout>
+  <x-slot name="header" class="">
     <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
-      {{ __('Mensagens') }}
+      {{ __('Listagem de Mensagens') }}
     </h2>
-    <br>
+
   </x-slot>
 
   <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-black-900 dark:text-black-100">
-          <nav class="navbar navbar-light bg-light">
-            <form action="" method="GET">
-              <input type="text" name="pesquisa" id="pesquisa" placeholder="Filtrar pelo nome" class="mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-              <button type="submit">Pesquisar</button>
-            </form>
-          </nav>
-          <br><br>
-          <table class="table">
-            <thead>
+          <nav class="navbar navbar-light">
+
+            <!-- Paginação -->
+            <x-slot name="paginacao">
+              {{ $contactos->links() }}
+            </x-slot>
+
+            <!-- Mostrar etiquetas para tabela - Variável "labels" -->
+            <x-slot name="labels">
+              <th scope="col">Id</th>
+              <th scope="col">Nome</th>
+              <th scope="col">mensagem</th>
+              <th scope="col" colspan="3" class="text-end">Opções</th>
+            </x-slot>
+
+            <!-- Loop para  mostrar os dados  nas linhas da tabela - Variável "foreach"  -->
+            <x-slot name="foreach">
+              @foreach($contactos as $contacto)
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Mensagem</th>
-                <th scope="col" colspan="3">Opções</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- loop para buscar os edifícios -->
-              @foreach($contactos as $msgcontacto)
-              <tr>
-               
-                <td>{{$msgcontacto->id}}</td>
-                <td>{{$msgcontacto->nome}}</td>
-                <td>{{$msgcontacto->message}}</td>
-                <td><a href="{{route('msgcontactos.show', $msgcontacto->id)}}"><button type="button" class="btn btn-success">Detalhes</button></a></td>
-                <td>
-                <form action="{{route('msgcontactos.destroy', $msgcontacto->id)}}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta msg?');">
+                <td>{{$contacto->id}}</td>
+                <td>{{$contacto->nome}}</td>
+                <td>{{$contacto->message}}</td>
+                <td class ="d-flex justify-content-end">
+                  <!-- Botão Show-->
+                  <!-- <a href="{{route('contactos.show', $contacto->id)}}">
+                    <x-buttons.show-button></x-buttons.delete-button>
+                  </a> -->
+                  <!-- Botão Edit -->
+                  <!-- <a href="{{route('contactos.edit', $contacto->id)}}">
+                    <x-buttons.edit-button></x-buttons.delete-button>
+                  </a> -->
+                  <!-- Botão  Delete -->
+                  <form action="{{ route('contactos.destroy', $contacto->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta mensagem?');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <x-buttons.delete-button type="Submit"></x-buttons.delete-button>
                   </form>
                 </td>
-                </td>
-              </tr>              
+              </tr>
               @endforeach
-
-              <!-- Exibe os links de paginação -->
-              {{ $contactos->links() }}
-
-              <!-- Exibe mensagem de erro quando houver -->
-              @if (session('error'))
-              <div class="alert alert-danger">
-                {{ session('error') }}
-              </div>
-              @endif
-
-              <!-- Exibe mensagem de sucesso -->
-              @if (session('success'))
-              <div class="alert alert-success">
-                {{ session('success') }}
-              </div>
-              @endif
-              
-            </tbody>
-          </table>
+            </x-slot>
+            
+          </nav>
         </div>
       </div>
     </div>
   </div>
 
-</x-app-layout>
+</x-index-layout>

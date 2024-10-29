@@ -133,28 +133,28 @@ class DatabaseSeeder extends Seeder
         // //*******************criaçao de mesas************************ */
 
         
-        $faker = Faker::create();
+        // $faker = Faker::create();
 
-        $salas = Sala::all();
+        // $salas = Sala::all();
 
         // Passar cada sala
-        foreach ($salas as $sala) {
-            // Buscar a lotação de cada sala
-            $lotacao = $sala->lotacao;
+        // foreach ($salas as $sala) {
+        //     // Buscar a lotação de cada sala
+        //     $lotacao = $sala->lotacao;
 
-            // Criar mesas para cada sala
-            for ($i = 0; $i < $lotacao; $i++) {
-                // Criar mesa usando como cod_sala_piso o id da sala correspondente
-                DB::table('mesas')->insert([
-                    'cod_sala_piso' => $sala->id,
-                    // Adicione outros campos que você precisa criar uma mesa
-                    'status' =>$faker->randomElement(['Livre', 'Ocupada']),
-                    'qrcode' => 'public/qrcodes/mesa_' . $sala->id . '_' . $i . '.png',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
-        }
+        //     // Criar mesas para cada sala
+        //     for ($i = 0; $i < $lotacao; $i++) {
+        //         // Criar mesa usando como cod_sala_piso o id da sala correspondente
+        //         DB::table('mesas')->insert([
+        //             'cod_sala_piso' => $sala->id,
+        //             // Adicione outros campos que você precisa criar uma mesa
+        //             'status' =>$faker->randomElement(['Livre', 'Ocupada']),
+        //             'qrcode' => 'public/qrcodes/mesa_' . $sala->id . '_' . $i . '.png',
+        //             'created_at' => now(),
+        //             'updated_at' => now(),
+        //         ]);
+        //     }
+        // }
 
 
         // //*************************criaçao de reservas ficticias*************** */
