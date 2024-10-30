@@ -97,10 +97,6 @@ Route::middleware('auth')->group(function () {
     // Rota para fazer delete de mensagens
     Route::delete('/msgcontactos/{id}', [ContactoController::class, 'destroy'])->name('msgcontactos.destroy');
 
-    
-
-
-
     // Rota para filtrar edifícios pela cidade
     Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
    
@@ -110,6 +106,8 @@ Route::middleware('auth')->group(function () {
     // Rota para filtrar cidades pelo nome
     Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
 
+    // Rota para o direct_store do cidadeController
+    Route::post('/cidades/direct_store', [CidadeController::class, 'direct_store'])->name('cidades.direct_store');
 
     //Rota para enviar contacto
     Route::post('', [ContactoController::class, 'sendEmail'])->name('send.email');

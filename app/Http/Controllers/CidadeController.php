@@ -69,6 +69,34 @@ class CidadeController extends Controller
         }
     }
 
+    public function direct_store(Request $request)
+    {
+        // Validação do nome da cidade
+        $request->validate([
+            'nome' => 'required|string|max:255|unique:cidades,nome',
+        ], [
+            'nome.unique' => 'Já existe uma cidade com esse nome.',
+        ]);
+
+        try {
+            // Criação da cidade
+            $cidade = new Cidade();
+            $cidade->nome = $request->nome;
+            $cidade->save();
+
+            // Retorna a resposta JSON ao invés de redirecionar
+            return redirect()->route('cidades.index')->with('success', 'Cidade criada com sucesso!');
+        } catch (QueryException $e) {
+            // Tratamento de exceção de chave duplicada
+            if ($e->getCode() === '23000') {
+                return response()->json(['success' => false, 'message' => 'Cidade já existente!'], 409); // Código 409: Conflito
+            }
+
+            // Retorno da função
+            return redirect()->route('cidades.index')->with('success', 'Cidade criada com sucesso!');
+        }
+    }
+
 
     /**
      * Display the specified resource.
