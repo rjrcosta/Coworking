@@ -125,6 +125,7 @@ class MesaController extends Controller
      */
     public function show(Mesa $mesa)
     {
+   
         // Obter a sala correspondente à mesa
         $salaPiso = $mesa->sala; // SalaPiso que contém a sala e o piso
         $sala = $salaPiso->sala; // A sala que a mesa está
