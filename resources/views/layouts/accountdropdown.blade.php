@@ -919,8 +919,8 @@
                 {{ __('Profile') }}
             </x-dropdown-link>
 
-            <x-dropdown-link href="route('reserva.index')">
-                {{ __('Reservas') }}
+            <x-dropdown-link :href="route('reservas.index')">
+                {{ __('Reservas') }}    
             </x-dropdown-link>
 
             <!-- Links de Admin -->
