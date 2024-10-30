@@ -30,7 +30,7 @@ class MesaController extends Controller
     {
         //
         $salas = \App\Models\Sala::all(); // Obter todas as salas
-        return view('mesas.create', compact('salas'));
+        return view('mesa.create', compact('salas'));
     }
 
     /**
@@ -50,7 +50,7 @@ class MesaController extends Controller
             'qrcode' => 'QR-' . $mesa->id . '-' . Str::uuid(), // Exemplo de QR baseado no ID
         ]);
 
-        return redirect()->route('mesas.index')->with('success', 'Mesa criada com sucesso.');
+        return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso.');
     }
     //     //Validação (descomentada se necessário)
     //     $request->validate([

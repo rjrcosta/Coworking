@@ -22,6 +22,10 @@ use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\SalaController;
 use User as GlobalUser;
 use App\Http\Controllers\ReservaController;
+use Database\Factories\ContactoFactory;
+
+//Rota para enviar email do form contacto
+Route::get('/emailsent', [ContactoController::class, 'sendmail'])->name('send.mail');
 
 Route::match(array('GET','POST'),'/', function () {
     return view('welcome');
@@ -81,6 +85,10 @@ Route::middleware('auth')->group(function () {
     //Rota para fazer delete de mensagens
     Route::delete('/msgcontactos/{id}', [ContactoController::class, 'destroy'])->name('msgcontactos.destroy');
 
+    
+
+
+
     // Rota para filtrar edifícios pela cidade
     Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
    
@@ -111,7 +119,7 @@ Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cida
 
 
 
- Route::get('/reserva-failed', [ReservaController::class, 'failed'])->name('reserva.failed');
+//  Route::get('/reserva-failed', [ReservaController::class, 'failed'])->name('reserva.failed');
 
 // Rotas protegidas por autenticação
 Route::middleware(['auth'])->group(function () {
@@ -122,9 +130,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/mesa', [MesaController::class, 'store'])->name('mesa.store');
 
     // // Rotas para Reservas
-    Route::get('/reserva', [ReservaController::class, 'index'])->name('reserva.index');
-    Route::get('/reserva/create', [ReservaController::class, 'create'])->name('reserva.create');
-    Route::post('/reserva', [ReservaController::class, 'store'])->name('reserva.store');
+    // Route::get('/reserva', [ReservaController::class, 'index'])->name('reserva.index');
+    // Route::get('/reserva/create', [ReservaController::class, 'create'])->name('reserva.create');
+    // Route::post('/reserva', [ReservaController::class, 'store'])->name('reserva.store');
     
   
 

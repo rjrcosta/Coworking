@@ -38,15 +38,15 @@
                 <td><img src="{{asset( $mesa->qrcode) }}" alt="qrcode"></td>
                 <td class ="d-flex justify-content-end">
                   <!-- Botão Show-->
-                  <a href="{{route('mesa.show', $edificio->id)}}">
-                    <x-buttons.show-button></x-buttons.delete-button>
+                  <a href="">
+                    <x-buttons.show-button></x-buttons.show-button>
                   </a>
                   <!-- Botão Edit -->
-                  <a href="{{route('mesa.edit', $edificio->id)}}">
-                    <x-buttons.edit-button></x-buttons.delete-button>
+                  <a href="">
+                    <x-buttons.edit-button></x-buttons.edit-button>
                   </a>
                   <!-- Botão  Delete -->
-                  <form action="{{ route('mesa.destroy', $edificio->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta mesa?');">
+                  <form action="" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta mesa?');">
                     @csrf
                     @method('DELETE')
                     <x-buttons.delete-button type="Submit"></x-buttons.delete-button>

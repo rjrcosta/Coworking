@@ -30,7 +30,7 @@
       <div class="col-lg-6 mx-auto">
         <div class="contact-form">
           
-          <form class="row" method="POST" action="{{route('send.email')}}" >
+          <form class="row" method="GET" action="{{route('send.mail')}}">
             @csrf
             <div class="col-md-6 col-sm-12 ">
               <input type="text" class="campo" id="exampleFormControlInput1" placeholder="Your Name" name="nomeContacto" >

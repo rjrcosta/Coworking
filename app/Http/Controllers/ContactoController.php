@@ -5,29 +5,28 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use App\Models\contacto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MailContacto;
+
+
 
 class ContactoController extends Controller
 {
     // Controler para Enviar Emails no formulario contacto
-    public function sendEmail(Request $request){
-        
-       
-        $data = $request ->validate([
-            'nomeContacto' => ['required'],
-            'emailContacto' => ['required'],
-            'mensagemContacto' => ['required'],
-        ]);
+    public function sendmail(Request $request){
+        //  dd($request);
+        // if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        //     $nome = $_GET['nomeContacto']; 
+        //     $email = $_GET['emailContacto'];  
+        //     $message = $_GET['mensagemContacto'];    
+        // }
+        $nome = $request->query('nomeContacto');
+        $email = $request->query('emailContacto');
+        $message = $request->query('mensagemContacto');
 
-        $contacto = new Contacto();
-         $contacto->nome = $request->nomeContacto;
-         $contacto->email = $request->emailContacto;
-         $contacto->message = $request->mensagemContacto;
-         $contacto->save();
-        //  return redirect()->route('')->with('success', 'Mensagem enviada com sucesso!');
+        Mail::to($email)->send(new MailContacto($nome, $email, $message));
 
-        return  view('welcome', $data);
-
-        
+        return  view('welcome')->with('refresh', true);
     }
 
 

@@ -52,11 +52,12 @@
         }
     </style>
 </head>
+
 @extends('layouts.app')
 
 @section('content')
     <h1>Criar Nova Mesa</h1>
-    <form action="{{ route('mesas.store') }}" method="POST">
+    <form action="{{ route('mesa.store') }}" method="POST">
         @csrf
         <div>
             <label for="cod_sala_piso">Sala Piso:</label>
@@ -70,23 +71,7 @@
         <button type="submit">Criar Mesa</button>
     </form>
 @endsection
-{{-- <body>
-    <h1>Criar Mesa</h1>
-    <form action="{{ route('mesa.store') }}" method="POST">
-        @csrf
-        {{-- <label for="numero">Número da Mesa:</label>
-        <input type="number" name="numero" id="numero" required value="{{ old('numero') }}">
-        @error('numero')
-            <div class="error">{{ $message }}</div>
-        @enderror
 
-        <label for="descricao">Descrição:</label>
-        <input type="text" name="descricao" id="descricao" value="{{ old('descricao') }}">
-        @error('descricao')
-            <div class="error">{{ $message }}</div>
-        @enderror --}}
+@endextends
 
-        <button type="submit">Criar Mesa</button>
-    </form>
-</body>
-</html> --}}
+</html>
