@@ -40,16 +40,17 @@
                 <td>{{$reserva->edificio ? $reserva->edificio->nome : 'Edifício não encontrado'}}</td> <!-- Mostra o nome do Edifício -->
                 <td>{{$reserva->edificio ? $reserva->edificio->cidade->nome : 'Cidade não encontrada'}}</td>
                 <td>{{$reserva->date}}</td>
-                <td class ="d-flex justify-content-end">
+                <td class="d-flex justify-content-end">
                   <!-- Botão Show-->
                   <a href="{{route('reservas.show', $reserva->id)}}">
                     <x-buttons.show-button></x-buttons.delete-button>
                   </a>
-                  <!-- Botão Edit -->
+                  <!-- Botão Edit 
                   <a href="{{route('reservas.edit', $reserva->id)}}">
                     <x-buttons.edit-button></x-buttons.delete-button>
-                  </a>
-                  <!-- Botão  Delete -->
+                  </a> -->
+
+                  <!-- Botão Delete -->
                   <form action="{{ route('reservas.destroy', $reserva->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta Reserva?');">
                     @csrf
                     @method('DELETE')
@@ -59,7 +60,7 @@
               </tr>
               @endforeach
             </x-slot>
-            
+
           </nav>
         </div>
       </div>
