@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Mesa;
 use App\Models\Reserva;
 use App\Http\Controllers\Controller;
+use App\Models\Cidade;
+use App\Models\EdificioPiso;
+use Database\Factories\EdificioFactory;
+use App\Models\Edificio;
+use App\Models\Piso;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Sala;
+use App\Models\SalaPiso;
 
 class MesaController extends Controller
 {
@@ -123,20 +129,38 @@ class MesaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Mesa $mesa)
+    public function show( $id)
     {
+        
+    $mesa = Mesa::findOrFail($id);
+    $salaPiso=SalaPiso::findOrFail($mesa->cod_sala_piso);
+    $edificioPiso=EdificioPiso::findOrFail($salaPiso->cod_edificio_piso);
+    $piso=Piso::findOrFail($edificioPiso->cod_piso);
+    $edificio=Edificio::findOrFail($edificioPiso->cod_edificio);
+    $cidade=Cidade::findOrFail($edificio->cod_cidade);
+    $sala = $mesa->sala;
+    // $edificio = $mesa->edificio; // Acessando o edifício
+// dd($mesa);
+    return view('mesa.show', [
+        'mesa'=>$mesa,
+        'sala' => $sala,
+        'piso'=>$piso,
+        'edificio' => $edificio, // Passando o edifício para a view
+        'cidade'=>$cidade,
+    ]);
    
-        // Obter a sala correspondente à mesa
-
-dd($mesa);
-        $salaPiso = $mesa->sala; // SalaPiso que contém a sala e o piso
-        $sala = $salaPiso->sala; // A sala que a mesa está
-        $piso = $salaPiso->edificioPiso->piso; // O piso relacionado ao SalaPiso
-        $edificio = $salaPiso->edificioPiso->edificio; // O edifício relacionado ao SalaPiso
-        $cidade = $edificio->cidade; // A cidade relacionada ao Edificio
-      
-        return view('mesa.show', compact('mesa', 'sala', 'piso', 'edificio', 'cidade'));
     }
+    // //     // Obter a sala correspondente à mesa
+
+
+    //     $sala = $mesa->sala; // SalaPiso que contém a sala e o piso
+    //     // $sala = $salaPiso->sala; // A sala que a mesa está
+    //     $piso = $sala->edificioPiso->piso; // O piso relacionado ao SalaPiso
+    //     $edificio = $sala->edificioPiso->edificio; // O edifício relacionado ao SalaPiso
+    //     $cidade = $edificio->cidade; // A cidade relacionada ao Edificio
+      
+    //     return view('mesa.show', compact('mesa', 'sala', 'piso', 'edificio', 'cidade'));
+    // }
 
     /**
      * Show the form for editing the specified resource.

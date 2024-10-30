@@ -26,7 +26,7 @@
                     </tr>
                     <tr>
                         <th>Cidade</th>
-                        <td>{{ $cidade->nome }}</td>
+                        <td>{{$cidade->nome}}</td>
                     </tr>
                     <tr>
                         <th>QR Code</th>

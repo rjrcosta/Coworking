@@ -161,7 +161,7 @@ class DatabaseSeeder extends Seeder
 
         // //*************************criaçao de reservas ficticias*************** */
 
-        //Reserva::factory()->count(20)->create();
+        Reserva::factory()->count(20)->create();
 
     }
 }
