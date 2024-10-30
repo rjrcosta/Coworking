@@ -138,7 +138,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mesa/create', [MesaController::class, 'create'])->name('mesa.create');
     Route::post('/mesa', [MesaController::class, 'store'])->name('mesa.store');
     Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('mesa.destroy');
-    Route::get('/mesas/{mesa}', [MesaController::class, 'show'])->name('mesa.show');
+    Route::get('/mesas/{id}', [MesaController::class, 'show'])->name('mesa.show');
     
     // Rotas para Reservas
     Route::get('/reserva', [ReservaController::class, 'index'])->name('reserva.index');
