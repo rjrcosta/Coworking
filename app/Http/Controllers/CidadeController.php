@@ -49,7 +49,15 @@ class CidadeController extends Controller
             $cidade->save();
 
             // Retorna a resposta JSON ao invés de redirecionar
-            return response()->json(['success' => true, 'message' => 'Cidade criada com sucesso!'], 200);
+            return response()->json([
+                'success' => true, 
+                'message' => 'Cidade criada com sucesso!'
+                
+            ], 200);
+
+          
+
+
         } catch (QueryException $e) {
             // Tratamento de exceção de chave duplicada
             if ($e->getCode() === '23000') {
