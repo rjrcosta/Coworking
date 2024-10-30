@@ -6,6 +6,8 @@ use App\Models\Sala;
 use App\Models\Edificio;
 use App\Models\Cidade;
 use App\Models\Piso;
+use App\Models\EdificioPiso;
+use App\Models\SalaPiso;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -34,6 +36,17 @@ class SalaController extends Controller
         return view('salas.create', compact('edificios'));
     }
 
+    // Rota para buscar os pisos de um determinado edifício (usado na criação de uma sala)
+    public function buscarPisosPorEdificio($edificioId)
+    {
+        // Certifique-se de que o relacionamento entre Edificio e Piso está correto
+        $pisos = Piso::whereHas('edificioPisos', function ($query) use ($edificioId) {
+            $query->where('cod_edificio', $edificioId);
+        })->get();
+
+        return response()->json($pisos);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -48,11 +61,25 @@ class SalaController extends Controller
 
         try {
             // Tentativa de criar a sala
-            Sala::create([
+            $sala = Sala::create([
                 'nome' => $request->nome,
                 'lotacao' => $request->lotacao,
                 'edificio_id' => $request->edificio_id
             ]);
+
+            // Associar a sala ao edificio_piso
+            $edificioPiso = EdificioPiso::where('cod_edificio', $request->edificio_id)
+                ->where('cod_piso', $request->piso_id)
+                ->first();
+
+            if ($edificioPiso) {
+                $salaPiso = new SalaPiso([
+                    'cod_sala' => $sala->id,
+                    'cod_edificio_piso' => $edificioPiso->id,
+                    // Outros campos necessários...
+                ]);
+                $salaPiso->save();
+            }
 
             // Redirecionar com mensagem de sucesso
             return redirect()->route('salas.index')->with('success', 'Sala criada com sucesso!');
@@ -118,8 +145,8 @@ class SalaController extends Controller
      */
     public function destroy(Sala $sala)
     {
-       $sala->delete();
-       return redirect()->route('salas.index')->with('sucesso', 'sala eliminada com sucesso');
+        $sala->delete();
+        return redirect()->route('salas.index')->with('sucesso', 'sala eliminada com sucesso');
     }
 
     public function filtrar(Request $request)
