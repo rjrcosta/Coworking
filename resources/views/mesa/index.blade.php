@@ -35,7 +35,7 @@
                 <td>{{ $mesa->id }}</td>
                 <td>{{ $mesa->status }}</td>
                 <td>{{ $mesa->cod_sala_piso }}</td>
-                <td><img src="{{asset( $mesa->qrcode) }}" alt="qrcode"></td>
+                
                 <td class ="d-flex justify-content-end">
                   <!-- Botão Show-->
                   <a href="{{ route('mesa.show', ['id' => $mesa->id]) }}">
