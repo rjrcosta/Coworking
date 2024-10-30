@@ -44,6 +44,7 @@ class MesaController extends Controller
      * Store a newly created resource in storage.
      */
 
+    
     public function store(Request $request)
     {
         // Validação dos dados de entrada

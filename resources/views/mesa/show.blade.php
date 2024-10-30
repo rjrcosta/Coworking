@@ -12,22 +12,32 @@
                         <th>ID da Mesa</th>
                         <td>{{ $mesa->id }}</td>
                     </tr>
+                    <br>
+                    <tr>
+                        <th>Estado da mesa</th>
+                        <td>{{ $mesa->status }}</td>
+                    </tr>
+                    <br>
                     <tr>
                         <th>Sala</th>
                         <td>{{ $sala->nome }}</td>
                     </tr>
+                    <br>
                     <tr>
                         <th>Piso</th>
                         <td>{{ $piso->andar }}</td>
                     </tr>
+                    <br>
                     <tr>
                         <th>Edifício</th>
                         <td>{{ $edificio->nome }}</td>
                     </tr>
+                    <br>
                     <tr>
                         <th>Cidade</th>
                         <td>{{$cidade->nome}}</td>
                     </tr>
+                    <br>
                     <tr>
                         <th>QR Code</th>
                         <td>

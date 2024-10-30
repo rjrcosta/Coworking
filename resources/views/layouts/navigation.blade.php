@@ -33,6 +33,7 @@
                 @include('layouts.bookingbuttondark')
 
                 @include('layouts.accountdropdown', ['color' => 'text-gray-500'])
+               
 
             </div>
 

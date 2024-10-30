@@ -11,6 +11,7 @@ use App\Models\Mesa;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\QueryException;
 
 class ReservaController extends Controller
 {
@@ -93,10 +94,11 @@ class ReservaController extends Controller
             'periodo' => 'required|in:manha,tarde,ambos',
         ]);
 
-        // Buscando mesas disponíveis no edifício
-        $mesas = Mesa::whereHas('salaPiso.edificioPiso', function ($query) use ($request) {
-            $query->where('cod_edificio', $request->input('edificio_id'));
-        })->get();
+        // Buscando mesas disponíveis no edifício com status 'Livre'
+        $mesas = Mesa::where('status', 'Livre') // Filtra mesas com status 'Livre'
+            ->whereHas('salaPiso.edificioPiso', function ($query) use ($request) {
+                $query->where('cod_edificio', $request->input('edificio_id'));
+            })->get();
 
         // Verificar se há mesas disponíveis
         if ($mesas->isEmpty()) {
@@ -127,6 +129,10 @@ class ReservaController extends Controller
         $reserva->status = 'reserved'; // Status inicial da reserva
         $reserva->save();
 
+        // Atualiza o status da mesa para 'Ocupada'
+        $mesaAleatoria->status = 'Ocupada';
+        $mesaAleatoria->save();
+
         return redirect()->route('reservas.index')->with('success', 'Reserva criada com sucesso! Mesa: ' . $mesaAleatoria->id);
     }
 
@@ -151,8 +157,52 @@ class ReservaController extends Controller
         ]);
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        return view('reservas.edit', [
+            'reservas' => Reserva::findOrFail($id)
+        ]);
+    }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        // Validação para garantir que o nome não esteja em branco
+        $validatedData = $request->validate([
+            'date' => 'required',
+        ]);
 
+        try {
+            // Encontra a reserva e faz a atualização
+            $reserva = Reserva::findOrFail($id);
+            $reserva->update($request->all()); // Atualiza com todos os dados do request, inclusive os validados
+
+            // Redireciona com sucesso
+            return redirect()->route('reservas.index')->with('success', 'Reserva modificada com sucesso!');
+        } catch (QueryException $e) {
+            if ($e->getCode() === '23000') {  // Código 23000 é para violação de integridade
+                return redirect()->route('reservas.index')->with('error', 'Reserva a faltar dados! Não foi possível modificar a reserva.');
+            }
+
+            // Se for outro erro, lança a exceção
+            throw $e;
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Reserva $reserva)
+    {
+        //
+        $reserva->delete();
+        return redirect()->route('reserva.index')->with('sucesso', 'reserva eliminada com sucesso');
+    }
 
     // Função para filtrar reservas pela localidade
     public function filtrar(Request $request)

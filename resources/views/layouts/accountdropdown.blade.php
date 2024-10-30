@@ -919,10 +919,12 @@
                 {{ __('Mensagens') }}
             </x-dropdown-link>
 
-            <x-dropdown-link :href="route('reservas.index')" >
+
+            <x-dropdown-link :href="route('reservas.index')">
+
                 {{ __('Reservas') }}
             </x-dropdown-link>
-
+            
             <!-- Links de Admin -->
             @if (Auth::user()->isAdmin())
             <x-dropdown-link :href="route('cidades.index')">
