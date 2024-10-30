@@ -50,6 +50,7 @@ class MesaController extends Controller
         $mesa->status = 'livre'; // Definindo o status inicial como 'livre'
         $mesa->cod_sala_piso = $validated['cod_sala_piso'];
 
+
         // Salvar a mesa no banco de dados
         $mesa->save(); // Salva a mesa primeiro para que o ID esteja disponível
 
@@ -57,6 +58,7 @@ class MesaController extends Controller
         $sala = \App\Models\Sala::find($validated['cod_sala_piso']);
         $sala->lotacao += 1; // Aumenta a lotação em 1
         $sala->save(); // Salva as alterações na sala
+
 
         // Gera o QR Code e salva o caminho na mesa
         $mesa->qrcode = $this->gerarQrCode($mesa->id); // Gera o QR Code e salva o caminho

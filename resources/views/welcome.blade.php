@@ -38,7 +38,7 @@
                                         href="{{ url('/dashboard') }}"
                                         class=""
                                     >
-                                    <!-- <p class=" text-white">Dashboard</p>  -->
+                                   
                                     @include('layouts.accountdropdown')
                                     </a>
                                 @else
@@ -67,7 +67,6 @@
                     @include('layouts.hero')
                     @include('layouts.spaces')
                     @include('layouts.service')  
-  
                     @include('layouts.contact')
                     
                         

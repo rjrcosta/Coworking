@@ -33,16 +33,16 @@
                 <td>{{$contacto->nome}}</td>
                 <td>{{$contacto->message}}</td>
                 <td class ="d-flex justify-content-end">
-                  <!-- Botão Show-->
-                  <!-- <a href="{{route('contactos.show', $contacto->id)}}">
+                  <!-- Botão Show -->
+                  <a href="">
                     <x-buttons.show-button></x-buttons.delete-button>
-                  </a> -->
+                  </a>
                   <!-- Botão Edit -->
-                  <!-- <a href="{{route('contactos.edit', $contacto->id)}}">
+                  <!-- <a href="">
                     <x-buttons.edit-button></x-buttons.delete-button>
                   </a> -->
                   <!-- Botão  Delete -->
-                  <form action="{{ route('contactos.destroy', $contacto->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta mensagem?');">
+                  <form action="" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta mensagem?');">
                     @csrf
                     @method('DELETE')
                     <x-buttons.delete-button type="Submit"></x-buttons.delete-button>
@@ -57,5 +57,4 @@
       </div>
     </div>
   </div>
-
 </x-index-layout>
