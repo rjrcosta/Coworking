@@ -106,6 +106,10 @@ Route::middleware('auth')->group(function () {
     // Rota para o direct_store do cidadeController
     Route::post('/cidades/direct_store', [CidadeController::class, 'direct_store'])->name('cidades.direct_store');
 
+    // Rota para buscar os pisos de um determinado edifício (usado na criação de uma sala)
+    Route::get('/edificios/{edificioId}/pisos', [SalaController::class, 'buscarPisosPorEdificio']);
+
+
     //Rota para enviar contacto
     Route::post('', [ContactoController::class, 'sendEmail'])->name('send.email');
 

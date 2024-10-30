@@ -33,6 +33,13 @@
                             @endforeach
                         </select>
                         <br>
+                        <!-- Select para Piso -->
+                        <label for="pisoSelect">Selecione o Piso:</label>
+                        <select id="pisoSelect" name="piso_id" class="form-select mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="">Primeiro selecione um edifício</option>
+                            <!-- Opções de piso serão carregadas dinamicamente pelo JavaScript -->
+                        </select>
+                        <br>
                         <div class="flex items-center justify-between">
                             <a href="{{ route('salas.index') }}" class="btn btn-secondary">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Criar sala</button>
@@ -42,4 +49,38 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleciona o elemento do edifício
+            const edificioSelect = document.getElementById('edificio_id');
+            const pisoSelect = document.getElementById('pisoSelect');
+
+            // Adiciona o evento de mudança ao select de edifício
+            edificioSelect.addEventListener('change', function() {
+                const edificioId = this.value;
+
+                // Verifica se o ID do edifício está correto
+                console.log("Edifício selecionado ID:", edificioId);
+
+                // Faz a requisição AJAX para buscar os pisos associados ao edifício selecionado
+                fetch(`/edificios/${edificioId}/pisos`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Pisos recebidos:", data);
+                        pisoSelect.innerHTML = ''; // Limpa as opções de piso
+
+                        // Adiciona cada piso como uma nova opção no select de pisos
+                        data.forEach(piso => {
+                            const option = document.createElement('option');
+                            option.value = piso.id;
+                            option.textContent = piso.andar;
+                            pisoSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Erro ao buscar pisos:', error));
+            });
+        });
+    </script>
+
 </x-app-layout>
