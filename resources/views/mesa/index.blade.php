@@ -38,7 +38,7 @@
                 <td><img src="{{asset( $mesa->qrcode) }}" alt="qrcode"></td>
                 <td class ="d-flex justify-content-end">
                   <!-- Botão Show-->
-                  <a href="">
+                  <a href="{{ route('mesa.show', ['id' => $mesa->id]) }}">
                     <x-buttons.show-button></x-buttons.show-button>
                   </a>
                   <!-- Botão Edit -->

@@ -127,6 +127,8 @@ class MesaController extends Controller
     {
    
         // Obter a sala correspondente à mesa
+
+dd($mesa);
         $salaPiso = $mesa->sala; // SalaPiso que contém a sala e o piso
         $sala = $salaPiso->sala; // A sala que a mesa está
         $piso = $salaPiso->edificioPiso->piso; // O piso relacionado ao SalaPiso
