@@ -16,6 +16,8 @@ use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PisoController;
 
 use App\Models\User;
+use App\Models\Reserva;
+use App\Models\Edificio;
 use Illuminate\Session\Middleware\AuthenticatedSession;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactoController;
@@ -79,10 +81,17 @@ Route::middleware('auth')->group(function () {
         'msgcontactos' => ContactoController::class,
         'salas' => SalaController::class,
         'pisos' => PisoController::class,
+        'reservas' => ReservaController::class,
 
     ]);
 
-    //Rota para fazer delete de mensagens
+    // Rota para buscar edificios por cidade na criação de reserva 
+    Route::get('/reservas/edificios/{cidadeId}', [ReservaController::class, 'buscarEdificiosPorCidade']);
+
+    // Rota para calcular a disponibilidade e mostrar na tela
+    Route::post('/reservas/disponibilidade', [ReservaController::class, 'showAvailability']);
+
+    // Rota para fazer delete de mensagens
     Route::delete('/msgcontactos/{id}', [ContactoController::class, 'destroy'])->name('msgcontactos.destroy');
 
     
@@ -128,18 +137,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mesa', [MesaController::class, 'index'])->name('mesa.index');
     Route::get('/mesa/create', [MesaController::class, 'create'])->name('mesa.create');
     Route::post('/mesa', [MesaController::class, 'store'])->name('mesa.store');
-
-    // // Rotas para Reservas
-    // Route::get('/reserva', [ReservaController::class, 'index'])->name('reserva.index');
-    // Route::get('/reserva/create', [ReservaController::class, 'create'])->name('reserva.create');
-    // Route::post('/reserva', [ReservaController::class, 'store'])->name('reserva.store');
+    Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('mesa.destroy');
+    Route::get('/mesas/{mesa}', [MesaController::class, 'show'])->name('mesa.show');
     
-  
-
+    // Rotas para Reservas
+    Route::get('/reserva', [ReservaController::class, 'index'])->name('reserva.index');
+    Route::get('/reserva/create', [ReservaController::class, 'create'])->name('reserva.create');
+    Route::post('/reserva', [ReservaController::class, 'store'])->name('reserva.store');
+   
     // // Rota de Check-In via QR Code
     Route::post('/checkin/{mesaId}', [MesaController::class, 'checkIn'])->name('mesa.checkin');
 });
-
 
 
 
@@ -155,6 +163,8 @@ Route::get('/pisos_show_associate/{id}', [PisoController::class, 'show_associate
 
 // Rota para associar edifícios a um piso
 Route::post('/pisos/associate', [PisoController::class, 'associate'])->name('pisos.associate');
+
+
 
 
 require __DIR__ . '/auth.php';

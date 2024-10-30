@@ -22,18 +22,25 @@ class ReservaFactory extends Factory
      */
     public function definition(): array
     {
-        $horarioInicio = Carbon::now()->addDays(rand(0, 7))->setHour(rand(9, 16)); // Gera horários aleatórios entre 9h e 16h
-        $horarioFim = (clone $horarioInicio)->addHours(rand(1, 3)); // Duração de 1 a 3 horas
-
-        return [
-            'user_id' => User::factory(), // Gera automaticamente um utilizador
-            'cod_mesa' => Mesa::factory(), // Gera automaticamente uma mesa
-            'horario_inicio' => $horarioInicio,
-            'horario_fim' => $horarioFim,
-            'status' => 'reserved',
-            'date' => $horarioInicio->toDateString(), // Define a data com base no horario_inicio
-            'created_at' => now(),
-            'updated_at' => now(),
-        ];
+         // Busca um usuário existente aleatoriamente
+         $user = User::inRandomOrder()->first();
+        
+         // Busca uma mesa existente aleatoriamente
+         $mesa = Mesa::inRandomOrder()->first();
+ 
+         // Gera horários aleatórios entre 9h e 16h
+         $horarioInicio = Carbon::now()->addDays(rand(0, 7))->setHour(rand(9, 16)); 
+         $horarioFim = (clone $horarioInicio)->addHours(rand(1, 3)); // Duração de 1 a 3 horas
+ 
+         return [
+             'user_id' => $user ? $user->id : null, // Se existir, pega o id do usuário
+             'cod_mesa' => $mesa ? $mesa->id : null, // Se existir, pega o id da mesa
+             'horario_inicio' => $horarioInicio,
+             'horario_fim' => $horarioFim,
+             'status' => 'reserved',
+             'date' => $horarioInicio->toDateString(), // Define a data com base no horario_inicio
+             'created_at' => now(),
+             'updated_at' => now(),
+         ];
     }
 }

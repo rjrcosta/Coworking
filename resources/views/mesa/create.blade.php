@@ -53,9 +53,7 @@
     </style>
 </head>
 
-@extends('layouts.app')
 
-@section('content')
     <h1>Criar Nova Mesa</h1>
     <form action="{{ route('mesa.store') }}" method="POST">
         @csrf
@@ -70,8 +68,6 @@
         
         <button type="submit">Criar Mesa</button>
     </form>
-@endsection
+    
+</html> 
 
-@endextends
-
-</html>
