@@ -130,6 +130,28 @@ class ReservaController extends Controller
         return redirect()->route('reservas.index')->with('success', 'Reserva criada com sucesso! Mesa: ' . $mesaAleatoria->id);
     }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show($id)
+    {
+        // Encontra a reserva pelo ID
+        $reserva = Reserva::findOrFail($id);
+
+        // Encontra a mesa associada à reserva
+        $mesa = Mesa::findOrFail($reserva->cod_mesa);
+
+        // Recupera a sala associada à mesa
+        $sala = $mesa->sala;
+
+        // Retorna a view com os dados da reserva e da sala
+        return view('reservas.show', [
+            'reserva' => $reserva, // Já está armazenada em $reserva
+            'sala' => $sala,
+        ]);
+    }
+
+
 
 
     // Função para filtrar reservas pela localidade

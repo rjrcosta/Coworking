@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date');                  // Data da reserva
             $table->time('horario_inicio');        // Hora de início
             $table->time('horario_fim');           // Hora de fim
-            $table->enum('status', ['reserved', 'checked-in', 'cancelled']); // Status
+            $table->enum('status', ['Reservado', 'Feito checked-in', 'Cancelada']); // Status
             $table->timestamp('check_in_time')->nullable();  // Hora do check-in
             $table->timestamps();
 
