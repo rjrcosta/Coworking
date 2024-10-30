@@ -43,16 +43,30 @@ class Reserva extends Model
             ->join('edificio_piso', 'sala_piso.cod_edificio_piso', '=', 'edificio_piso.id');
     }
 
+    // Relacionamento com a tabela Cidade
     public function cidade()
-{
-    return $this->hasOneThrough(
-        Cidade::class,     // O modelo final que queremos acessar (Cidade)
-        Edificio::class,   // O modelo intermediário (Edificio)
-        'id',              // A chave local na tabela 'edificios'
-        'cod_cidade',      // A chave de ligação no modelo 'cidade'
-        'cod_mesa',        // A chave de ligação da reserva para mesa
-        'cod_sala_piso'    // A chave de ligação da mesa para sala_piso
-    );
-}
+    {
+        return $this->hasOneThrough(
+            Cidade::class,     // O modelo final que queremos acessar (Cidade)
+            Edificio::class,   // O modelo intermediário (Edificio)
+            'id',              // A chave local na tabela 'edificios'
+            'cod_cidade',      // A chave de ligação no modelo 'cidade'
+            'cod_mesa',        // A chave de ligação da reserva para mesa
+            'cod_sala_piso'    // A chave de ligação da mesa para sala_piso
+        );
+    }
 
+    // Função para definir o periodo reservado baseado na hora de inicio e fim
+    public function buscaPeriodoReservado()
+    {
+        if ($this->horario_inicio == '08:00:00' && $this->horario_fim == '12:00:00') {
+            return 'Manhã';
+        } elseif ($this->horario_inicio == '14:00:00' && $this->horario_fim == '18:00:00') {
+            return 'Tarde';
+        } elseif ($this->horario_inicio == '08:00:00' && $this->horario_fim == '18:00:00') {
+            return 'Dia todo';
+        } else {
+            return "Período indefinido - " . $this->horario_inicio . " - " . $this->horario_fim;
+        }
+    }
 }
