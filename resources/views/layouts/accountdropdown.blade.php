@@ -919,10 +919,10 @@
                 {{ __('Profile') }}
             </x-dropdown-link>
 
-            <x-dropdown-link href="route('reserva.index')">
+            <x-dropdown-link :href="route('reservas.index')">
                 {{ __('Reservas') }}
             </x-dropdown-link>
-
+            
             <!-- Links de Admin -->
             @if (Auth::user()->isAdmin())
             <x-dropdown-link :href="route('edificios.index')">
