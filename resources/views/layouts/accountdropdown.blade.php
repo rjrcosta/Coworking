@@ -891,6 +891,9 @@
 </style>
 @endif
 
+@php
+    $color="";
+@endphp
 
 <nav x-data="{ open: false }" class="relative group">
     <x-dropdown align="right"  class="hidden group-hover:block">

@@ -18,6 +18,19 @@ class Mesa extends Model
     ];
     public $timestamps = true;
 
+    public function edificio()
+    {
+        return $this->hasOneThrough(Edificio::class,  
+              // Modelo final que queremos acessar   
+                    EdificioPiso::class,   // Modelo intermediário     
+                       'id', // Chave primária em EdificioPiso 
+                       'id', // Chave primária em Edificio 
+                       'cod_sala_piso', // Chave primária em Mesa 
+                       'cod_edificio' // Chave estrangeira em EdificioPiso que conecta a Edificio
+                        );
+ 
+    }
+
     public function salaPiso()
     {
         return $this->belongsTo(SalaPiso::class, 'cod_sala_piso');
