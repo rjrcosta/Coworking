@@ -85,6 +85,9 @@ Route::middleware('auth')->group(function () {
 
     ]);
 
+      Route::get('/reserva', [ReservaController::class, 'index'])->name('reservas.index');
+
+      
     // Rota para buscar edificios por cidade na criação de reserva 
     Route::get('/reservas/edificios/{cidadeId}', [ReservaController::class, 'buscarEdificiosPorCidade']);
 
@@ -139,9 +142,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mesas/{id}', [MesaController::class, 'show'])->name('mesa.show');
     
     // Rotas para Reservas
-    Route::get('/reserva', [ReservaController::class, 'index'])->name('reserva.index');
-    Route::get('/reserva/create', [ReservaController::class, 'create'])->name('reserva.create');
-    Route::post('/reserva', [ReservaController::class, 'store'])->name('reserva.store');
+    // Route::get('/reserva', [ReservaController::class, 'index'])->name('reservas.index');
+    // Route::get('/reserva/create', [ReservaController::class, 'create'])->name('reserva.create');
+    // Route::post('/reserva', [ReservaController::class, 'store'])->name('reserva.store');
    
     // // Rota de Check-In via QR Code
     Route::post('/checkin/{mesaId}', [MesaController::class, 'checkIn'])->name('mesa.checkin');

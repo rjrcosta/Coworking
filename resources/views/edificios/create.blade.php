@@ -93,7 +93,6 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                             <button id="addCidadeButton" onclick="return false;" class="btn btn-primary">Adicionar</button>
-                                            
                                         </div>
                                     </form>
 
