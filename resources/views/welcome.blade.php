@@ -39,7 +39,7 @@
                                         class=""
                                     >
                                    
-                                    @include('layouts.accountdropdown')
+                                    @include('layouts.accountdropdown', ['color' => 'text-white'])
                                     </a>
                                 @else
                                     <a

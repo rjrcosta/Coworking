@@ -891,10 +891,6 @@
 </style>
 @endif
 
-@php
-    $color="";
-@endphp
-
 <nav x-data="{ open: false }" class="relative group">
     <x-dropdown align="right"  class="hidden group-hover:block">
         <x-slot name="trigger">
@@ -919,22 +915,22 @@
                 {{ __('Profile') }}
             </x-dropdown-link>
 
-            <x-dropdown-link href="route('reserva.index')">
+            <x-dropdown-link :href="route('msgcontactos.index')">
+                {{ __('Mensagens') }}
+            </x-dropdown-link>
+
+            <x-dropdown-link :href="route('reservas.index')" >
                 {{ __('Reservas') }}
             </x-dropdown-link>
 
             <!-- Links de Admin -->
             @if (Auth::user()->isAdmin())
-            <x-dropdown-link :href="route('edificios.index')">
-                {{ __('Edifícios') }}
-            </x-dropdown-link>
-
             <x-dropdown-link :href="route('cidades.index')">
                 {{ __('Cidades') }}
             </x-dropdown-link>
-
-            <x-dropdown-link :href="route('msgcontactos.index')">
-                {{ __('Mensagens') }}
+            
+            <x-dropdown-link :href="route('edificios.index')">
+                {{ __('Edifícios') }}
             </x-dropdown-link>
 
             <x-dropdown-link :href="route('pisos.index')">
@@ -945,20 +941,26 @@
                 {{ __('Salas') }}
             </x-dropdown-link>
 
+            <x-dropdown-link :href="route('mesa.index')">
+                {{ __('Mesas') }}
+            </x-dropdown-link>
+
+            
+            <x-dropdown-link :href="route('msgcontactos.index')">
+                {{ __('Mensagens') }}
+            </x-dropdown-link>
+
             <x-dropdown-link :href="route('users.index')">
                 {{ __('Usuários') }}
             </x-dropdown-link>
 
-            <x-dropdown-link :href="route('mesa.index')">
-                {{ __('Mesas') }}
-            </x-dropdown-link>
             @endif
 
             <!-- Authentication -->
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <!-- Log Out -->
-                <x-dropdown-link :href="route('logout')"
+                <x-dropdown-link :href="route('logout')" 
                     onclick="event.preventDefault();
                                             this.closest('form').submit();">
                     {{ __('Log Out') }}

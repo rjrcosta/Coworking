@@ -1,73 +1,31 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar Mesa</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f8f9fa;
-        }
-        h1 {
-            color: #333;
-        }
-        form {
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="number"],
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .error {
-            color: red;
-            margin-top: -10px;
-            margin-bottom: 10px;
-            font-size: 0.9em;
-        }
-    </style>
-</head>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
+            {{ __('Adicionar nova Mesa') }}
+        </h2>
+    </x-slot>
 
-
-    <h1>Criar Nova Mesa</h1>
-    <form action="{{ route('mesa.store') }}" method="POST">
-        @csrf
-        <div>
-            <label for="cod_sala_piso">Sala Piso:</label>
-            <select name="cod_sala_piso" id="cod_sala_piso" required>
-                @foreach($salas as $sala)
-                    <option value="{{ $sala->id }}">{{ $sala->nome }}</option>
-                @endforeach
-            </select>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <form action="{{ route('mesa.store') }}" method="POST" onsubmit="console.log('Formulário submetido')">
+                        @csrf
+                        
+                        <select name="edificio_id" id="edificio_id" required class="form-select mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" aria-label="Default select example">
+                            <option value="">Selecione uma Sala</option>
+                            @foreach($salas as $sala)
+                            <option value="{{ $sala->id }}">{{ $sala->nome }}</option>
+                            @endforeach
+                        </select>
+                        <br>
+                        <div class="flex items-center justify-between">
+                            <a href="{{ route('mesa.index') }}" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">Criar mesa</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        
-        <button type="submit">Criar Mesa</button>
-    </form>
-    
-</html> 
-
+    </div>
+</x-app-layout>
