@@ -23,8 +23,7 @@ class IndexLayout extends Component
             'rotapesquisa' => $rotapesquisa,
             'labels' => $labels,
             'foreach ' => $foreach,
-            'paginacao' => $paginacao,
-         
+            'paginacao' => $paginacao,   
         ]);
     }
 }

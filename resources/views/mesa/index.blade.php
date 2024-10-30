@@ -1,31 +1,33 @@
   <x-index-layout>
-      <x-slot name="header" class="">
-          <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
-              {{ __('Listagem de Mesas') }}
-          </h2>
-          <a href="{{ route('mesa.create') }}">
-              <x-buttons.create-button class="">{{ __('Criar Nova') }}</x-buttons.create-button>
-          </a>
-      </x-slot>
+    <x-slot name="header" class="">
+      <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
+        {{ __('Listagem de Mesas') }}
+      </h2>
+      <a href="{{ route('mesa.create') }}">
+        <x-buttons.create-button class="">{{ __('Criar Nova') }}</x-buttons.create-button>
+      </a>
+    </x-slot>
 
-      <div class="py-12">
-          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-              <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                  <div class="p-6 text-black-900 dark:text-black-100">
-                      <nav class="navbar navbar-light">
+    <div class="py-12">
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+          <div class="p-6 text-black-900 dark:text-black-100">
+            <nav class="navbar navbar-light">
 
-                          <!-- Paginação -->
-                          <x-slot name="paginacao">
-                              {{ $mesas->links() }}
-                          </x-slot>
+              <!-- Paginação -->
+              <x-slot name="paginacao">
+                {{ $mesas->links() }}
+              </x-slot>
 
-                          <!-- Mostrar etiquetas para tabela - Variável "labels" -->
-                          <x-slot name="labels">
-                              <th scope="col">Id</th>
-                              <th scope="col">Status</th>
-                              <th scope="col">Sala</th>
-                              <th scope="col">QRCode</th>
-                              <th scope="col" colspan="3" class="text-end">Opções</th>
+              <!-- Mostrar etiquetas para tabela - Variável "labels" -->
+              <x-slot name="labels">
+                <th scope="col">Id</th>
+                <th scope="col">Status</th>
+                <th scope="col">Sala</th>
+                <th scope="col">QRCode</th>
+                <th scope="col" colspan="3" class="text-end">Opções</th>
+              </x-slot>
+
 
 
             <!-- Loop para  mostrar os dados  nas linhas da tabela - Variável "foreach"  -->
@@ -57,9 +59,6 @@
             </x-slot>
             
           </nav>
+
         </div>
-
-      </div>
-
-      
   </x-index-layout>
