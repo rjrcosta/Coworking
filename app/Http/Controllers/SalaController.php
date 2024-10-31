@@ -9,6 +9,7 @@ use App\Models\Piso;
 use App\Models\EdificioPiso;
 use App\Models\SalaPiso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 
 
@@ -32,8 +33,10 @@ class SalaController extends Controller
      */
     public function create()
     {
-        $edificios = Edificio::all(); // Pega todos os edifícios
-        return view('salas.create', compact('edificios'));
+        // toda a lista de objetos cidades
+        $cidades = DB::table('cidades')->orderBy('nome')->get();
+
+        return view('salas.create', compact('cidades'));
     }
 
     // Rota para buscar os pisos de um determinado edifício (usado na criação de uma sala)
@@ -57,14 +60,22 @@ class SalaController extends Controller
             'nome' => 'required|string|max:255',
             'lotacao' => 'required|integer',
             'edificio_id' => 'required|exists:edificios,id',
+            'cidade_id' => 'required|exists:cidades,id',
         ]);
 
         try {
+
+            // Tentativa de update o edifício
+            // Atualizar o edifício com a cidade selecionada
+            $edificio = Edificio::findOrFail($request->edificio_id);
+            $edificio->cod_cidade = $request->cidade_id;
+            $edificio->save();
+
             // Tentativa de criar a sala
             $sala = Sala::create([
                 'nome' => $request->nome,
                 'lotacao' => $request->lotacao,
-                'edificio_id' => $request->edificio_id
+                'edificio_id' => $edificio->id
             ]);
 
             // Associar a sala ao edificio_piso
@@ -80,6 +91,8 @@ class SalaController extends Controller
                 ]);
                 $salaPiso->save();
             }
+
+
 
             // Redirecionar com mensagem de sucesso
             return redirect()->route('salas.index')->with('success', 'Sala criada com sucesso!');

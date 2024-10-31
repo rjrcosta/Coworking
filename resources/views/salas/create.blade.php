@@ -25,13 +25,21 @@
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
-                        <label for="edificio_id">Edifício:</label>
-                        <select name="edificio_id" id="edificio_id" required class="form-select mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" aria-label="Default select example">
-                            <option value="">Selecione um edifício</option>
-                            @foreach($edificios as $edificio)
-                            <option value="{{ $edificio->id }}">{{ $edificio->nome }}</option>
-                            @endforeach
-                        </select>
+                        <div class="mb-3">
+                            <label for="cidade" class="block text-sm font-medium text-gray-700">Cidade</label>
+                            <select id="cidade" name="cidade_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                                <option value="">Selecionar Cidade</option>
+                                @foreach ($cidades as $cidade)
+                                <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edificio" class="block text-sm font-medium text-gray-700">Edifício</label>
+                            <select id="edificio" name="edificio_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                                <option value="">Selecionar Edifício</option>
+                            </select>
+                        </div>
                         <br>
                         <!-- Select para Piso -->
                         <label for="pisoSelect">Selecione o Piso:</label>
@@ -50,10 +58,33 @@
         </div>
     </div>
 
+     <!-- Script para obter os edifícios da cidade selecionada -->
+     <script>
+        document.getElementById('cidade').addEventListener('change', function() {
+            const cidadeId = this.value;
+
+            // Fazer uma requisição AJAX para buscar os edifícios da cidade selecionada
+            fetch(`/reservas/edificios/${cidadeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const edificioSelect = document.getElementById('edificio');
+                    edificioSelect.innerHTML = '<option value="">Selecionar Edifício</option>'; // Limpar opções
+
+                    data.forEach(edificio => {
+                        const option = document.createElement('option');
+                        option.value = edificio.id;
+                        option.textContent = edificio.nome;
+                        edificioSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Erro ao buscar edifícios:', error));
+        });
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Seleciona o elemento do edifício
-            const edificioSelect = document.getElementById('edificio_id');
+            const edificioSelect = document.getElementById('edificio');
             const pisoSelect = document.getElementById('pisoSelect');
 
             // Adiciona o evento de mudança ao select de edifício
