@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
-            {{ __('Adicionar nova Mesa') }}
+            {{ __('Adicionar nova mesa') }}
         </h2>
     </x-slot>
 
@@ -11,21 +11,112 @@
                 <div class="p-6 text-gray-900">
                     <form action="{{ route('mesa.store') }}" method="POST" onsubmit="console.log('Formulário submetido')">
                         @csrf
-                        
-                        <select name="edificio_id" id="edificio_id" required class="form-select mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" aria-label="Default select example">
-                            <option value="">Selecione uma Sala</option>
-                            @foreach($salas as $sala)
-                            <option value="{{ $sala->id }}">{{ $sala->nome }}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                        <div class="flex items-center justify-between">
-                            <a href="{{ route('mesa.index') }}" class="btn btn-secondary">Cancelar</a>
-                            <button type="submit" class="btn btn-primary">Criar mesa</button>
+                        <div class="mb-3">
+                            <label for="cidade" class="form-label">Cidade</label>
+                            <select id="cidade" name="cidade_id" class="form-select" required>
+                                <option value="">Selecionar Cidade</option>
+                                @foreach ($cidades as $cidade)
+                                <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
+                                @endforeach
+                            </select>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="edificio" class="form-label">Edifício</label>
+                            <select id="edificio" name="edificio_id" class="form-select" required>
+                                <option value="">Selecionar Edifício</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="piso" class="form-label">Piso</label>
+                            <select id="piso" name="piso_id" class="form-select" required>
+                                <option value="">Selecionar Piso</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="sala" class="form-label">Sala</label>
+                            <select id="sala" name="sala_id" class="form-select" required>
+                                <option value="">Selecionar Sala</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Criar mesa</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Script para atualizar edifícios, pisos e salas -->
+    <script>
+        // Adiciona token CSRF para requisições AJAX
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        document.getElementById('cidade').addEventListener('change', function() {
+            const cidadeId = this.value;
+            fetch(`/mesa/edificios/${cidadeId}`, {
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
+            .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar edifícios'))
+            .then(data => {
+                const edificioSelect = document.getElementById('edificio');
+                edificioSelect.innerHTML = '<option value="">Selecionar Edifício</option>';
+                data.forEach(edificio => {
+                    const option = document.createElement('option');
+                    option.value = edificio.id;
+                    option.textContent = edificio.nome;
+                    edificioSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error(error));
+        });
+
+        document.getElementById('edificio').addEventListener('change', function() {
+            const edificioId = this.value;
+            fetch(`/mesa/pisos/${edificioId}`, {
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
+            .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar pisos'))
+            .then(data => {
+                const pisoSelect = document.getElementById('piso');
+                pisoSelect.innerHTML = '<option value="">Selecionar Piso</option>';
+                data.forEach(piso => {
+                    const option = document.createElement('option');
+                    option.value = piso.id;
+                    option.textContent = piso.andar;
+                    pisoSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error(error));
+        });
+
+        document.getElementById('piso').addEventListener('change', function() {
+            const pisoId = this.value;
+            fetch(`/mesa/salas/${pisoId}`, {
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
+            .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar salas'))
+            .then(data => {
+                const salaSelect = document.getElementById('sala');
+                salaSelect.innerHTML = '<option value="">Selecionar Sala</option>';
+                data.forEach(sala => {
+                    const option = document.createElement('option');
+                    option.value = sala.id;
+                    option.textContent = sala.nome;
+                    salaSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error(error));
+        });
+    </script>
 </x-app-layout>
+
+

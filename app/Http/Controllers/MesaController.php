@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Sala;
 use App\Models\SalaPiso;
@@ -33,50 +34,104 @@ class MesaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-        $salas = \App\Models\Sala::all(); // Obter todas as salas
-        return view('mesa.create', compact('salas'));
+    // public function create()
+    // {
+    //     //
+    //     $salas = Sala::all(); // Obter todas as salas
+
+    //     return view('mesa.create', compact('salas'));
+    // }
+    public function  create(){
+         // toda a lista de objetos cidades
+         $cidades = DB::table('cidades')->orderBy('nome')->get();
+         return view('mesa.create', compact('cidades'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
+//     public function store(Request $request)
+// {
+//     // Validação dos dados de entrada
+//     // $request->validate([
+//     //     'cidade_id' => 'required|exists:cidades,id',
+//     //     'edificio_id' => 'required|exists:edificios,id',
+//     //     'piso_id' => 'required|exists:pisos,id',
+//     //     'sala_id' => 'required|exists:salas,id',
+//     // ]);
+//     // Criação da nova mesa
+//     $mesa = new Mesa();
+//     $mesa->status = 'livre'; // Status inicial
+//     $mesa->cidade_id = $request->cidade_id; // Supondo que você tenha esse campo
+//     $mesa->edificio_id = $request->edificio_id; // Referente ao edifício selecionado
+//     $mesa->piso_id = $request->piso_id; // Referente ao piso selecionado
+//     $mesa->sala_id = $request->sala_id; // Referente à sala selecionada
 
+//     // Salvar a mesa no banco de dados
+//     $mesa->save();
+
+//     // Atualizar a lotação da sala correspondente
+//     $sala = \App\Models\Sala::find($request->sala_id);
+//     $sala->lotacao += 1; // Aumenta a lotação em 1
+//     $sala->save(); // Salvar alterações na sala
+
+//     // Gera o QR Code e salva o caminho na mesa
+//     $mesa->qrcode = $this->gerarQrCode($mesa->id); // Gera o QR Code e salva o caminho
+//     $mesa->save(); // Salvar a mesa com o QR Code
+
+//     return redirect()->route('mesas.index')->with('success', 'Mesa criada com sucesso.');
+// }
+
+
+
+
+public function store(Request $request)
+{
+    // // Validação dos dados de entrada
+    // $validated = $request->validate([
+    //     'cidade_id' => 'required|exists:cidades,id',
+    //     'edificio_id' => 'required|exists:edificios,id',
+    //     'sala_id' => 'required|exists:salas,id',
+    // ]);
     
-    public function store(Request $request)
-    {
-        // Validação dos dados de entrada
-        $validated = $request->validate([
-            'cod_sala_piso' => 'required|exists:salas,id',
-        ]);
 
-        // Criação da nova mesa
-        $mesa = new Mesa();
-        $mesa->status = 'livre'; // Definindo o status inicial como 'livre'
-        $mesa->cod_sala_piso = $validated['cod_sala_piso'];
+    $salaId = $request->sala_id;
+    $edificioId = $request->edificio_id;
+    $cidadeId = $request->cidade_id;
 
+    // Criação da nova mesa
+    $salaPiso = SalaPiso::where('cod_sala', $salaId)
+        ->whereHas('edificioPiso', function ($query) use ($edificioId) {
+            $query->where('cod_edificio', $edificioId);
+        })
+        ->whereHas('edificioPiso.edificio', function ($query) use ($cidadeId) {
+            $query->where('cod_cidade', $cidadeId);
+        })
+        ->first(); // Use first() para obter o primeiro resultado
 
-        // Salvar a mesa no banco de dados
-        $mesa->save(); // Salva a mesa primeiro para que o ID esteja disponível
+ 
 
-        // Atualizar a lotação da sala correspondente
-        $sala = \App\Models\Sala::find($validated['cod_sala_piso']);
-        $sala->lotacao += 1; // Aumenta a lotação em 1
-        $sala->save(); // Salva as alterações na sala
+    $mesa = new Mesa();
+    $mesa->status = 'livre'; // Status inicial
+    $mesa->cod_sala_piso = $salaPiso->id; // Acesse o id da salaPiso corretamente
+    
+    // Salvar a mesa no banco de dados
+    $mesa->save();
 
-
-        // Gera o QR Code e salva o caminho na mesa
-        $mesa->qrcode = $this->gerarQrCode($mesa->id); // Gera o QR Code e salva o caminho
-        $mesa->save(); // Salva a mesa com o QR Code
-
-
-
-
-        return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso.');
+    // Atualizar a lotação da sala correspondente
+    $salaModel = \App\Models\Sala::find($salaId); // Use o valor de $salaId em vez de 'sala_id'
+    if ($salaModel) {
+        $salaModel->lotacao += 1; // Aumenta a lotação em 1
+        $salaModel->save(); // Salva as alterações na sala
     }
 
+    // Gera o QR Code e salva o caminho na mesa
+   
+    $mesa->qrcode = $this->gerarQrCode($mesa->id);
+    $mesa->save(); // Salva a mesa com o QR Code
+
+    return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso.');
+}
 
     // Método para gerar QR Code
     private function gerarQrCode($mesaId)
@@ -202,4 +257,38 @@ class MesaController extends Controller
 
         return redirect()->route('mesa.index')->with('success', 'Mesa removida com sucesso.');
     }
+  
+
+     // Buscar edifícios de uma cidade específica
+    public function getEdificios($cidade_id)
+    {
+        // Obtemos os edifícios com base na cidade
+        $edificios = Edificio::whereHas('cidade', function ($query) use ($cidade_id) {
+            $query->where('id', $cidade_id);
+        })->get();
+
+        return response()->json($edificios);
+    }
+
+    // Buscar pisos de um edifício específico
+    public function getPisos($edificio_id)
+    {
+        // Obtemos os pisos de acordo com o edifício
+        $pisos = EdificioPiso::where('cod_edificio', $edificio_id)->get();
+
+        return response()->json($pisos);
+    }
+
+    // Buscar salas de um piso específico
+    public function getSalas($piso_id)
+    {
+        // Obtemos as salas associadas ao piso
+        $salas = SalaPiso::where('id', $piso_id)
+            ->with('sala')
+            ->get()
+            ->pluck('sala');  // Extrai apenas as salas relacionadas
+
+        return response()->json($salas);
+    }
+
 }
