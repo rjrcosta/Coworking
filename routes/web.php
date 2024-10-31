@@ -29,10 +29,10 @@ use Database\Factories\ContactoFactory;
 //Rota para enviar email do form contacto
 Route::get('/emailsent', [ContactoController::class, 'sendmail'])->name('send.mail');
 
-Route::match(array('GET','POST'),'/', function () {
+Route::match(array('GET', 'POST'), '/', function () {
     return view('welcome');
 });
-Route::match(array('GET','POST'),'/welcome', function () {
+Route::match(array('GET', 'POST'), '/welcome', function () {
     return view('welcome');
 })->name('welcome');
 
@@ -73,48 +73,50 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-    //**** Rota geral para os edifícios, cidades, salas ****
+//**** Rota geral para os edifícios, cidades, salas ****
 
-    Route::resources([
-        'edificios' => EdificioController::class,
-        'cidades' => CidadeController::class,
-        'msgcontactos' => ContactoController::class,
-        'salas' => SalaController::class,
-        'pisos' => PisoController::class,
-        'reservas' => ReservaController::class,
+Route::resources([
+    'edificios' => EdificioController::class,
+    'cidades' => CidadeController::class,
+    'msgcontactos' => ContactoController::class,
+    'salas' => SalaController::class,
+    'pisos' => PisoController::class,
+    'reservas' => ReservaController::class,
 
-    ]);
-
-      Route::get('/reserva', [ReservaController::class, 'index'])->name('reservas.index');
-
-      
-    // Rota para buscar edificios por cidade na criação de reserva 
-    Route::get('/reservas/edificios/{cidadeId}', [ReservaController::class, 'buscarEdificiosPorCidade']);
-
-    // Rota para calcular a disponibilidade e mostrar na tela
-    Route::post('/reservas/disponibilidade', [ReservaController::class, 'showAvailability']);
-
-    // Rota para fazer delete de mensagens
-    Route::delete('/msgcontactos/{id}', [ContactoController::class, 'destroy'])->name('msgcontactos.destroy');
-
-    // Rota para filtrar edifícios pela cidade
-    Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
-   
-    // Rota para a modal de adição de cidades
-    Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store');
-
-    // Rota para filtrar cidades pelo nome
-    Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
-
-    // Rota para o direct_store do cidadeController
-    Route::post('/cidades/direct_store', [CidadeController::class, 'direct_store'])->name('cidades.direct_store');
-
-    // Rota para buscar os pisos de um determinado edifício (usado na criação de uma sala)
-    Route::get('/edificios/{edificioId}/pisos', [SalaController::class, 'buscarPisosPorEdificio']);
+]);
 
 
-    //Rota para enviar contacto
-    Route::post('', [ContactoController::class, 'sendEmail'])->name('send.email');
+// Rota para buscar edificios por cidade na criação de reserva 
+Route::get('/reservas/edificios/{cidadeId}', [ReservaController::class, 'buscarEdificiosPorCidade']);
+
+// Rota para calcular a disponibilidade e mostrar na tela
+Route::post('/reservas/disponibilidade', [ReservaController::class, 'showAvailability']);
+
+// Rota para fazer delete de mensagens
+Route::delete('/msgcontactos/{id}', [ContactoController::class, 'destroy'])->name('msgcontactos.destroy');
+
+// Rota para filtrar edifícios pela cidade
+Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
+
+// Rota para a modal de adição de cidades
+Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store');
+
+// Rota para filtrar cidades pelo nome
+Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
+
+// Rota para o direct_store do cidadeController
+Route::post('/cidades/direct_store', [CidadeController::class, 'direct_store'])->name('cidades.direct_store');
+
+// Rota para buscar os pisos de um determinado edifício (usado na criação de uma sala)
+Route::get('/edificios/{edificioId}/pisos', [SalaController::class, 'buscarPisosPorEdificio']);
+
+// ********** Rotas para a reserva por modal **********~
+// Rota para buscar cidades (retorno json para a modal)
+Route::get('/reservas/cidades', [ReservaController::class, 'buscarCidades']);
+
+
+//Rota para enviar contacto
+Route::post('', [ContactoController::class, 'sendEmail'])->name('send.email');
 
 
 // Rota para filtrar edifícios pela cidade
@@ -144,12 +146,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/mesa', [MesaController::class, 'store'])->name('mesa.store');
     Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('mesa.destroy');
     Route::get('/mesas/{id}', [MesaController::class, 'show'])->name('mesa.show');
-    
+
     // Rotas para Reservas
     // Route::get('/reserva', [ReservaController::class, 'index'])->name('reservas.index');
     // Route::get('/reserva/create', [ReservaController::class, 'create'])->name('reserva.create');
     // Route::post('/reserva', [ReservaController::class, 'store'])->name('reserva.store');
-   
+
     // // Rota de Check-In via QR Code
     Route::post('/checkin/{mesaId}', [MesaController::class, 'checkIn'])->name('mesa.checkin');
 });
