@@ -86,7 +86,6 @@ Route::resources([
 
 ]);
 
-Route::get('/reserva', [ReservaController::class, 'index'])->name('reservas.index');
 
 
 // Rota para buscar edificios por cidade na criação de reserva 
@@ -113,10 +112,12 @@ Route::post('/cidades/direct_store', [CidadeController::class, 'direct_store'])-
 // Rota para buscar os pisos de um determinado edifício (usado na criação de uma sala)
 Route::get('/edificios/{edificioId}/pisos', [SalaController::class, 'buscarPisosPorEdificio']);
 
+// ********** Rotas para a reserva por modal **********~
+// Rota para buscar cidades (retorno json para a modal)
+Route::get('/reservas/cidades', [ReservaController::class, 'buscarCidades']);
 
 //Rota para enviar contacto
 Route::post('', [ContactoController::class, 'sendEmail'])->name('send.email');
-
 
 // Rota para filtrar edifícios pela cidade
 Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
@@ -126,11 +127,6 @@ Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store
 
 // Rota para filtrar cidades pelo nome
 Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
-
-
-
-
-
 
 
 
