@@ -20,6 +20,7 @@ use App\Models\Reserva;
 use App\Models\Edificio;
 use Illuminate\Session\Middleware\AuthenticatedSession;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\SalaController;
 use User as GlobalUser;
@@ -29,11 +30,26 @@ use Database\Factories\ContactoFactory;
 //Rota para enviar email do form contacto
 Route::get('/emailsent', [ContactoController::class, 'sendmail'])->name('send.mail');
 
+
+
+Route::get('/', function(){
+    $edificios = DB::table('edificios')->get();
+    return view('welcome',[
+        'edificios' =>  $edificios,
+    ]);
+});
+
 Route::match(array('GET','POST'),'/', function () {
-    return view('welcome');
+    $edificios = DB::table('edificios')->get();
+    return view('welcome',[
+        'edificios' =>  $edificios,
+    ]);
 });
 Route::match(array('GET','POST'),'/welcome', function () {
-    return view('welcome');
+    $edificios = DB::table('edificios')->get();
+    return view('welcome',[
+        'edificios' =>  $edificios,
+    ]);
 })->name('welcome');
 
 Route::get('/dashboard_admin', function () {
@@ -50,15 +66,11 @@ Route::get('/profile/users', [UserController::class, 'showProfile'])->name('user
 Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('users.editProfile')->middleware('auth');
 Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('users.updateProfile')->middleware('auth');
 
-
-
-
 // rotas para os users /clientes 
 
 Route::resources([
 
     'users' => UserController::class,
-
 
 ]);
 

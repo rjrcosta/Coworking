@@ -165,6 +165,7 @@
                     alert('Erro ao associar os edifícios.');
                 });
         });
+        
     </script>
 </body>
 

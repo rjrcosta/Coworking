@@ -1,20 +1,15 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<nav x-data="{ open: false }" class="">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-    <title>Laravel</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+    <!-- SCRIPTS BOOTSTRAP -->
     <!-- Styles / Scripts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Scripts -->
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+
 
 
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -909,61 +904,75 @@
         }
     </style>
     @endif
-</head>
 
-<body class="font-sans antialiased dark:bg-black dark:text-white/50 d-flex justify-content-center align-content-center">
 
-    <header class="headerWelcome shadow-sm position-absolute top-0 start-0 h-20">
 
-        <div>
-            <img src="Imagens/logo-branco.png" alt="Logo" class="logoWelcome">
+
+    <div class="welcomeSpaces mt-5 text-center col-12">
+        <div class="spacesText col-12">
+            <h2 class="m-2 p-2">Where to find us </h2>
         </div>
 
-        @if (Route::has('login'))
-        <nav class="text-dark p-5 flex flex-1 justify-end">
-            @auth
-            <a
-                href="{{ url('/dashboard') }}"
-                class="">
+        <div id="map" style="height:500px" class="w-100"></div>
 
-                @include('layouts.accountdropdown', ['color' => 'text-white'])
-            </a>
-            @else
-            <a
-                href="{{ route('login') }}"
-                class="fs-5 p-5 text-black-900">
-                <p class=" text-white">Log in</p>
-            </a>
+        <div class="d-none">
+        <!-- campos  de coordenadas -->
+        @foreach($edificios as  $edificio)
+            <input type="text"  id="nome" value="{{$edificio->nome}}">
+            <input type="text"  id="lat" value="{{$edificio->lat}}">
+            <input type="text"  id="lng" value="{{$edificio->lng}}">
+         @endforeach
+        </div>
+      
 
-            @if (Route::has('register'))
-            <a
-                href="{{ route('register') }}">
-                <p class="fs-5 p-5 text-white"> Register</p>
-            </a>
-            @endif
-            @endauth
-        </nav>
-        @endif
-    </header>
+        <div class="d-none">
+            <x-text-input id="lat" name="lat" class="block mt-1 w-full" value="" />
+            <x-text-input id="lng" name="lng" class="block mt-1 w-full" value="" />
+            <x-text-input id="nome" name="nome" class="block mt-1 w-full" value="" />
+        </div>
 
-    <main class="mainWelcome">
+    </div>
 
-        @include('layouts.hero')
-        @include('layouts.spaces')
-        @include('layouts.service')
-        @include('layouts.find-us')
-        @include('layouts.contact')
+    <script>
+        // var longitude = document.getElementById('lat').value;
+        // var latitude = document.getElementById('lng').value;
+        // var nome = document.getElementById('nome').value;
+
+        //varáveis latitude e longitude
+        const edificios = [{
+                latitude: 38.7169,
+                longitude: -9.1399,
+                nome: "Edifício 1"
+            },
+            {
+                latitude: 38.7269,
+                longitude: -9.1299,
+                nome: "Edifício 2"
+            },
+            {
+                latitude: 38.7369,
+                longitude: -9.1199,
+                nome: "Edifício 3"
+            }
+        ];
 
 
-    </main>
 
-    <footer class="footerWelcome py-16 text-center text-sm ">
-        <p class="text-black">Powered by RCosta | JSousa | TFrança</p>
+        // Inicializa o mapa na div com id "map"
+        var map = L.map('map').setView([38.7169, -9.1399], 13); // Coordenadas de Lisboa e zoom inicial
 
-    </footer>
+        // Adiciona o tile layer do OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
 
 
-
-</body>
-
-</html>
+        // Adiciona marcadores para cada edifício
+        edificios.forEach(function(edificio) {
+            L.marker([edificio.latitude, edificio.longitude]).addTo(map)
+                .bindPopup(edificio.nome)
+                .openPopup();
+        });
+    </script>
+</nav>
