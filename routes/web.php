@@ -21,6 +21,7 @@ use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\SalaController;
 use User as GlobalUser;
 use App\Http\Controllers\ReservaController;
+use App\Models\Mesa;
 use Database\Factories\ContactoFactory;
 
 //Rota para enviar email do form contacto
@@ -83,6 +84,7 @@ Route::resources([
 ]);
 
 
+
 // Rota para buscar edificios por cidade na criação de reserva 
 Route::get('/reservas/edificios/{cidadeId}', [ReservaController::class, 'buscarEdificiosPorCidade']);
 
@@ -107,9 +109,13 @@ Route::post('/cidades/direct_store', [CidadeController::class, 'direct_store'])-
 // Rota para buscar os pisos de um determinado edifício (usado na criação de uma sala)
 Route::get('/edificios/{edificioId}/pisos', [SalaController::class, 'buscarPisosPorEdificio']);
 
+// ********** Rotas para a reserva por modal **********~
+// Rota para buscar cidades (retorno json para a modal)
+Route::get('/reservas/cidades', [ReservaController::class, 'buscarCidades']);
+
+
 //Rota para enviar contacto
 Route::post('', [ContactoController::class, 'sendEmail'])->name('send.email');
-
 
 // Rota para filtrar edifícios pela cidade
 Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
@@ -121,10 +127,22 @@ Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store
 Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
 
 
+
+
+
+
+
+
+//  Route::get('/reserva-failed', [ReservaController::class, 'failed'])->name('reserva.failed');
+
 // Rotas protegidas por autenticação
 Route::middleware(['auth'])->group(function () {
 
     // // Rotas para Mesas
+
+
+
+
     Route::get('/mesa', [MesaController::class, 'index'])->name('mesa.index');
     Route::get('/mesa/create', [MesaController::class, 'create'])->name('mesa.create');
     Route::post('/mesa', [MesaController::class, 'store'])->name('mesa.store');
@@ -134,6 +152,7 @@ Route::middleware(['auth'])->group(function () {
     // // Rota de Check-In via QR Code
     Route::post('/checkin/{mesaId}', [MesaController::class, 'checkIn'])->name('mesa.checkin');
 });
+
 
 
 // Rota para filtrar pisos pelo andar

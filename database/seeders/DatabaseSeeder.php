@@ -38,13 +38,13 @@ class DatabaseSeeder extends Seeder
         // 7) Reservas
 
         // ****************************** Lógica para criar usuarios e cidades ************************
-        // User::factory(5)->create();
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'password'=>'teste12345',
-        //     'email' => 'test@example.com',
-        //     'role'=>'admin'
-        // ]);
+        User::factory(5)->create();
+        User::factory()->create([
+            'name' => 'Test User',
+            'password'=>'teste12345',
+            'email' => 'test@example.com',
+            'role'=>'admin'
+        ]);
 
 
         // Cidade::factory(5)->create();
@@ -161,7 +161,7 @@ class DatabaseSeeder extends Seeder
 
         // //*************************criaçao de reservas ficticias*************** */
 
-        Reserva::factory()->count(20)->create();
+        // Reserva::factory()->count(20)->create();
 
     }
 }
