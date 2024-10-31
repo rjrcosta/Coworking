@@ -16,15 +16,16 @@ class MailContacto extends Mailable
 
     public $nome;
     public $email;
-    public $message;
+    public $mensagem;
     /**
      * Create a new message instance.
      */
-    public function __construct($nome, $email, $message)
+    public function __construct($nome, $email, $mensagem)
     {
-        $this -> $nome = $nome;
-        $this -> $email = $email;
-        $this -> $message = $message;
+       
+        $this -> nome = $nome;
+        $this -> email = $email;
+        $this -> mensagem = $mensagem;
     }
 
     /**
@@ -42,6 +43,7 @@ class MailContacto extends Mailable
      */
     public function content(): Content
     {
+        
         return new Content(
             view: 'emailcontacto',
         );

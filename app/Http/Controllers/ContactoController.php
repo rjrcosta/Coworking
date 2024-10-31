@@ -15,16 +15,16 @@ class ContactoController extends Controller
     // Controler para Enviar Emails no formulario contacto
     public function sendmail(Request $request){
         //  dd($request);
-        // if ($_SERVER["REQUEST_METHOD"] == "GET") {
-        //     $nome = $_GET['nomeContacto']; 
-        //     $email = $_GET['emailContacto'];  
-        //     $message = $_GET['mensagemContacto'];    
-        // }
-        $nome = $request->query('nomeContacto');
-        $email = $request->query('emailContacto');
-        $message = $request->query('mensagemContacto');
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $nome = $_GET['nomeContacto']; 
+            $email = $_GET['emailContacto'];  
+            $mensagem = $_GET['mensagemContacto'];    
+        }
+        
 
-        Mail::to($email)->send(new MailContacto($nome, $email, $message));
+        // Create a new instance of the Mailable
+        Mail::to($email)->send(new MailContacto($nome, $email, $mensagem));
+
 
         return  view('welcome')->with('refresh', true);
     }
@@ -35,7 +35,6 @@ class ContactoController extends Controller
      */
     public function index()
     {
-        
     return view('msgcontactos.index',[
         'contactos'=>DB::table('contactos') ->orderBy('id', 'desc')->paginate('10')
     ]);
@@ -64,7 +63,6 @@ class ContactoController extends Controller
      */
     public function show($id)
     {
-      
         return view('msgcontactos.show', [
             'contacto' => contacto::findOrFail($id)
         ]);

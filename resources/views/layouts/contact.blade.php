@@ -41,7 +41,7 @@
             </div>
 
             <div class="col-md-12 col-sm-12">
-              <textarea class="campo" id="exampleFormControlTextarea1" rows="8"
+              <textarea type="text" class="campo" id="exampleFormControlTextarea1" rows="8"
                 placeholder="Message here…" name="mensagemContacto"></textarea>
             </div>
 
