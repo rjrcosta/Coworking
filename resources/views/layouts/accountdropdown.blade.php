@@ -917,7 +917,7 @@
 
             <x-dropdown-link :href="route('reservas.index')">
                 {{ __('Reservas') }}    
-
+            </x-dropdown-link>
             <x-dropdown-link :href="route('msgcontactos.index')">
                 {{ __('Mensagens') }}
 

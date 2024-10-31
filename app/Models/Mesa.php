@@ -22,6 +22,7 @@ class Mesa extends Model
     {
         return $this->hasOneThrough(Edificio::class,  
               // Modelo final que queremos acessar   
+              Edificio::class,
                     EdificioPiso::class,   // Modelo intermediário     
                        'id', // Chave primária em EdificioPiso 
                        'id', // Chave primária em Edificio 
