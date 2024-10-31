@@ -2,19 +2,16 @@
 
 
 /**
- * Editado por Jose Sousa
- * 21/10/2024
+ * Editado por Thiago França
+ * 31/10/2024
  */
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EdificioController;
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\ProfileController;
-
 use App\Http\Controllers\MesaController;
-
 use App\Http\Controllers\PisoController;
-
 use App\Models\User;
 use App\Models\Reserva;
 use App\Models\Edificio;
@@ -116,6 +113,7 @@ Route::get('/edificios/{edificioId}/pisos', [SalaController::class, 'buscarPisos
 // Rota para buscar cidades (retorno json para a modal)
 Route::get('/reservas/cidades', [ReservaController::class, 'buscarCidades']);
 
+
 //Rota para enviar contacto
 Route::post('', [ContactoController::class, 'sendEmail'])->name('send.email');
 
@@ -127,6 +125,11 @@ Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store
 
 // Rota para filtrar cidades pelo nome
 Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
+
+
+
+
+
 
 
 
@@ -146,18 +149,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('mesa.destroy');
     Route::get('/mesas/{id}', [MesaController::class, 'show'])->name('mesa.show');
 
-    // Rotas para Reservas
-    // Route::get('/reserva', [ReservaController::class, 'index'])->name('reservas.index');
-    // Route::get('/reserva/create', [ReservaController::class, 'create'])->name('reserva.create');
-    // Route::post('/reserva', [ReservaController::class, 'store'])->name('reserva.store');
-
     // // Rota de Check-In via QR Code
     Route::post('/checkin/{mesaId}', [MesaController::class, 'checkIn'])->name('mesa.checkin');
 });
 
-    Route::get('/mesa/edificios/{cidade_id}', [MesaController::class, 'getEdificios'])->withoutMiddleware(['auth']);
-    Route::get('/mesa/pisos/{edificio_id}', [MesaController::class, 'getPisos'])->withoutMiddleware(['auth']);
-    Route::get('/mesa/salas/{piso_id}', [MesaController::class, 'getSalas'])->withoutMiddleware(['auth']);
 
 
 // Rota para filtrar pisos pelo andar
@@ -172,8 +167,6 @@ Route::get('/pisos_show_associate/{id}', [PisoController::class, 'show_associate
 
 // Rota para associar edifícios a um piso
 Route::post('/pisos/associate', [PisoController::class, 'associate'])->name('pisos.associate');
-
-
 
 
 require __DIR__ . '/auth.php';
