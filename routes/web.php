@@ -24,6 +24,7 @@ use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\SalaController;
 use User as GlobalUser;
 use App\Http\Controllers\ReservaController;
+use App\Models\Mesa;
 use Database\Factories\ContactoFactory;
 
 //Rota para enviar email do form contacto
@@ -86,6 +87,7 @@ Route::resources([
 ]);
 
 
+
 // Rota para buscar edificios por cidade na criação de reserva 
 Route::get('/reservas/edificios/{cidadeId}', [ReservaController::class, 'buscarEdificiosPorCidade']);
 
@@ -114,10 +116,8 @@ Route::get('/edificios/{edificioId}/pisos', [SalaController::class, 'buscarPisos
 // Rota para buscar cidades (retorno json para a modal)
 Route::get('/reservas/cidades', [ReservaController::class, 'buscarCidades']);
 
-
 //Rota para enviar contacto
 Route::post('', [ContactoController::class, 'sendEmail'])->name('send.email');
-
 
 // Rota para filtrar edifícios pela cidade
 Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
@@ -130,17 +130,16 @@ Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cida
 
 
 
-
-
-
-
-
 //  Route::get('/reserva-failed', [ReservaController::class, 'failed'])->name('reserva.failed');
 
 // Rotas protegidas por autenticação
 Route::middleware(['auth'])->group(function () {
 
     // // Rotas para Mesas
+
+
+
+
     Route::get('/mesa', [MesaController::class, 'index'])->name('mesa.index');
     Route::get('/mesa/create', [MesaController::class, 'create'])->name('mesa.create');
     Route::post('/mesa', [MesaController::class, 'store'])->name('mesa.store');
@@ -156,6 +155,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkin/{mesaId}', [MesaController::class, 'checkIn'])->name('mesa.checkin');
 });
 
+    Route::get('/mesa/edificios/{cidade_id}', [MesaController::class, 'getEdificios'])->withoutMiddleware(['auth']);
+    Route::get('/mesa/pisos/{edificio_id}', [MesaController::class, 'getPisos'])->withoutMiddleware(['auth']);
+    Route::get('/mesa/salas/{piso_id}', [MesaController::class, 'getSalas'])->withoutMiddleware(['auth']);
 
 
 // Rota para filtrar pisos pelo andar
