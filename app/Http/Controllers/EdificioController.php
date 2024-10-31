@@ -52,6 +52,7 @@ class EdificioController extends Controller
      */
     public function store(Request $request)
     {
+
         //dd($request->all());
         // Validação dos campos
         $request->validate([
@@ -59,6 +60,8 @@ class EdificioController extends Controller
             'morada' => 'required|string|max:255',
             'contacto' => 'required|string|max:15',
             'cod_postal' => 'required|string|max:10',
+            'lat' => 'required|string|max:15',
+            'lng' => 'required|string|max:15',
             'cod_cidade' => 'required|not_in:Selecione',  // Aqui você valida que a cidade foi selecionada
         ], [
             'cod_cidade.not_in' => 'Por favor, selecione uma cidade válida.',  // Mensagem personalizada
@@ -70,6 +73,8 @@ class EdificioController extends Controller
         $edificio->morada = $request->morada;
         $edificio->contacto = $request->contacto;
         $edificio->cod_postal = $request->cod_postal;
+        $edificio->lat = $request->lat;
+        $edificio->lng = $request->lng;
         $edificio->cod_cidade = $request->cod_cidade;  // Salva o código da cidade selecionada
         $edificio->save();
 
@@ -135,4 +140,5 @@ class EdificioController extends Controller
         $edificios = Edificio::whereIn('cod_cidade', $cidades)->paginate(20);
         return view('edificios.index', ['edificios' => $edificios]);
     }
+
 }
