@@ -906,25 +906,16 @@
     @endif
 
 
-
-
     <div class="welcomeSpaces mt-5 text-center col-12">
         <div class="spacesText col-12">
             <h2 class="m-2 p-2">Where to find us </h2>
+            <p>
+              We are close to you. just find  us in the map below.
+          </p>
         </div>
 
         <div id="map" style="height:500px" class="w-100"></div>
-
-        <div class="d-none">
-        <!-- campos  de coordenadas -->
-        @foreach($edificios as  $edificio)
-            <input type="text"  id="nome" value="{{$edificio->nome}}">
-            <input type="text"  id="lat" value="{{$edificio->lat}}">
-            <input type="text"  id="lng" value="{{$edificio->lng}}">
-         @endforeach
-        </div>
       
-
         <div class="d-none">
             <x-text-input id="lat" name="lat" class="block mt-1 w-full" value="" />
             <x-text-input id="lng" name="lng" class="block mt-1 w-full" value="" />
@@ -933,46 +924,27 @@
 
     </div>
 
+   
+
     <script>
-        // var longitude = document.getElementById('lat').value;
-        // var latitude = document.getElementById('lng').value;
-        // var nome = document.getElementById('nome').value;
-
-        //varáveis latitude e longitude
-        const edificios = [{
-                latitude: 38.7169,
-                longitude: -9.1399,
-                nome: "Edifício 1"
-            },
-            {
-                latitude: 38.7269,
-                longitude: -9.1299,
-                nome: "Edifício 2"
-            },
-            {
-                latitude: 38.7369,
-                longitude: -9.1199,
-                nome: "Edifício 3"
-            }
-        ];
-
-
+        // Passar array edificios para formato json
+        var pins = <?php echo json_encode($edificios); ?>;
 
         // Inicializa o mapa na div com id "map"
-        var map = L.map('map').setView([38.7169, -9.1399], 13); // Coordenadas de Lisboa e zoom inicial
+        var map = L.map('map').setView([38.7169, -9.1399], 3); // Coordenadas de Lisboa
 
         // Adiciona o tile layer do OpenStreetMap
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
+        pins.forEach(function(pin) {
+            
+        L.marker([pin.lat, pin.lng])
+            .addTo(map)
+            .bindPopup(pin.nome);
+    });
 
-        // Adiciona marcadores para cada edifício
-        edificios.forEach(function(edificio) {
-            L.marker([edificio.latitude, edificio.longitude]).addTo(map)
-                .bindPopup(edificio.nome)
-                .openPopup();
-        });
     </script>
 </nav>
