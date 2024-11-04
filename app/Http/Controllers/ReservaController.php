@@ -109,13 +109,17 @@ class ReservaController extends Controller
      */
     public function store(Request $request)
     {
+        
+        Log::info('Método store chamado', $request->all()); // Log para ver os dados recebidos
+
         // Validação dos dados
-        $request->validate([
-            'cidade_id' => 'required|exists:cidades,id',
-            'edificio_id' => 'required|exists:edificios,id',
-            'data' => 'required|date',
-            'periodo' => 'required|in:manha,tarde,ambos',
-        ]);
+        // $request->validate([
+        //     'cidade_id' => 'required|exists:cidades,id',
+        //     'edificio_id' => 'required|exists:edificios,id',
+        //     'data' => 'required|date',
+        //     'periodo' => 'required|in:manha,tarde,ambos',
+        //     'user_id' => 'required',
+        // ]);
 
         // Buscando mesas disponíveis no edifício com status 'Livre'
         $mesas = Mesa::where('status', 'Livre') // Filtra mesas com status 'Livre'
@@ -149,7 +153,7 @@ class ReservaController extends Controller
             $reserva->horario_fim = $request->input('data') . ' 18:00:00';
         }
 
-        $reserva->status = 'reserved'; // Status inicial da reserva
+        $reserva->status = 'Reservado'; // Status inicial da reserva
         $reserva->save();
 
         // Atualiza o status da mesa para 'Ocupada'

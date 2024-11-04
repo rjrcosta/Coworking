@@ -14,7 +14,7 @@ class Reserva extends Model
         'cod_mesa',          // ID da mesa reservada
         'horario_inicio',   // Horário de início da reserva
         'horario_fim',      // Horário de fim da reserva
-        'status',           // Status da reserva (reservado, checked-in, cancelado)
+        'status',           // Status da reserva (Reservado, Feito checked-in, Cancelada)
         'check_in_time',    // Hora do check-in (se aplicável)
         'date',             // Data da reserva
     ];

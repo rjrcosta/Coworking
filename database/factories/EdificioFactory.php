@@ -28,6 +28,8 @@ class EdificioFactory extends Factory
              'cod_cidade' =>  fake()->numberBetween(1, 5),
              'cod_postal' => fake()->postcode(),
              'contacto' => fake()->numerify("### ### ###"),
+             'lat' => fake()->latitude(),
+             'lng' => fake()->longitude(),
              'created_at' => now(),
              'updated_at' => now(),
         ];

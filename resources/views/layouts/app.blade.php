@@ -102,7 +102,7 @@
                 // Captura o valor do input oculto e transforma em objeto JavaScript
                 let edificios = JSON.parse(document.getElementById('edificio_hidden').value);
 
-                //console.log(edificios);
+                console.log(edificios);
 
                 // Se a cidade foi selecionada, mostrar os edifícios
                 if (cidadeId) {

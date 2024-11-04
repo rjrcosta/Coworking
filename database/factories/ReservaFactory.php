@@ -37,7 +37,7 @@ class ReservaFactory extends Factory
              'cod_mesa' => $mesa ? $mesa->id : null, // Se existir, pega o id da mesa
              'horario_inicio' => $horarioInicio,
              'horario_fim' => $horarioFim,
-             'status' => 'reserved',
+             'status' => 'Reservado',
              'date' => $horarioInicio->toDateString(), // Define a data com base no horario_inicio
              'created_at' => now(),
              'updated_at' => now(),

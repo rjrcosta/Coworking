@@ -34,17 +34,17 @@ class DatabaseSeeder extends Seeder
         // 3) edificio_piso, sala
         // 4) sala_piso
         // 5) Vincular salas às sala_piso
-        // 6) mesa
-        // 7) Reservas
+        // 6) mesas
+        // 7) reservas
 
         // ****************************** Lógica para criar usuarios e cidades ************************
-        User::factory(5)->create();
-        User::factory()->create([
-            'name' => 'Test User',
-            'password'=>'teste12345',
-            'email' => 'test@example.com',
-            'role'=>'admin'
-        ]);
+        // User::factory(5)->create();
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'password'=>'teste12345',
+        //     'email' => 'test@example.com',
+        //     'role'=>'admin'
+        // ]);
 
 
         // Cidade::factory(5)->create();
@@ -69,6 +69,8 @@ class DatabaseSeeder extends Seeder
         //     'cod_cidade' =>  fake()->numberBetween(1, 5),
         //     'cod_postal' => fake()->postcode(),
         //     'contacto' => fake()->numerify("### ### ###"),
+        //     'lat' => fake()->latitude(),
+        //     'lng' => fake()->longitude(),
         //     'created_at' => now(),
         //     'updated_at' => now(),
         //     ]);
@@ -79,7 +81,7 @@ class DatabaseSeeder extends Seeder
         // ************************ Lógica para criar edifício_piso **************************
 
 
-        // //Recupera todos os edifícios ou um conjunto específico
+        //Recupera todos os edifícios ou um conjunto específico
         // $edificios = Edificio::all(); // Ou use where(), etc., para buscar o que precisa
         // // Para cada edifício, associar pisos aleatórios
         // foreach ($edificios as $edificio) {
@@ -139,7 +141,7 @@ class DatabaseSeeder extends Seeder
 
         // $salas = Sala::all();
 
-        // Passar cada sala
+        // // Passar cada sala
         // foreach ($salas as $sala) {
         //     // Buscar a lotação de cada sala
         //     $lotacao = $sala->lotacao;
@@ -161,7 +163,7 @@ class DatabaseSeeder extends Seeder
 
         // //*************************criaçao de reservas ficticias*************** */
 
-        // Reserva::factory()->count(20)->create();
+        //Reserva::factory()->count(20)->create();
 
     }
 }

@@ -13,11 +13,11 @@
                         @csrf
                         <div class="mb-3">
                             <label for="usuario" class="form-label">Utilizador</label>
-                            <input type="text" id="usuario" name="usuario" value="{{ $usuarioLogado->name }}" class="form-control" readonly>
+                            <input type="text" id="usuario" name="usuario" value="{{ $usuarioLogado->name }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="cidade" class="form-label">Cidade</label>
-                            <select id="cidade" name="cidade_id" class="form-select" required>
+                            <select id="cidade" name="cidade_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                                 <option value="">Selecionar Cidade</option>
                                 @foreach ($cidades as $cidade)
                                 <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
@@ -27,19 +27,19 @@
 
                         <div class="mb-3">
                             <label for="edificio" class="form-label">Edifício</label>
-                            <select id="edificio" name="edificio_id" class="form-select" required>
+                            <select id="edificio" name="edificio_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                                 <option value="">Selecionar Edifício</option>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label for="data" class="form-label">Data</label>
-                            <input type="date" id="data" name="data" class="form-control" required>
+                            <input type="date" id="data" name="data" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="periodo" class="form-label">Período</label>
-                            <select id="periodo" name="periodo" class="form-select" required>
+                            <select id="periodo" name="periodo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                                 <option value="">Selecionar Período</option>
                                 <option value="manha">Manhã</option>
                                 <option value="tarde">Tarde</option>
