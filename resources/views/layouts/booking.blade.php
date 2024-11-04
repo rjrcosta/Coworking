@@ -9,18 +9,18 @@
 
     <!-- Primeira TAB -->
     <div class="tab">
-        <label hidden for="user_id" class="form-label">Utilizador</label>
-        <input hidden type="text" id="user_id" name="user_id" value="{{ Auth::user()->id }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" readonly>
-        <br><br>
+      <label hidden for="user_id" class="form-label">Utilizador</label>
+      <input hidden type="text" id="user_id" name="usuario" value="{{ Auth::user()->id }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" readonly>
+      <br><br>
       <h5>Escolha Cidade e Edifício</h5>
-      <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" name="cod_cidade" id="cod_cidade_picker" aria-label="Default select example">
+      <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" name="cidade_id" id="cod_cidade_picker" aria-label="Default select example">
         <option selected>Selecionar Cidade</option>
         @foreach ($cidades as $cidade)
         <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
         @endforeach
       </select>
 
-      <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" name="id" id="id_edificio_picker" aria-label="Default select example">
+      <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" name="edificio_id" id="id_edificio_picker" aria-label="Default select example">
         <option selected>Selecionar Edificio</option>
         <option value="1">One</option>
         <option value="2">Two</option>
