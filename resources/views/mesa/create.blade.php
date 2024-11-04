@@ -16,7 +16,7 @@
                             <select id="cidade" name="cidade_id" class="form-select" required>
                                 <option value="">Selecionar Cidade</option>
                                 @foreach ($cidades as $cidade)
-                                <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
+                                    <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -57,66 +57,98 @@
         document.getElementById('cidade').addEventListener('change', function() {
             const cidadeId = this.value;
             fetch(`/mesa/edificios/${cidadeId}`, {
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            })
-            .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar edifícios'))
-            .then(data => {
-                const edificioSelect = document.getElementById('edificio');
-                edificioSelect.innerHTML = '<option value="">Selecionar Edifício</option>';
-                data.forEach(edificio => {
-                    const option = document.createElement('option');
-                    option.value = edificio.id;
-                    option.textContent = edificio.nome;
-                    edificioSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error(error));
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar edifícios'))
+                .then(data => {
+                    const edificioSelect = document.getElementById('edificio');
+                    edificioSelect.innerHTML = '<option value="">Selecionar Edifício</option>';
+                    data.forEach(edificio => {
+                        const option = document.createElement('option');
+                        option.value = edificio.id;
+                        option.textContent = edificio.nome;
+                        edificioSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error(error));
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleciona o elemento do edifício
+            const edificioSelect = document.getElementById('edificio');
+            const pisoSelect = document.getElementById('piso');
+
+            // Adiciona o evento de mudança ao select de edifício
+            edificioSelect.addEventListener('change', function() {
+                const edificioId = this.value;
+
+                // Verifica se o ID do edifício está correto
+                console.log("Edifício selecionado ID:", edificioId);
+
+                // Faz a requisição AJAX para buscar os pisos associados ao edifício selecionado
+                fetch(`/edificios/${edificioId}/pisos`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Pisos recebidos:", data);
+                        pisoSelect.innerHTML = ''; // Limpa as opções de piso
+                        pisoSelect.innerHTML = '<option value="">Selecionar Piso</option>';
+                        // Adiciona cada piso como uma nova opção no select de pisos
+                        data.forEach(piso => {
+                            const option = document.createElement('option');
+                            option.value = piso.id;
+                            option.textContent = piso.andar;
+                            pisoSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Erro ao buscar pisos:', error));
+            });
         });
 
-        document.getElementById('edificio').addEventListener('change', function() {
-            const edificioId = this.value;
-            fetch(`/mesa/pisos/${edificioId}`, {
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            })
-            .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar pisos'))
-            .then(data => {
-                const pisoSelect = document.getElementById('piso');
-                pisoSelect.innerHTML = '<option value="">Selecionar Piso</option>';
-                data.forEach(piso => {
-                    const option = document.createElement('option');
-                    option.value = piso.id;
-                    option.textContent = piso.andar;
-                    pisoSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error(error));
-        });
 
         document.getElementById('piso').addEventListener('change', function() {
             const pisoId = this.value;
             fetch(`/mesa/salas/${pisoId}`, {
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            })
-            .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar salas'))
-            .then(data => {
-                const salaSelect = document.getElementById('sala');
-                salaSelect.innerHTML = '<option value="">Selecionar Sala</option>';
-                data.forEach(sala => {
-                    const option = document.createElement('option');
-                    option.value = sala.id;
-                    option.textContent = sala.nome;
-                    salaSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error(error));
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar salas'))
+                .then(data => {
+                   
+                    const salaSelect = document.getElementById('sala');
+                    salaSelect.innerHTML = '<option value="">Selecionar Sala</option>';
+                    data.forEach(sala => {
+                        const option = document.createElement('option');
+                        option.value = sala.id;
+                        option.textContent = sala.nome;
+                        salaSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error(error));
         });
     </script>
+    {{-- // document.getElementById('edificio').addEventListener('change', function() {
+        //     const edificioId = this.value;
+        //     fetch(`/mesa/pisos/${edificioId}`, {
+        //         headers: {
+        //             'X-CSRF-TOKEN': csrfToken
+        //         }
+        //     })
+        //     .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar pisos'))
+        //     .then(data => {
+        //         console.log(data)
+        //         const pisoSelect = document.getElementById('piso');
+        //         pisoSelect.innerHTML = '<option value="">Selecionar Piso</option>';
+        //         data.forEach(piso => {
+        //             const option = document.createElement('option');
+        //             option.value = piso.id;
+        //             option.textContent = piso.andar;
+        //             pisoSelect.appendChild(option);
+        //         });
+        //     })
+        //     .catch(error => console.error(error));
+        // }); --}}
 </x-app-layout>
-
-

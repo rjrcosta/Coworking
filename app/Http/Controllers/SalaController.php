@@ -105,6 +105,7 @@ class SalaController extends Controller
             throw $e;
         }
     }
+   
 
     /**
      * Display the specified resource.
