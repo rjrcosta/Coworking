@@ -913,16 +913,12 @@
             <!-- Links de User + Admin-->
             <x-dropdown-link :href="route('profile.edit')">
                 {{ __('Profile') }}
-            </x-dropdown-link>
 
-            <x-dropdown-link :href="route('reservas.index')">
+            </x-dropdown-link>   
 
-                {{ __('Reservas') }}    
-            </x-dropdown-link>
 
             <x-dropdown-link :href="route('msgcontactos.index')">
                 {{ __('Mensagens') }}
-
             </x-dropdown-link>
 
             <x-dropdown-link :href="route('reservas.index')">

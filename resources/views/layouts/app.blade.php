@@ -46,9 +46,6 @@
 
     <!-- resources/views/edificios/create.blade.php -->
     <script>
- 
-
-
         document.getElementById('addCidadeButton').addEventListener('click', function() {
             const nomeCidade = document.getElementById('add_nome').value;
             const token = document.querySelector('input[name="_token"]').value;
@@ -165,6 +162,7 @@
                     alert('Erro ao associar os edifícios.');
                 });
         });
+        
     </script>
 </body>
 

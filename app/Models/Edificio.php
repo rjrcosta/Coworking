@@ -19,6 +19,8 @@ class Edificio extends Model
         'cod_cidade',
         'cod_postal',
         'contacto',
+        'lat',
+        'lng'
     ];
 
 

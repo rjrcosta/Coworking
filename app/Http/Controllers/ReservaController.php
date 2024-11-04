@@ -18,14 +18,37 @@ class ReservaController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index2()
+    // {
+
+    //     // Obtém os dados paginados das reservas, 20 itens por página
+    //     $reservas = Reserva::with(['user', 'mesa.salaPiso.edificioPiso.edificio'])->paginate(20);
+
+    //     return view('reservas.index', compact('reservas'));
+    // }
+
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
+        if (Auth::check()) {
+            $user = Auth::user();
 
-        // Obtém os dados paginados das reservas, 20 itens por página
-        $reservas = Reserva::with(['user', 'mesa.salaPiso.edificioPiso.edificio'])->paginate(20);
+            if ($user->role == 'admin') {
+                // Obtém os dados paginados das reservas, 20 itens por página
+                $reservas = Reserva::with(['user', 'mesa.salaPiso.edificioPiso.edificio'])->paginate(20);
+            } else {
+                // Usuário comum vê apenas as reservas que ele criou
+                $reservas = Reserva::where('user_id', $user->id)->paginate(10);
+            }
 
-        return view('reservas.index', compact('reservas'));
+            return view('reservas.index', compact('reservas'));
+        }
+
+        return redirect()->route('login')->with('error', 'É necessário estar autenticado para acessar as reservas.');
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -218,5 +241,14 @@ class ReservaController extends Controller
         })->paginate(20);
 
         return view('reservas.index', ['reservas' => $reservas]);
+    }
+
+    // ****************** Fazer as reservas funcionarem no modal ********************
+
+    // Função para buscar as cidades
+    public function buscarCidades()
+    {
+        // Retorna json para a modal
+        return response()->json(Cidade::all());
     }
 }

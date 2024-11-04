@@ -23,6 +23,8 @@ return new class extends Migration
             $table->foreignId('cod_cidade')->references('id')->on('cidades')->onDelete('cascade');       
             $table->string('cod_postal');      
             $table->string('contacto');
+            $table->string('lat');
+            $table->string('lng');
             $table->timestamps();
         });
     }

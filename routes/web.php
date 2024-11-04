@@ -2,24 +2,22 @@
 
 
 /**
- * Editado por Jose Sousa
- * 21/10/2024
+ * Editado por Thiago França
+ * 31/10/2024
  */
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EdificioController;
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\ProfileController;
-
 use App\Http\Controllers\MesaController;
-
 use App\Http\Controllers\PisoController;
-
 use App\Models\User;
 use App\Models\Reserva;
 use App\Models\Edificio;
 use Illuminate\Session\Middleware\AuthenticatedSession;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\SalaController;
 use User as GlobalUser;
@@ -30,11 +28,28 @@ use Database\Factories\ContactoFactory;
 //Rota para enviar email do form contacto
 Route::get('/emailsent', [ContactoController::class, 'sendmail'])->name('send.mail');
 
-Route::match(array('GET', 'POST'), '/', function () {
-    return view('welcome');
+
+
+
+Route::get('/', function(){
+    $edificios = DB::table('edificios')->get();
+    return view('welcome',[
+        'edificios' =>  $edificios,
+    ]);
 });
-Route::match(array('GET', 'POST'), '/welcome', function () {
-    return view('welcome');
+
+Route::match(array('GET','POST'),'/', function () {
+    $edificios = DB::table('edificios')->get();
+    return view('welcome',[
+        'edificios' =>  $edificios,
+    ]);
+});
+
+Route::match(array('GET','POST'),'/welcome', function () {
+    $edificios = DB::table('edificios')->get();
+    return view('welcome',[
+        'edificios' =>  $edificios,
+    ]);
 })->name('welcome');
 
 Route::get('/dashboard_admin', function () {
@@ -45,21 +60,17 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// rotas pessoais para os users comuns´
 
+// rotas pessoais para os users comuns´
 Route::get('/profile/users', [UserController::class, 'showProfile'])->name('users.profile')->middleware('auth');
 Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('users.editProfile')->middleware('auth');
 Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('users.updateProfile')->middleware('auth');
-
-
-
 
 // rotas para os users /clientes 
 
 Route::resources([
 
     'users' => UserController::class,
-
 
 ]);
 
@@ -86,7 +97,6 @@ Route::resources([
 
 ]);
 
-Route::get('/reserva', [ReservaController::class, 'index'])->name('reservas.index');
 
 
 // Rota para buscar edificios por cidade na criação de reserva 
@@ -113,10 +123,13 @@ Route::post('/cidades/direct_store', [CidadeController::class, 'direct_store'])-
 // Rota para buscar os pisos de um determinado edifício (usado na criação de uma sala)
 Route::get('/edificios/{edificioId}/pisos', [SalaController::class, 'buscarPisosPorEdificio']);
 
+// ********** Rotas para a reserva por modal **********~
+// Rota para buscar cidades (retorno json para a modal)
+Route::get('/reservas/cidades', [ReservaController::class, 'buscarCidades']);
+
 
 //Rota para enviar contacto
 Route::post('', [ContactoController::class, 'sendEmail'])->name('send.email');
-
 
 // Rota para filtrar edifícios pela cidade
 Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('edificios.filtrar');
@@ -150,18 +163,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('mesa.destroy');
     Route::get('/mesas/{id}', [MesaController::class, 'show'])->name('mesa.show');
 
-    // Rotas para Reservas
-    // Route::get('/reserva', [ReservaController::class, 'index'])->name('reservas.index');
-    // Route::get('/reserva/create', [ReservaController::class, 'create'])->name('reserva.create');
-    // Route::post('/reserva', [ReservaController::class, 'store'])->name('reserva.store');
-
     // // Rota de Check-In via QR Code
     Route::post('/checkin/{mesaId}', [MesaController::class, 'checkIn'])->name('mesa.checkin');
 });
 
-    Route::get('/mesa/edificios/{cidade_id}', [MesaController::class, 'getEdificios'])->withoutMiddleware(['auth']);
-    Route::get('/mesa/pisos/{edificio_id}', [MesaController::class, 'getPisos'])->withoutMiddleware(['auth']);
-    Route::get('/mesa/salas/{piso_id}', [MesaController::class, 'getSalas'])->withoutMiddleware(['auth']);
 
 
 // Rota para filtrar pisos pelo andar
@@ -176,8 +181,6 @@ Route::get('/pisos_show_associate/{id}', [PisoController::class, 'show_associate
 
 // Rota para associar edifícios a um piso
 Route::post('/pisos/associate', [PisoController::class, 'associate'])->name('pisos.associate');
-
-
 
 
 require __DIR__ . '/auth.php';
