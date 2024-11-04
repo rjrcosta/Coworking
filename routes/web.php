@@ -143,7 +143,9 @@ Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cida
 
 
 
-
+Route::get('/mesa/edificios/{cidadeId}', [MesaController::class, 'getEdificios']);
+Route::get('/mesa/pisos/{edificioId}', [MesaController::class, 'getPisos']);
+Route::get('/mesa/salas/{pisoId}', [MesaController::class, 'getSalas']);
 
 
 

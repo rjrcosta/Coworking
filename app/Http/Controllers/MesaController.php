@@ -47,43 +47,6 @@ class MesaController extends Controller
          return view('mesa.create', compact('cidades'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-//     public function store(Request $request)
-// {
-//     // Validação dos dados de entrada
-//     // $request->validate([
-//     //     'cidade_id' => 'required|exists:cidades,id',
-//     //     'edificio_id' => 'required|exists:edificios,id',
-//     //     'piso_id' => 'required|exists:pisos,id',
-//     //     'sala_id' => 'required|exists:salas,id',
-//     // ]);
-//     // Criação da nova mesa
-//     $mesa = new Mesa();
-//     $mesa->status = 'livre'; // Status inicial
-//     $mesa->cidade_id = $request->cidade_id; // Supondo que você tenha esse campo
-//     $mesa->edificio_id = $request->edificio_id; // Referente ao edifício selecionado
-//     $mesa->piso_id = $request->piso_id; // Referente ao piso selecionado
-//     $mesa->sala_id = $request->sala_id; // Referente à sala selecionada
-
-//     // Salvar a mesa no banco de dados
-//     $mesa->save();
-
-//     // Atualizar a lotação da sala correspondente
-//     $sala = \App\Models\Sala::find($request->sala_id);
-//     $sala->lotacao += 1; // Aumenta a lotação em 1
-//     $sala->save(); // Salvar alterações na sala
-
-//     // Gera o QR Code e salva o caminho na mesa
-//     $mesa->qrcode = $this->gerarQrCode($mesa->id); // Gera o QR Code e salva o caminho
-//     $mesa->save(); // Salvar a mesa com o QR Code
-
-//     return redirect()->route('mesas.index')->with('success', 'Mesa criada com sucesso.');
-// }
-
-
-
 
 public function store(Request $request)
 {
@@ -114,9 +77,13 @@ public function store(Request $request)
     $mesa = new Mesa();
     $mesa->status = 'livre'; // Status inicial
     $mesa->cod_sala_piso = $salaPiso->id; // Acesse o id da salaPiso corretamente
+    $mesa->qrcode='qrtest';
+     $mesa->save();
+
+     // Gera o QR Code e salva o caminho na mesa
+     $mesa->qrcode = $this->gerarQrCode($mesa->id);
+     $mesa->save();
     
-    // Salvar a mesa no banco de dados
-    $mesa->save();
 
     // Atualizar a lotação da sala correspondente
     $salaModel = \App\Models\Sala::find($salaId); // Use o valor de $salaId em vez de 'sala_id'
@@ -125,13 +92,14 @@ public function store(Request $request)
         $salaModel->save(); // Salva as alterações na sala
     }
 
-    // Gera o QR Code e salva o caminho na mesa
    
-    $mesa->qrcode = $this->gerarQrCode($mesa->id);
-    $mesa->save(); // Salva a mesa com o QR Code
+   
+ 
 
     return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso.');
 }
+
+
 
     // Método para gerar QR Code
     private function gerarQrCode($mesaId)
@@ -145,6 +113,12 @@ public function store(Request $request)
         // Retorna o caminho do QR Code para ser salvo no banco de dados
         return $qrcodePath;
     }
+
+
+
+
+
+
 
     // Função para check-in
     public function checkIn(Request $request, $mesaId)
@@ -277,6 +251,7 @@ public function store(Request $request)
         $pisos = EdificioPiso::where('cod_edificio', $edificio_id)->get();
 
         return response()->json($pisos);
+        dd($pisos);
     }
 
     // Buscar salas de um piso específico
