@@ -133,6 +133,7 @@ class ReservaController extends Controller
         if ($mesas->isEmpty()) {
             return redirect()->back()->with('error', 'Não há mesas disponíveis para o edifício selecionado.')->withInput();
         }
+       
 
         // Seleciona uma mesa aleatoriamente
         $mesaAleatoria = $mesas->random();
@@ -155,7 +156,7 @@ class ReservaController extends Controller
             $reserva->horario_fim = $request->input('data') . ' 18:00:00';
         }
 
-        $reserva->status = 'Reservado'; // Status inicial da reserva
+        $reserva->status = 'reservado'; // Status inicial da reserva
         $reserva->save();
 
         // Atualiza o status da mesa para 'Ocupada'
