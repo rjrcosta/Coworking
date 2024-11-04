@@ -112,7 +112,7 @@ class ReservaController extends Controller
         
         Log::info('Método store chamado', $request->all()); // Log para ver os dados recebidos
 
-        // Validação dos dados
+        // //Validação dos dados
         // $request->validate([
         //     'cidade_id' => 'required|exists:cidades,id',
         //     'edificio_id' => 'required|exists:edificios,id',
@@ -122,10 +122,12 @@ class ReservaController extends Controller
         // ]);
 
         // Buscando mesas disponíveis no edifício com status 'Livre'
-        $mesas = Mesa::where('status', 'Livre') // Filtra mesas com status 'Livre'
+        $mesas = Mesa::where('status', 'livre') // Filtra mesas com status 'Livre'
             ->whereHas('salaPiso.edificioPiso', function ($query) use ($request) {
                 $query->where('cod_edificio', $request->input('edificio_id'));
             })->get();
+
+        dd($mesas);
 
         // Verificar se há mesas disponíveis
         if ($mesas->isEmpty()) {
