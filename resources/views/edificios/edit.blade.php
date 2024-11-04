@@ -70,7 +70,7 @@
                         <!-- Mapa e campos de coordenadas -->
                         <div style="padding:40px;">
                             <!-- mapa -->
-                            <div id="map" style="height:400px; width:500px; " class=" rounded-3"></div>
+                            <div id="map" style="height:400px; width:500px; " class="z-0 rounded-3"></div>
                             <!-- campos  de coordenadas -->
                             <div class="d-flex flex-row">
                                 <x-text-input id="lat" name="lat" class="block mt-1 w-full" placeholder="Latitude" />
@@ -85,20 +85,25 @@
     </div>
 
     <script>
+        
+        //receber o objecto edificio para  usar as coordenadas
+        var pin = <?php echo $edificio; ?>;
+        
+        // Adiciona o tile layer do OpenStreetMap
         // Inicializa o mapa na div com id "map"
-        var map = L.map('map').setView([38.7169, -9.1399], 13); // Coordenadas de Lisboa e zoom inicial
-
-
+        var map = L.map('map').setView([pin.lat, pin.lng], 13); // Coordenadas do edificio
 
         // Adiciona o tile layer do OpenStreetMap
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
         // Variável para armazenar o marcador
-        var marker;
-
+        // adicionar marcador da posição
+        var marker = L.marker([pin.lat, pin.lng]).addTo(map)
+        .bindPopup(nome);
+      
         // Evento para capturar o clique no mapa e exibir latitude e longitude
         map.on('click', function(e) {
             var lat = e.latlng.lat.toFixed(6); // Latitude

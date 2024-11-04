@@ -40,7 +40,7 @@
 
                     </div>
                     <!-- Mapa -->
-                    <div id="map" style="height:400px; width:500px; " class="m-4 rounded-3">
+                    <div id="map" style="height:400px; width:500px; " class="z-0 m-4 rounded-3">
                         <!-- campos  de coordenadas -->
                         <div class="d-none">
                             <x-text-input id="lat" name="lat" class="block mt-1 w-full" value="{{$edificios->lat}}" />
@@ -56,10 +56,7 @@
                     <div class="p-2"></div>
                 </div>
             </div>
-
         </div>
-
-
         <script>
             // varáveis latitude e longitude
             var longitude = document.getElementById('lat').value;
@@ -71,7 +68,7 @@
             var map = L.map('map').setView([longitude, latitude], 13); // Coordenadas de Lisboa e zoom inicial
 
             // Adiciona o tile layer do OpenStreetMap
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);

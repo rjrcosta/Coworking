@@ -93,7 +93,7 @@
 
                         <!-- Mapa e campos de coordenadas -->
                         <div style="padding:40px;">
-                            <div id="map" style="height:400px; width:500px; " class=" rounded-3">
+                            <div id="map" style="height:400px; width:500px; " class="z-0 rounded-3">
                                 <p>hello</p>
                             </div>
                             <div class="d-flex flex-row">
@@ -135,12 +135,12 @@
 
     <script>
         // Inicializa o mapa na div com id "map"
-        var map = L.map('map').setView([38.7169, -9.1399], 13); // Coordenadas de Lisboa e zoom inicial
+        var map = L.map('map').setView([38.7169, -9.1399], 3); // Coordenadas de Lisboa e zoom inicial
 
 
 
         // Adiciona o tile layer do OpenStreetMap
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
