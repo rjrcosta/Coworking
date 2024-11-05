@@ -54,7 +54,25 @@ class ContactoController extends Controller
      */
     public function store(Request $request)
     {
-         
+         // Validação dos dados recebidos
+        $request->validate([
+        'nomeContacto' => 'required|string|max:255',
+        'emailContacto' => 'required|email|max:255',
+        'mensagemContacto' => 'required|string',
+    ]);
+
+    // Criação de um novo contato
+    $contacto = new contacto();
+    $contacto->nome = $request->input('nomeContacto');
+    $contacto->email = $request->input('emailContacto');
+    $contacto->mensagem = $request->input('mensagemContacto');
+    
+    // Salvar o contato no banco de dados
+    $contacto->save();
+
+    // Redirecionar de volta com uma mensagem de sucesso
+    return redirect()->route('msgcontactos.index')->with('success', 'Mensagem enviada com sucesso!');
+
          
     }
 

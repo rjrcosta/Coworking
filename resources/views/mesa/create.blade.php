@@ -49,6 +49,8 @@
         </div>
     </div>
 
+
+    
     <!-- Script para atualizar edifícios, pisos e salas -->
     <script>
         // Adiciona token CSRF para requisições AJAX
@@ -75,6 +77,7 @@
                 .catch(error => console.error(error));
         });
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Seleciona o elemento do edifício
@@ -110,6 +113,10 @@
 
         document.getElementById('piso').addEventListener('change', function() {
             const pisoId = this.value;
+
+            // Verifica se o ID do edifício está correto
+            console.log("Piso selecionado ID:", pisoId);
+
             fetch(`/mesa/salas/${pisoId}`, {
                     headers: {
                         'X-CSRF-TOKEN': csrfToken
@@ -117,7 +124,7 @@
                 })
                 .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar salas'))
                 .then(data => {
-                   
+                    console.log("Salas recebidas:", data);
                     const salaSelect = document.getElementById('sala');
                     salaSelect.innerHTML = '<option value="">Selecionar Sala</option>';
                     data.forEach(sala => {
@@ -129,7 +136,9 @@
                 })
                 .catch(error => console.error(error));
         });
+
     </script>
+
     {{-- // document.getElementById('edificio').addEventListener('change', function() {
         //     const edificioId = this.value;
         //     fetch(`/mesa/pisos/${edificioId}`, {

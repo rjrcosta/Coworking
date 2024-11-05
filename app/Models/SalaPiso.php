@@ -35,3 +35,4 @@ class SalaPiso extends Model
         return $this->hasMany(Mesa::class, 'cod_sala_piso', 'id');
     }
 }
+

@@ -39,7 +39,8 @@
 
 
                     <div class="flex items-center justify-between mt-4">
-                        <a href="{{ route('pisos.index') }}"><button type="button" class="btn btn-primary">Voltar</button></a>
+                        <a href="{{ route('pisos.index') }}">
+                            <button type="button" class="btn btn-primary">Voltar</button></a>
                         <button type="button" id="associateButton" class="btn btn-success">Associar Piso</button>
                     </div>
                 </div>

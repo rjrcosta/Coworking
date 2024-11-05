@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('status')->default('livre'); // Status da mesa
             $table->string('qrcode')->unique(); // QR code único para check-in
-            $table->foreignId('cod_sala_piso')->constrained('salas')->onDelete('cascade'); // Associação com sala
+            $table->foreignId('cod_sala_piso')->constrained('sala_piso')->onDelete('cascade'); // Associação com sala
             $table->timestamps();
         });
     }
