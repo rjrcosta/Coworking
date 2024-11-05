@@ -44,6 +44,8 @@ class MesaController extends Controller
     public function  create(){
          // toda a lista de objetos cidades
          $cidades = DB::table('cidades')->orderBy('nome')->get();
+        //  $edificiopiso = DB::table('edificio_piso');
+         
          return view('mesa.create', compact('cidades'));
     }
 
@@ -257,6 +259,7 @@ public function store(Request $request)
     // Buscar salas de um piso específico
     public function getSalas($piso_id)
     {
+
         // Obtemos as salas associadas ao piso
         $salas = SalaPiso::where('id', $piso_id)
             ->with('sala')

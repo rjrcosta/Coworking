@@ -24,7 +24,7 @@
               <th scope="col">Id</th>
               <th scope="col">Nome</th>
               <th scope="col">Lotação</th>
-              <th scope="col">Cidade</th>
+              
               <th scope="col" colspan="3" class="text-end">Opções</th>
             </x-slot>
 
@@ -35,7 +35,6 @@
                 <td>{{$sala->id}}</td>
                 <td>{{$sala->nome}}</td>
                 <td>{{$sala->lotacao}}</td>
-                <td>{{ $sala->cidadeNome ? $sala->cidadeNome->nome : 'Cidade não encontrada' }}</td>
                 <td class ="d-flex justify-content-end">
                   <!-- Botão Show-->
                   <a href="{{route('salas.show', $sala->id)}}">

@@ -16,6 +16,6 @@ class Cidade extends Model
     ];
 
     public function edificios() {
-        return $this->belongsTo(Edificio::class);
+        return $this->hasMany(Edificio::class);
     }
 }

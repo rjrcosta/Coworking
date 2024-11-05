@@ -147,6 +147,12 @@
                         edificios: selectedEdificios
                     })
                 })
+
+                .then(response => {
+    console.log( response); // Verifica o status e headers da resposta
+    return response.json();
+})
+
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {

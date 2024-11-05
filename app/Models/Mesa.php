@@ -40,6 +40,8 @@ class Mesa extends Model
     // Relacionamento direto com a sala
     public function sala()
     {
+
+     
         return $this->hasOneThrough(
             Sala::class,          // Modelo final que queremos acessar
             SalaPiso::class,      // Modelo intermediário
