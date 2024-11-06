@@ -75,29 +75,23 @@ class MesaController extends Controller
             })
             ->first(); // Use first() para obter o primeiro resultado
 
-
-
         $mesa = new Mesa();
         $mesa->status = 'livre'; // Status inicial
         $mesa->cod_sala_piso = $salaPiso->id; // Acesse o id da salaPiso corretamente
-        $mesa->qrcode = 'qrtest';
+        //$mesa->qrcode = 'qrtest';
         $mesa->save();
 
         // Gera o QR Code e salva o caminho na mesa
         $mesa->qrcode = $this->gerarQrCode($mesa->id);
         $mesa->save();
 
-
         // Atualizar a lotação da sala correspondente
-        $salaModel = \App\Models\Sala::find($salaId); // Use o valor de $salaId em vez de 'sala_id'
+        // Atualizar a lotação da sala correspondente
+        $salaModel = \App\Models\Sala::find($salaId);
         if ($salaModel) {
-            $salaModel->lotacao += 1; // Aumenta a lotação em 1
-            $salaModel->save(); // Salva as alterações na sala
+            $salaModel->lotacao += 1; // Incrementa a lotação em 1
+            $salaModel->save();
         }
-
-
-
-
 
         return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso.');
     }
@@ -119,44 +113,49 @@ class MesaController extends Controller
 
 
 
-
-
-
-
     // Função para check-in
-    public function checkIn(Request $request, $mesaId)
+    public function checkIn($id)
     {
         $user = Auth::user();
 
+        $mesa = Mesa::findOrFail($id);
 
-        $mesa = Mesa::findOrFail($mesaId);
+        //dd('mesa',$mesa);
+        //dd('mesaID',$mesa->id);
+        //dd('user', $user);
+        //dd('userID', $user->id);
+
+
 
         //  Verificar se há uma reserva ativa para esta mesa e para este usuário
-        $reserva = Reserva::where('mesa_id', $mesaId)
+        $reserva = Reserva::where('cod_mesa', $mesa->id)
             ->where('user_id', $user->id)
-            ->whereDate('created_at', now()->toDateString()) // Ajuste para o campo correto
-            ->where('status', 'reserved')
+            ->where('status', 'Reservado')
             ->first();
+
+
+        //dd('Reserva', $reserva);
 
         if ($reserva) {
             // Verificar se o check-in é feito até 15 minutos após o início da reserva
             $checkInDeadline = Carbon::createFromTimeString($reserva->horario_inicio)->addMinutes(15);
 
             if (now()->lessThanOrEqualTo($checkInDeadline)) {
-                $reserva->status = 'checked-in';
+                //dd('Entrou no tempo');
+                //$reserva->status = 'checked-in';
                 $reserva->check_in_time = now();
                 $reserva->save();
 
-                return redirect()->route('reserva.success')->with('success', 'Check-in efetuado com sucesso!');
+                return redirect()->route('mesa.sucesso', ['reserva' => $reserva])->with('success', 'Check-in efetuado com sucesso!');
             } else {
-                return redirect()->route('reserva.failed')->with('error', 'Check-in expirado.');
+                //dd('Fora do tempo', $checkInDeadline);
+                return redirect()->route('mesa.falha')->with('error', 'Check-in expirado.');
             }
         } else {
-            return redirect()->route('reserva.failed')->with('error', 'Nenhuma reserva ativa encontrada para esta mesa.');
+            //dd('Nenhuma reserva ativa');
+            return redirect()->route('mesa.falha')->with('error', 'Nenhuma reserva ativa encontrada para esta mesa.');
         }
     }
-
-
 
 
     /**
@@ -182,55 +181,26 @@ class MesaController extends Controller
             'cidade' => $cidade,
         ]);
     }
-    // //     // Obter a sala correspondente à mesa
 
-
-    //     $sala = $mesa->sala; // SalaPiso que contém a sala e o piso
-    //     // $sala = $salaPiso->sala; // A sala que a mesa está
-    //     $piso = $sala->edificioPiso->piso; // O piso relacionado ao SalaPiso
-    //     $edificio = $sala->edificioPiso->edificio; // O edifício relacionado ao SalaPiso
-    //     $cidade = $edificio->cidade; // A cidade relacionada ao Edificio
-
-    //     return view('mesa.show', compact('mesa', 'sala', 'piso', 'edificio', 'cidade'));
-    // }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Mesa $mesa)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Mesa $mesa)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Mesa $mesa)
     {
-        //
-        // Verifique se a mesa existe
-        if (!$mesa) {
-            return redirect()->route('mesa.index')->with('error', 'Mesa não encontrada.');
-        }
+        // Carregar o objeto SalaPiso associado usando a relação
+        $salaPiso = $mesa->salaPiso;  // Certifique-se de que a relação está definida corretamente no modelo Mesa
+        if ($salaPiso) {
+            $salaId = $salaPiso->cod_sala;  // Acessar o campo cod_sala de SalaPiso
 
-        // Antes de remover a mesa, atualize a lotação da sala
-        $sala = \App\Models\Sala::find($mesa->cod_sala_piso);
-        if ($sala) {
-            $sala->lotacao -= 1; // Diminui a lotação em 1
-            $sala->save(); // Salva as alterações na sala
+            // Atualize a lotação da sala correspondente
+            $salaModel = \App\Models\Sala::find($salaId);
+            if ($salaModel) {
+                $salaModel->lotacao -= 1; // Decrementa a lotação
+                $salaModel->save();
+            }
         }
 
         // Remove a mesa
         $mesa->delete();
 
+        // Redireciona com sucesso
         return redirect()->route('mesa.index')->with('success', 'Mesa removida com sucesso.');
     }
 
@@ -270,26 +240,49 @@ class MesaController extends Controller
     }
 
     // Método no controlador
-    public function devolversala_piso(Request $request)
+    public function devolverSalaPiso(Request $request)
     {
         $codPiso = $request->input('cod_piso');
         $codEdificio = $request->input('cod_edificio');
 
+        // Buscar o registro único na tabela edificio_piso
         $edificio_piso = EdificioPiso::where('cod_piso', $codPiso)
             ->where('cod_edificio', $codEdificio)
-            ->get();
+            ->first(); // Usar first() para obter um único resultado
 
-        // Verifica se o EdificioPiso foi encontrado
         if ($edificio_piso) {
-            // Se encontrado, busca as salas associadas
-            $salasPiso = SalaPiso::where('cod_edificio_piso', $edificio_piso->id) // Use o ID do EdificioPiso
+            // Buscar as salas associadas ao edificio_piso encontrado
+            $salasPiso = SalaPiso::where('cod_edificio_piso', $edificio_piso->id)
+                ->with('sala') // Carrega o relacionamento com a tabela salas
                 ->get();
+
+            // Mapeia as salas para retornar apenas os nomes
+            $salas = $salasPiso->map(function ($salaPiso) {
+                return [
+                    'id' => $salaPiso->sala->id,
+                    'nome' => $salaPiso->sala->nome
+                ];
+            });
         } else {
-            // Se não encontrado, pode retornar uma resposta vazia ou uma mensagem
-            $salasPiso = collect(); // Cria uma coleção vazia
+            $salas = collect(); // Retorna uma coleção vazia se não houver resultados
         }
-    
-        // Retorna as salas encontradas (ou vazias)
-        return response()->json($codPiso);
+
+        // Retorna as salas como resposta JSON
+        return response()->json($salas);
+    }
+
+    // Função para mostrar reservas success
+    public function sucesso(Reserva $reserva)
+    {
+      dd($reserva->status);
+        $reserva->update(['status' => 'Feito checked-in']);
+        return view('mesa.sucesso');
+    }
+
+    // Função para mostrar reservas failed
+    public function falha()
+    {
+
+        return view('mesa.falha');
     }
 }

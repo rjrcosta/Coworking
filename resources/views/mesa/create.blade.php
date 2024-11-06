@@ -13,7 +13,7 @@
                         @csrf
                         <div class="mb-3">
                             <label for="cidade" class="form-label">Cidade</label>
-                            <select id="cidade" name="cidade_id" class="form-select" required>
+                            <select id="cidade" name="cidade_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                                 <option value="">Selecionar Cidade</option>
                                 @foreach ($cidades as $cidade)
                                 <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
@@ -23,21 +23,21 @@
 
                         <div class="mb-3">
                             <label for="edificio" class="form-label">Edifício</label>
-                            <select id="edificio" name="edificio_id" class="form-select" required>
+                            <select id="edificio" name="edificio_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                                 <option value="">Selecionar Edifício</option>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label for="piso" class="form-label">Piso</label>
-                            <select id="piso" name="piso_id" class="form-select" required>
+                            <select id="piso" name="piso_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                                 <option value="">Selecionar Piso</option>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label for="sala" class="form-label">Sala</label>
-                            <select id="sala" name="sala_id" class="form-select" required>
+                            <select id="sala" name="sala_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                                 <option value="">Selecionar Sala</option>
                             </select>
                         </div>
@@ -78,6 +78,7 @@
         });
     </script>
 
+    <!-- Script para atualizar pisos -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Seleciona o elemento do edifício
@@ -109,90 +110,46 @@
                     .catch(error => console.error('Erro ao buscar pisos:', error));
             });
         });
+    </script>
 
+    <!-- Script para atualizar pisos -->
+    <script>
+        // Captura os elementos de seleção do piso e da combobox de salas
+        const pisoSelect = document.getElementById('piso'); // Presume-se que exista um elemento com o ID 'piso'
+        const edificioSelect = document.getElementById('edificio'); // Presume-se que exista um elemento com o ID 'edificio'
+        const salaSelect = document.getElementById('sala'); // Combobox de salas
 
-        // ***********************************************
+        // Adiciona um evento apenas na combobox de piso
+        pisoSelect.addEventListener('change', carregarSalas);
 
-        document.getElementById('piso').addEventListener('change', function() {
+        function carregarSalas() {
+            const codPiso = pisoSelect.value;
+            const codEdificio = edificioSelect.value;
 
-            const pisos = document.getElementById('piso');
-            const pisoId = pisos.value
-            const edificioSelect = document.getElementById('edificio');
-            const edificioId = edificioSelect.value; // Obtém o valor do select
-            // Verifica se o ID do edifício está correto
-            console.log("Edifício selecionado ID:", edificioId);
-            // Verifica se o ID do piso está correto
-            console.log("Piso selecionado ID:", pisoId);
+            // Limpar as opções da combobox de salas
+            salaSelect.innerHTML = '<option>Selecione uma sala</option>';
 
-            fetch(`/mesa/devolver_salas?piso_id=${pisoId}&edificio_id=${edificioId}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Erro ao buscar dados');
-                    }
-                    return response.json();
-                })
+            // Verifica se ambos os valores estão preenchidos
+            if (!codPiso || !codEdificio) return;
+
+            // Requisição para buscar as salas com o piso e edifício selecionados
+            fetch(`/mesa/create/devolver_salas?cod_piso=${codPiso}&cod_edificio=${codEdificio}`)
+                .then(response => response.json())
                 .then(data => {
-                    console.log("Resultados da pesquisa:", data);
-                    // Aqui você pode processar os dados recebidos
+                    // Itera sobre as salas retornadas e adiciona como opções na combobox
+                    data.forEach(sala => {
+                        const option = document.createElement('option');
+                        option.value = sala.id;
+                        option.textContent = sala.nome;
+                        salaSelect.appendChild(option);
+                    });
                 })
-                .catch(error => console.error("Erro:", error));
-
-        });
-
-
-
-
-
-
-        // document.getElementById('piso').addEventListener('change', function() {
-        //     const pisoId = this.value;
-
-        //     // Verifica se o ID do edifício está correto
-        //     console.log("Piso selecionado ID:", pisoId);
-
-        //     fetch(`/mesa/salas/${pisoId}`, {
-        //             headers: {
-        //                 'X-CSRF-TOKEN': csrfToken
-        //             }
-        //         })
-        //         .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar salas'))
-        //         .then(data => {
-        //             console.log("Salas recebidas:", data);
-        //             const salaSelect = document.getElementById('sala');
-        //             salaSelect.innerHTML = '<option value="">Selecionar Sala</option>';
-
-        //             data.forEach(sala => {
-        //                 const option = document.createElement('option');
-        //                 option.value = sala.id;
-        //                 option.textContent = sala.nome;
-        //                 salaSelect.appendChild(option);
-        //             });
-        //         })
-        //         .catch(error => console.error(error));
-        // });
+                .catch(error => {
+                    console.error('Erro ao carregar as salas:', error);
+                });
+        }
     </script>
 
 
 
-    {{-- // document.getElementById('edificio').addEventListener('change', function() {
-        //     const edificioId = this.value;
-        //     fetch(`/mesa/pisos/${edificioId}`, {
-        //         headers: {
-        //             'X-CSRF-TOKEN': csrfToken
-        //         }
-        //     })
-        //     .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar pisos'))
-        //     .then(data => {
-        //         console.log(data)
-        //         const pisoSelect = document.getElementById('piso');
-        //         pisoSelect.innerHTML = '<option value="">Selecionar Piso</option>';
-        //         data.forEach(piso => {
-        //             const option = document.createElement('option');
-        //             option.value = piso.id;
-        //             option.textContent = piso.andar;
-        //             pisoSelect.appendChild(option);
-        //         });
-        //     })
-        //     .catch(error => console.error(error));
-        // }); --}}
 </x-app-layout>

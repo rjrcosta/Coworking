@@ -105,8 +105,8 @@ Route::resources([
 
 ]);
 
-Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
+Route::get('users/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
+Route::put('users/update/{id}', [UserController::class, 'update'])->name('users.update');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.delete');
 
 
@@ -135,6 +135,18 @@ Route::get('/reservas/edificios/{cidadeId}', [ReservaController::class, 'buscarE
 
 // Rota para calcular a disponibilidade e mostrar na tela
 Route::post('/reservas/disponibilidade', [ReservaController::class, 'showAvailability']);
+
+// // Rota para a reserva success
+// Route::get('/reservas/sucesso', [ReservaController::class, 'sucesso'])->name('reservas.sucesso');
+
+// // Rota para a reserva failed
+// Route::get('/reservas/falha', [ReservaController::class, 'falha'])->name('reservas.falha');
+
+// Rota para a reserva success
+Route::get('/mesa/sucesso', [MesaController::class, 'sucesso'])->name('mesa.sucesso');
+
+// Rota para a reserva failed
+Route::get('/mesa/falha', [MesaController::class, 'falha'])->name('mesa.falha');
 
 // Rota para fazer delete de mensagens
 Route::delete('/msgcontactos/{id}', [ContactoController::class, 'destroy'])->name('msgcontactos.destroy');
@@ -182,17 +194,22 @@ Route::middleware(['auth'])->group(function () {
 
     // // Rotas para Mesas
 
-
-
-
     Route::get('/mesa', [MesaController::class, 'index'])->name('mesa.index');
     Route::get('/mesa/create', [MesaController::class, 'create'])->name('mesa.create');
     Route::post('/mesa', [MesaController::class, 'store'])->name('mesa.store');
+    Route::delete('/mesa/{mesa}', [MesaController::class, 'destroy'])->name('mesa.destroy');
     Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('mesa.destroy');
     Route::get('/mesas/{id}', [MesaController::class, 'show'])->name('mesa.show');
 
     // // Rota de Check-In via QR Code
-    Route::post('/checkin/{mesaId}', [MesaController::class, 'checkIn'])->name('mesa.checkin');
+    //Route::post('/checkin/{mesaId}', [MesaController::class, 'checkIn'])->name('mesa.checkin');
+
+    // Rota para redirecionar para a rota de check-in
+    //Route::post('/checkin/{mesaId}', function ($mesaId) {return redirect()->route('mesa.checkin', ['mesaId' => $mesaId]);});
+    
+    // Rota para redirecionar para a rota de check-in
+    Route::get('/checkin/{mesaId}', [MesaController::class, 'checkIn'])->name('mesa.checkin');
+    
 });
 
 
@@ -211,6 +228,6 @@ Route::get('/pisos_show_associate/{id}', [PisoController::class, 'show_associate
 Route::post('/pisos/associate', [PisoController::class, 'associate'])->name('pisos.associate');
 
 //Rota para receber piso ID e edificioID e devolver para a mesa as salas
-Route::get('/mesa/devolver_salas', [MesaController::class, 'devolversala_piso']);
+Route::get('/mesa/create/devolver_salas', [MesaController::class, 'devolverSalaPiso']);
 
 require __DIR__ . '/auth.php';

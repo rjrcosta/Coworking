@@ -46,6 +46,7 @@
                   <td>{{ $mesa->status }}</td>
                   <td>{{ $mesa->cod_sala_piso }}</td>
 
+
                   <td class="d-flex justify-content-end">
                     <!-- Botão Show-->
                     <a href="{{ route('mesa.show', ['id' => $mesa->id]) }}">
@@ -67,6 +68,7 @@
               </x-slot>
 
             </nav>
+
 
           </div>
   </x-index-layout>
