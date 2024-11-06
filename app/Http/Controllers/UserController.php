@@ -39,7 +39,7 @@ class UserController extends Controller
         $user->save();
 
         // Redireciona para a lista de usuários com uma mensagem de sucesso
-        return redirect()->route('dashboard')->with('success', 'Usuário criado com sucesso!');
+        return redirect()->route('users.index')->with('success', 'Usuário criado com sucesso!');
     }
     //
     public function show($id)

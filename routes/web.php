@@ -53,11 +53,42 @@ Route::match(array('GET','POST'),'/welcome', function () {
 })->name('welcome');
 
 Route::get('/dashboard_admin', function () {
-    return view('dashboard_admin');
+    $qtdedificios  = DB::table('edificios')->count();
+    $qtdusers = DB::table('users')->count();
+    $qtdreservas = DB::table('reservas')->count();
+    $qtdmesas = DB::table('mesas')->count();
+    $qtdpisos = DB::table('pisos')->count();
+    $qtdsalas = DB::table('salas')->count();
+    $qtdcontactos = DB::table('contactos')->count();
+    return view('dashboard_admin',[
+        'qtdedificios' => $qtdedificios,
+        'qtdusers' => $qtdusers,
+        'qtdreservas' => $qtdreservas,
+        'qtdmesas' => $qtdmesas,
+        'qtdpisos' => $qtdpisos,
+        'qtdsalas' => $qtdsalas,
+        'qtdcontactos' => $qtdcontactos,
+        ]);
+
 })->middleware(['auth', 'verified'])->name('admin.dashboard');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $qtdedificios  = DB::table('edificios')->count();
+    $qtdusers = DB::table('users')->count();
+    $qtdreservas = DB::table('reservas')->count();
+    $qtdmesas = DB::table('mesas')->count();
+    $qtdpisos = DB::table('pisos')->count();
+    $qtdsalas = DB::table('salas')->count();
+    $qtdcontactos = DB::table('contactos')->count();
+    return view('dashboard_admin',[
+        'qtdedificios' => $qtdedificios,
+        'qtdusers' => $qtdusers,
+        'qtdreservas' => $qtdreservas,
+        'qtdmesas' => $qtdmesas,
+        'qtdpisos' => $qtdpisos,
+        'qtdsalas' => $qtdsalas,
+        'qtdcontactos' => $qtdcontactos,
+        ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
@@ -148,11 +179,6 @@ Route::get('/edificios_filtrar', [EdificioController::class, 'filtrar'])->name('
 
 // Rota para a modal de adição de cidades
 Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store');
-
-// Rota para filtrar cidades pelo nome
-Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cidades.filtrar');
-
-
 
 
 Route::get('/mesa/edificios/{cidadeId}', [MesaController::class, 'getEdificios']);

@@ -14,6 +14,14 @@
         <div class="p-6 text-black-900 dark:text-black-100">
           <nav class="navbar navbar-light">
 
+           <!-- Pesquisa -->
+           <x-slot name="pesquisa">
+              <form action="{{ route('pisos.filtrar') }}" method="GET" class="d-flex justify-content-between align-items-center">
+                <x-text-input type="text" name="pesquisa" id="pesquisa" placeholder="Pesquisa" />
+                <x-buttons.search-button></x-buttons.search-button>
+              </form>
+            </x-slot>
+
             <!-- Paginação -->
             <x-slot name="paginacao">
               {{ $pisos->links() }}
@@ -29,12 +37,12 @@
 
             <!-- Loop para  mostrar os dados  nas linhas da tabela - Variável "foreach"  -->
             <x-slot name="foreach">
-            @foreach($pisos as $piso)
+              @foreach($pisos as $piso)
               <tr>
                 <td>{{$piso->id}}</td>
                 <td>{{$piso->andar}}</td>
                 <td>{{$piso->created_at}}</td>
-                <td class ="d-flex justify-content-end">
+                <td class="d-flex justify-content-end">
                   <!-- Botão Show-->
                   <a href="{{route('pisos.show', $piso->id)}}">
                     <x-buttons.show-button></x-buttons.show-button>
@@ -54,11 +62,11 @@
                     <button type="button" class="btn btn-outline-dark">Associar a edifícios</button>
                   </a>
                 </td>
-               
+
               </tr>
               @endforeach
             </x-slot>
-            
+
           </nav>
         </div>
       </div>

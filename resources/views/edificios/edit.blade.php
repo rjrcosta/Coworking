@@ -24,8 +24,7 @@
                         @csrf
                         @method('PUT')
                         <div style="width:50%">
-                            <h2>{{ $edificio->nome }}</h2>
-                            <br>
+
                             <div class="mb-4">
                                 <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
                                 <input type="text" id="nome" name="nome" value="{{ $edificio->nome }}" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
@@ -73,8 +72,8 @@
                             <div id="map" style="height:400px; width:500px; " class="z-0 rounded-3"></div>
                             <!-- campos  de coordenadas -->
                             <div class="d-flex flex-row">
-                                <x-text-input id="lat" name="lat" class="block mt-1 w-full" placeholder="Latitude" />
-                                <x-text-input id="lng" name="lng" class="block mt-1 w-full" placeholder="Longitude" />
+                                <x-text-input id="lat" name="lat" class="block mt-1 w-full" placeholder="Latitude" readonly/>
+                                <x-text-input id="lng" name="lng" class="block mt-1 w-full" placeholder="Longitude" readonly/>
                             </div>
                         </div>
 
