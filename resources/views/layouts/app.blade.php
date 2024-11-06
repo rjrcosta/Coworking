@@ -148,27 +148,21 @@
                     })
                 })
 
-                .then(response => {
-    console.log( response); // Verifica o status e headers da resposta
-    return response.json();
-})
-
-                .then(response => response.json())
+                .then(response => response.json()) // Apenas uma chamada para transformar em JSON
                 .then(data => {
                     if (data.success) {
                         alert('Associação realizada com sucesso!');
-                        // Redirecionar ou atualizar a página conforme necessário
                         window.location.href = '{{ route("pisos.index") }}';
                     } else {
                         alert('Verifique se esse piso já foi associado a algum desses edifícios.');
                     }
                 })
+
                 .catch(error => {
                     console.error('Erro:', error);
                     alert('Erro ao associar os edifícios.');
                 });
         });
-        
     </script>
 </body>
 
