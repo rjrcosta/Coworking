@@ -16,7 +16,7 @@
                             <select id="cidade" name="cidade_id" class="form-select" required>
                                 <option value="">Selecionar Cidade</option>
                                 @foreach ($cidades as $cidade)
-                                    <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
+                                <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -50,7 +50,7 @@
     </div>
 
 
-    
+
     <!-- Script para atualizar edifícios, pisos e salas -->
     <script>
         // Adiciona token CSRF para requisições AJAX
@@ -111,33 +111,68 @@
         });
 
 
-        document.getElementById('piso').addEventListener('change', function() {
-            const pisoId = this.value;
+        // ***********************************************
 
+        document.getElementById('piso').addEventListener('change', function() {
+
+            const pisos = document.getElementById('piso');
+            const pisoId = pisos.value
+            const edificioSelect = document.getElementById('edificio');
+            const edificioId = edificioSelect.value; // Obtém o valor do select
             // Verifica se o ID do edifício está correto
+            console.log("Edifício selecionado ID:", edificioId);
+            // Verifica se o ID do piso está correto
             console.log("Piso selecionado ID:", pisoId);
 
-            fetch(`/mesa/salas/${pisoId}`, {
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
+            fetch(`/mesa/devolver_salas?piso_id=${pisoId}&edificio_id=${edificioId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao buscar dados');
                     }
+                    return response.json();
                 })
-                .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar salas'))
                 .then(data => {
-                    console.log("Salas recebidas:", data);
-                    const salaSelect = document.getElementById('sala');
-                    salaSelect.innerHTML = '<option value="">Selecionar Sala</option>';
-                    data.forEach(sala => {
-                        const option = document.createElement('option');
-                        option.value = sala.id;
-                        option.textContent = sala.nome;
-                        salaSelect.appendChild(option);
-                    });
+                    console.log("Resultados da pesquisa:", data);
+                    // Aqui você pode processar os dados recebidos
                 })
-                .catch(error => console.error(error));
+                .catch(error => console.error("Erro:", error));
+
         });
 
+
+
+
+
+
+        // document.getElementById('piso').addEventListener('change', function() {
+        //     const pisoId = this.value;
+
+        //     // Verifica se o ID do edifício está correto
+        //     console.log("Piso selecionado ID:", pisoId);
+
+        //     fetch(`/mesa/salas/${pisoId}`, {
+        //             headers: {
+        //                 'X-CSRF-TOKEN': csrfToken
+        //             }
+        //         })
+        //         .then(response => response.ok ? response.json() : Promise.reject('Erro ao buscar salas'))
+        //         .then(data => {
+        //             console.log("Salas recebidas:", data);
+        //             const salaSelect = document.getElementById('sala');
+        //             salaSelect.innerHTML = '<option value="">Selecionar Sala</option>';
+
+        //             data.forEach(sala => {
+        //                 const option = document.createElement('option');
+        //                 option.value = sala.id;
+        //                 option.textContent = sala.nome;
+        //                 salaSelect.appendChild(option);
+        //             });
+        //         })
+        //         .catch(error => console.error(error));
+        // });
     </script>
+
+
 
     {{-- // document.getElementById('edificio').addEventListener('change', function() {
         //     const edificioId = this.value;

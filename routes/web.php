@@ -145,7 +145,7 @@ Route::get('/cidades_filtrar', [CidadeController::class, 'filtrar'])->name('cida
 
 Route::get('/mesa/edificios/{cidadeId}', [MesaController::class, 'getEdificios']);
 Route::get('/mesa/pisos/{edificioId}', [MesaController::class, 'getPisos']);
-Route::get('/mesa/salas/{pisoId}', [MesaController::class, 'getSalas']);
+// Route::get('/mesa/salas/{pisoId}', [MesaController::class, 'getSalas']);
 
 
 
@@ -184,5 +184,7 @@ Route::get('/pisos_show_associate/{id}', [PisoController::class, 'show_associate
 // Rota para associar edifícios a um piso
 Route::post('/pisos/associate', [PisoController::class, 'associate'])->name('pisos.associate');
 
+//Rota para receber piso ID e edificioID e devolver para a mesa as salas
+Route::get('/mesa/devolver_salas', [MesaController::class, 'devolversala_piso']);
 
 require __DIR__ . '/auth.php';
