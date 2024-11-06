@@ -41,65 +41,66 @@ class MesaController extends Controller
 
     //     return view('mesa.create', compact('salas'));
     // }
-    public function  create(){
-         // toda a lista de objetos cidades
-         $cidades = DB::table('cidades')->orderBy('nome')->get();
+    public function  create()
+    {
+        // toda a lista de objetos cidades
+        $cidades = DB::table('cidades')->orderBy('nome')->get();
         //  $edificiopiso = DB::table('edificio_piso');
-         
-         return view('mesa.create', compact('cidades'));
+
+        return view('mesa.create', compact('cidades'));
     }
 
 
-public function store(Request $request)
-{
-    // // Validação dos dados de entrada
-    // $validated = $request->validate([
-    //     'cidade_id' => 'required|exists:cidades,id',
-    //     'edificio_id' => 'required|exists:edificios,id',
-    //     'sala_id' => 'required|exists:salas,id',
-    // ]);
-    
+    public function store(Request $request)
+    {
+        // // Validação dos dados de entrada
+        // $validated = $request->validate([
+        //     'cidade_id' => 'required|exists:cidades,id',
+        //     'edificio_id' => 'required|exists:edificios,id',
+        //     'sala_id' => 'required|exists:salas,id',
+        // ]);
 
-    $salaId = $request->sala_id;
-    $edificioId = $request->edificio_id;
-    $cidadeId = $request->cidade_id;
 
-    // Criação da nova mesa
-    $salaPiso = SalaPiso::where('cod_sala', $salaId)
-        ->whereHas('edificioPiso', function ($query) use ($edificioId) {
-            $query->where('cod_edificio', $edificioId);
-        })
-        ->whereHas('edificioPiso.edificio', function ($query) use ($cidadeId) {
-            $query->where('cod_cidade', $cidadeId);
-        })
-        ->first(); // Use first() para obter o primeiro resultado
+        $salaId = $request->sala_id;
+        $edificioId = $request->edificio_id;
+        $cidadeId = $request->cidade_id;
 
- 
+        // Criação da nova mesa
+        $salaPiso = SalaPiso::where('cod_sala', $salaId)
+            ->whereHas('edificioPiso', function ($query) use ($edificioId) {
+                $query->where('cod_edificio', $edificioId);
+            })
+            ->whereHas('edificioPiso.edificio', function ($query) use ($cidadeId) {
+                $query->where('cod_cidade', $cidadeId);
+            })
+            ->first(); // Use first() para obter o primeiro resultado
 
-    $mesa = new Mesa();
-    $mesa->status = 'livre'; // Status inicial
-    $mesa->cod_sala_piso = $salaPiso->id; // Acesse o id da salaPiso corretamente
-    $mesa->qrcode='qrtest';
-     $mesa->save();
 
-     // Gera o QR Code e salva o caminho na mesa
-     $mesa->qrcode = $this->gerarQrCode($mesa->id);
-     $mesa->save();
-    
 
-    // Atualizar a lotação da sala correspondente
-    $salaModel = \App\Models\Sala::find($salaId); // Use o valor de $salaId em vez de 'sala_id'
-    if ($salaModel) {
-        $salaModel->lotacao += 1; // Aumenta a lotação em 1
-        $salaModel->save(); // Salva as alterações na sala
+        $mesa = new Mesa();
+        $mesa->status = 'livre'; // Status inicial
+        $mesa->cod_sala_piso = $salaPiso->id; // Acesse o id da salaPiso corretamente
+        $mesa->qrcode = 'qrtest';
+        $mesa->save();
+
+        // Gera o QR Code e salva o caminho na mesa
+        $mesa->qrcode = $this->gerarQrCode($mesa->id);
+        $mesa->save();
+
+
+        // Atualizar a lotação da sala correspondente
+        $salaModel = \App\Models\Sala::find($salaId); // Use o valor de $salaId em vez de 'sala_id'
+        if ($salaModel) {
+            $salaModel->lotacao += 1; // Aumenta a lotação em 1
+            $salaModel->save(); // Salva as alterações na sala
+        }
+
+
+
+
+
+        return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso.');
     }
-
-   
-   
- 
-
-    return redirect()->route('mesa.index')->with('success', 'Mesa criada com sucesso.');
-}
 
 
 
@@ -161,26 +162,25 @@ public function store(Request $request)
     /**
      * Display the specified resource.
      */
-    public function show( $id)
+    public function show($id)
     {
-        
-    $mesa = Mesa::findOrFail($id);
-    $salaPiso=SalaPiso::findOrFail($mesa->cod_sala_piso);
-    $edificioPiso=EdificioPiso::findOrFail($salaPiso->cod_edificio_piso);
-    $piso=Piso::findOrFail($edificioPiso->cod_piso);
-    $edificio=Edificio::findOrFail($edificioPiso->cod_edificio);
-    $cidade=Cidade::findOrFail($edificio->cod_cidade);
-    $sala = $mesa->sala;
-    // $edificio = $mesa->edificio; // Acessando o edifício
-// dd($mesa);
-    return view('mesa.show', [
-        'mesa'=>$mesa,
-        'sala' => $sala,
-        'piso'=>$piso,
-        'edificio' => $edificio, // Passando o edifício para a view
-        'cidade'=>$cidade,
-    ]);
-   
+
+        $mesa = Mesa::findOrFail($id);
+        $salaPiso = SalaPiso::findOrFail($mesa->cod_sala_piso);
+        $edificioPiso = EdificioPiso::findOrFail($salaPiso->cod_edificio_piso);
+        $piso = Piso::findOrFail($edificioPiso->cod_piso);
+        $edificio = Edificio::findOrFail($edificioPiso->cod_edificio);
+        $cidade = Cidade::findOrFail($edificio->cod_cidade);
+        $sala = $mesa->sala;
+        // $edificio = $mesa->edificio; // Acessando o edifício
+        // dd($mesa);
+        return view('mesa.show', [
+            'mesa' => $mesa,
+            'sala' => $sala,
+            'piso' => $piso,
+            'edificio' => $edificio, // Passando o edifício para a view
+            'cidade' => $cidade,
+        ]);
     }
     // //     // Obter a sala correspondente à mesa
 
@@ -190,7 +190,7 @@ public function store(Request $request)
     //     $piso = $sala->edificioPiso->piso; // O piso relacionado ao SalaPiso
     //     $edificio = $sala->edificioPiso->edificio; // O edifício relacionado ao SalaPiso
     //     $cidade = $edificio->cidade; // A cidade relacionada ao Edificio
-      
+
     //     return view('mesa.show', compact('mesa', 'sala', 'piso', 'edificio', 'cidade'));
     // }
 
@@ -233,9 +233,9 @@ public function store(Request $request)
 
         return redirect()->route('mesa.index')->with('success', 'Mesa removida com sucesso.');
     }
-  
 
-     // Buscar edifícios de uma cidade específica
+
+    // Buscar edifícios de uma cidade específica
     public function getEdificios($cidade_id)
     {
         // Obtemos os edifícios com base na cidade
@@ -261,7 +261,7 @@ public function store(Request $request)
     {
 
         // Obtemos as salas associadas ao piso
-        $salas = SalaPiso::where('id', $piso_id)
+        $salas = SalaPiso::where('cod_edificio_piso', $piso_id)
             ->with('sala')
             ->get()
             ->pluck('sala');  // Extrai apenas as salas relacionadas
@@ -269,4 +269,27 @@ public function store(Request $request)
         return response()->json($salas);
     }
 
+    // Método no controlador
+    public function devolversala_piso(Request $request)
+    {
+        $codPiso = $request->input('cod_piso');
+        $codEdificio = $request->input('cod_edificio');
+
+        $edificio_piso = EdificioPiso::where('cod_piso', $codPiso)
+            ->where('cod_edificio', $codEdificio)
+            ->get();
+
+        // Verifica se o EdificioPiso foi encontrado
+        if ($edificio_piso) {
+            // Se encontrado, busca as salas associadas
+            $salasPiso = SalaPiso::where('cod_edificio_piso', $edificio_piso->id) // Use o ID do EdificioPiso
+                ->get();
+        } else {
+            // Se não encontrado, pode retornar uma resposta vazia ou uma mensagem
+            $salasPiso = collect(); // Cria uma coleção vazia
+        }
+    
+        // Retorna as salas encontradas (ou vazias)
+        return response()->json($codPiso);
+    }
 }
