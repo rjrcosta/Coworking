@@ -109,7 +109,7 @@ class ReservaController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         Log::info('Método store chamado', $request->all()); // Log para ver os dados recebidos
 
         // //Validação dos dados
@@ -121,19 +121,20 @@ class ReservaController extends Controller
         //     'user_id' => 'required',
         // ]);
 
-        // Buscando mesas disponíveis no edifício com status 'Livre'
-        $mesas = Mesa::where('status', 'livre') // Filtra mesas com status 'Livre'
-            ->whereHas('salaPiso.edificioPiso', function ($query) use ($request) {
-                $query->where('cod_edificio', $request->input('edificio_id'));
-            })->get();
-
-        dd($mesas);
+        // Buscando mesas disponíveis no edifício com status 'livre'
+        $mesas = Mesa::where('status', 'livre') // Filtra mesas com status 'livre'
+            ->whereHas('salaPiso', function ($query) use ($request) {
+                // Verifica a relação do piso e o edifício através da tabela sala_piso
+                $query->whereHas('edificioPiso', function ($query) use ($request) {
+                    $query->where('cod_edificio', $request->input('edificio_id')); // Filtra pelo edificio_id
+                });
+            })
+            ->get();
 
         // Verificar se há mesas disponíveis
         if ($mesas->isEmpty()) {
             return redirect()->back()->with('error', 'Não há mesas disponíveis para o edifício selecionado.')->withInput();
         }
-       
 
         // Seleciona uma mesa aleatoriamente
         $mesaAleatoria = $mesas->random();
@@ -156,7 +157,7 @@ class ReservaController extends Controller
             $reserva->horario_fim = $request->input('data') . ' 18:00:00';
         }
 
-        $reserva->status = 'reservado'; // Status inicial da reserva
+        $reserva->status = 'Reservado'; // Status inicial da reserva
         $reserva->save();
 
         // Atualiza o status da mesa para 'Ocupada'
@@ -231,7 +232,7 @@ class ReservaController extends Controller
     {
         //
         $reserva->delete();
-        return redirect()->route('reserva.index')->with('sucesso', 'reserva eliminada com sucesso');
+        return redirect()->route('reservas.index')->with('sucesso', 'reserva eliminada com sucesso');
     }
 
     // Função para filtrar reservas pela localidade
@@ -258,4 +259,5 @@ class ReservaController extends Controller
         // Retorna json para a modal
         return response()->json(Cidade::all());
     }
+
 }
