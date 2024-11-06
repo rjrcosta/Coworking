@@ -14,6 +14,14 @@
         <div class="p-6 text-black-900 dark:text-black-100">
           <nav class="navbar navbar-light">
 
+            <!-- Pesquisa -->
+            <x-slot name="pesquisa">
+              <form action="{{ route('cidades.filtrar') }}" method="GET" class="d-flex justify-content-between align-items-center">
+                <x-text-input type="text" name="pesquisa" id="pesquisa" placeholder="Pesquisa" />
+                <x-buttons.search-button></x-buttons.search-button>
+              </form>
+            </x-slot>
+
             <!-- Paginação -->
             <x-slot name="paginacao">
               {{ $cidades->links() }}
@@ -23,7 +31,7 @@
             <x-slot name="labels">
               <th scope="col">Id</th>
               <th scope="col">Nome</th>
-              
+
               <th scope="col" colspan="3" class="text-end">Opções</th>
             </x-slot>
 
@@ -33,8 +41,8 @@
               <tr>
                 <td>{{$cidade->id}}</td>
                 <td>{{$cidade->nome}}</td>
-           
-                <td class ="d-flex justify-content-end">
+
+                <td class="d-flex justify-content-end">
                   <!-- Botão Show-->
                   <a href="{{route('cidades.show', $cidade->id)}}">
                     <x-buttons.show-button></x-buttons.delete-button>
@@ -53,7 +61,7 @@
               </tr>
               @endforeach
             </x-slot>
-            
+
           </nav>
         </div>
       </div>

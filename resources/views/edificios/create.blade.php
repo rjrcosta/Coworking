@@ -93,12 +93,13 @@
 
                         <!-- Mapa e campos de coordenadas -->
                         <div style="padding:40px;">
+                        <x-input-label  value="Localize o Edificio" />
                             <div id="map" style="height:400px; width:500px; " class="z-0 rounded-3">
                                 <p>hello</p>
                             </div>
                             <div class="d-flex flex-row">
-                                <x-text-input id="lat" name="lat" class="block mt-1 w-full" placeholder="Latitude" />
-                                <x-text-input id="lng" name="lng" class="block mt-1 w-full" placeholder="Longitude" />
+                                <x-text-input required readonly id="lat" name="lat" class="block mt-1 w-full" placeholder="Latitude" />
+                                <x-text-input required readonly id="lng" name="lng" class="block mt-1 w-full" placeholder="Longitude" />
                             </div>
                         </div>
 

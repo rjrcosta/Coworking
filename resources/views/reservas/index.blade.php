@@ -14,6 +14,12 @@
         <div class="p-6 text-black-900 dark:text-black-100">
           <nav class="navbar navbar-light">
 
+
+            <!-- Pesquisa -->
+            <x-slot name="pesquisa">
+              <x-pesquisa action=""></x-pesquisa>
+            </x-slot>
+
             <!-- Paginação -->
             <x-slot name="paginacao">
               {{ $reservas->links() }}

@@ -14,18 +14,22 @@
                         @method('PUT')
 
                         <div>
-                            <label for="name">Nome:</label>
-                            <input type="text" name="name" value="{{ $user->name }}" required>
+                            <x-input-label value="Nome"/>
+                            <x-text-input class="form-control mt-2 mb-2" id="name" name="name" value="{{ $user->name }}" required/>
                         </div>
 
                         <div>
-                            <label for="email">Email:</label>
-                            <input type="email" name="email" value="{{ $user->email }}" required>
+                            <x-input-label value="Nome"/>
+                            <x-text-input class="form-control mt-2 mb-2" id="email" name="email" value="{{ $user->email }}" required/>
                         </div>
 
                         <!-- Adicione outros campos conforme necessário -->
 
-                        <button type="submit">Atualizar Usuário</button>
+                        <div class="flex items-center justify-end m-4">
+                            <button type="submit" class="btn btn-primary ">Actualizar User</button>
+                        </div>
+
+                        
                     </form>
                 </div>
             </div>

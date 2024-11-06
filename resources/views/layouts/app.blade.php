@@ -43,6 +43,19 @@
             {{ $slot }}
         </main>
     </div>
+    <!-- Exibe mensagem de erro quando houver -->
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
+
+    <!-- Exibe mensagem de sucesso -->
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
 
     <!-- resources/views/edificios/create.blade.php -->
     <script>

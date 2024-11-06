@@ -14,6 +14,14 @@
           <div class="p-6 text-black-900 dark:text-black-100">
             <nav class="navbar navbar-light">
 
+             <!-- Pesquisa -->
+              <x-slot name="pesquisa">
+                <form action="{{ route('mesas.filtrar') }}" method="GET" class="d-flex justify-content-between align-items-center">
+                  <x-text-input type="text" name="pesquisa" id="pesquisa" placeholder="Pesquisa" />
+                  <x-buttons.search-button></x-buttons.search-button>
+                </form>
+              </x-slot>
+
               <!-- Paginação -->
               <x-slot name="paginacao">
                 {{ $mesas->links() }}
@@ -30,35 +38,35 @@
 
 
 
-            <!-- Loop para  mostrar os dados  nas linhas da tabela - Variável "foreach"  -->
-            <x-slot name="foreach">
-              @foreach($mesas as $mesa)
-              <tr>
-                <td>{{ $mesa->id }}</td>
-                <td>{{ $mesa->status }}</td>
-                <td>{{ $mesa->cod_sala_piso }}</td>
-                
-                <td class ="d-flex justify-content-end">
-                  <!-- Botão Show-->
-                  <a href="{{ route('mesa.show', ['id' => $mesa->id]) }}">
-                    <x-buttons.show-button></x-buttons.show-button>
-                  </a>
-                  <!-- Botão Edit -->
-                  <a href="">
-                    <x-buttons.edit-button></x-buttons.edit-button>
-                  </a>
-                  <!-- Botão  Delete -->
-                  <form action="" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta mesa?');">
-                    @csrf
-                    @method('DELETE')
-                    <x-buttons.delete-button type="Submit"></x-buttons.delete-button>
-                  </form>
-                </td>
-              </tr>
-              @endforeach
-            </x-slot>
-            
-          </nav>
+              <!-- Loop para  mostrar os dados  nas linhas da tabela - Variável "foreach"  -->
+              <x-slot name="foreach">
+                @foreach($mesas as $mesa)
+                <tr>
+                  <td>{{ $mesa->id }}</td>
+                  <td>{{ $mesa->status }}</td>
+                  <td>{{ $mesa->cod_sala_piso }}</td>
 
-        </div>
+                  <td class="d-flex justify-content-end">
+                    <!-- Botão Show-->
+                    <a href="{{ route('mesa.show', ['id' => $mesa->id]) }}">
+                      <x-buttons.show-button></x-buttons.show-button>
+                    </a>
+                    <!-- Botão Edit -->
+                    <a href="">
+                      <x-buttons.edit-button></x-buttons.edit-button>
+                    </a>
+                    <!-- Botão  Delete -->
+                    <form action="" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta mesa?');">
+                      @csrf
+                      @method('DELETE')
+                      <x-buttons.delete-button type="Submit"></x-buttons.delete-button>
+                    </form>
+                  </td>
+                </tr>
+                @endforeach
+              </x-slot>
+
+            </nav>
+
+          </div>
   </x-index-layout>

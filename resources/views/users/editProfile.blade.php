@@ -12,11 +12,15 @@
                 <div class="p-6 text-black-900 dark:text-black-100">
                     <form action="{{ route('users.updateProfile') }}" method="POST">
                         @csrf
-                        <label for="name">Nome:</label>
-                        <input type="text" name="name" value="{{ $user->name }}" required>
+                        <!-- <label for="name">Nome:</label>
+                        <input type="text" name="name" value="{{ $user->name }}" required> -->
+                        <x-input-label value="Nome"/>
+                        <x-text-input class="form-control mt-2 mb-2" id="name" name="name" value="{{ $user->name }}" required/>
                         
-                        <label for="email">Email:</label>
-                        <input type="email" name="email" value="{{ $user->email }}" required>
+                        <!-- <label for="email">Email:</label>
+                        <input type="email" name="email" value="{{ $user->email }}" required> -->
+                        <x-input-label value="Nome"/>
+                        <x-text-input class="form-control mt-2 mb-2" id="email" name="email" value="{{ $user->email }}" required/>
                         
                         <button type="submit">Salvar</button>
                     </form>

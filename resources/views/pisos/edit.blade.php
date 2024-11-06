@@ -14,9 +14,10 @@
                         @csrf
                         @method('PUT') <!-- Aqui está o método correto -->
     
-                        <h2>{{ $pisos->andar }}</h2>
                         <br>
                         <div class="mb-4">
+                            <label for="id" class="block text-sm font-medium text-gray-700">ID</label>
+                            <input type="text" id="id" name="id" value="{{ old('id', $pisos->id) }}" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" readonly>
                             <label for="andar" class="block text-sm font-medium text-gray-700">Andar</label>
                             <input type="text" id="andar" name="andar" value="{{ old('andar', $pisos->andar) }}" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                             @error('andar')

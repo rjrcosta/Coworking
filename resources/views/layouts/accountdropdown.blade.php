@@ -916,15 +916,13 @@
 
             </x-dropdown-link>   
 
-
-            <x-dropdown-link :href="route('msgcontactos.index')">
-                {{ __('Mensagens') }}
-            </x-dropdown-link>
-
             <x-dropdown-link :href="route('reservas.index')">
                 {{ __('Reservas') }}
             </x-dropdown-link>
             
+            <!-- Separação dos item de criação disponiveis para o Admin -->
+            <hr class="mt-4">
+
             <!-- Links de Admin -->
             @if (Auth::user()->isAdmin())
             <x-dropdown-link :href="route('cidades.index')">
@@ -947,16 +945,14 @@
                 {{ __('Mesas') }}
             </x-dropdown-link>
 
-            
-            <x-dropdown-link :href="route('msgcontactos.index')">
-                {{ __('Mensagens') }}
-            </x-dropdown-link>
-
             <x-dropdown-link :href="route('users.index')">
                 {{ __('Usuários') }}
             </x-dropdown-link>
 
             @endif
+
+              <!-- Fim da separação dos items de criação disponiveis para o admin -->
+              <hr class="mb-4">
 
             <!-- Authentication -->
             <form method="POST" action="{{ route('logout') }}">

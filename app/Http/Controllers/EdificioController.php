@@ -134,6 +134,7 @@ class EdificioController extends Controller
     //Função para filtrar edifícios pela localidade 
     public function filtrar(Request $request)
     {
+
         $nome = $request->input('pesquisa');
 
         $cidades = Cidade::where('nome', 'like', '%' . $nome . '%')->pluck('id');

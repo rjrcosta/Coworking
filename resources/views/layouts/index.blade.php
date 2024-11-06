@@ -47,9 +47,7 @@
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 text-black-900 dark:text-black-100">
                             <nav class="navbar navbar-light">
-
-                                <x-pesquisa action=""></x-pesquisa>
-
+                                {{ $pesquisa }} 
                             </nav>
 
                             <table class="table">
