@@ -16,7 +16,7 @@
 
              <!-- Pesquisa -->
               <x-slot name="pesquisa">
-                <form action="{{ route('mesas.filtrar') }}" method="GET" class="d-flex justify-content-between align-items-center">
+                <form action="" method="GET" class="d-flex justify-content-between align-items-center">
                   <x-text-input type="text" name="pesquisa" id="pesquisa" placeholder="Pesquisa" />
                   <x-buttons.search-button></x-buttons.search-button>
                 </form>
@@ -32,7 +32,6 @@
                 <th scope="col">Id</th>
                 <th scope="col">Status</th>
                 <th scope="col">Sala</th>
-                <th scope="col">QRCode</th>
                 <th scope="col" colspan="3" class="text-end">Opções</th>
               </x-slot>
 
@@ -48,16 +47,19 @@
 
 
                   <td class="d-flex justify-content-end">
+
                     <!-- Botão Show-->
                     <a href="{{ route('mesa.show', ['id' => $mesa->id]) }}">
                       <x-buttons.show-button></x-buttons.show-button>
                     </a>
+
                     <!-- Botão Edit -->
                     <a href="">
                       <x-buttons.edit-button></x-buttons.edit-button>
                     </a>
+
                     <!-- Botão  Delete -->
-                    <form action="" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta mesa?');">
+                    <form action="{{ route('mesa.destroy', $mesa) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta mesa?');">
                       @csrf
                       @method('DELETE')
                       <x-buttons.delete-button type="Submit"></x-buttons.delete-button>

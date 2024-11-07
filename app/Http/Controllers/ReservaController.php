@@ -172,6 +172,7 @@ class ReservaController extends Controller
      */
     public function show($id)
     {
+     
         // Encontra a reserva pelo ID
         $reserva = Reserva::findOrFail($id);
 
@@ -180,7 +181,6 @@ class ReservaController extends Controller
 
         // Recupera a sala associada à mesa
         $sala = $mesa->sala;
-
         // Retorna a view com os dados da reserva e da sala
         return view('reservas.show', [
             'reserva' => $reserva, // Já está armazenada em $reserva
