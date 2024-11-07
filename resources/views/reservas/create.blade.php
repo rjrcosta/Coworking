@@ -62,11 +62,13 @@
 
     <!-- Script para obter os edifícios da cidade selecionada -->
     <script>
+        // Adiciona um evento de mudança no campo de seleção de cidade e chame a função
         document.getElementById('cidade').addEventListener('change', function() {
             const cidadeId = this.value;
 
-            // Fazer uma requisição AJAX para buscar os edifícios da cidade selecionada
+            // Fazer uma requisição FETCH API para buscar os edifícios da cidade selecionada
             fetch(`/reservas/edificios/${cidadeId}`)
+                // Retorna o resultado da requisição como uma resposta JSON
                 .then(response => response.json())
                 .then(data => {
                     const edificioSelect = document.getElementById('edificio');

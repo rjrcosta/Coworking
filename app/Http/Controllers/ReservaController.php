@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+/**
+ * Editado por Thiago França
+ * 06/07/2024
+ */
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reserva;
@@ -15,18 +20,7 @@ use Illuminate\Database\QueryException;
 
 class ReservaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // public function index2()
-    // {
-
-    //     // Obtém os dados paginados das reservas, 20 itens por página
-    //     $reservas = Reserva::with(['user', 'mesa.salaPiso.edificioPiso.edificio'])->paginate(20);
-
-    //     return view('reservas.index', compact('reservas'));
-    // }
-
+    
     /**
      * Display a listing of the resource.
      */

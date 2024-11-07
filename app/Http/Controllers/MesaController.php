@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+/**
+ * Editado por José Sousa
+ * 06/07/2024
+ */
+
 use App\Models\Mesa;
 use App\Models\Reserva;
 use App\Http\Controllers\Controller;
@@ -34,13 +39,7 @@ class MesaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    // public function create()
-    // {
-    //     //
-    //     $salas = Sala::all(); // Obter todas as salas
-
-    //     return view('mesa.create', compact('salas'));
-    // }
+    
     public function  create()
     {
         // toda a lista de objetos cidades
@@ -112,7 +111,6 @@ class MesaController extends Controller
     }
 
 
-
     // Função para check-in
     public function checkIn($id)
     {
@@ -124,7 +122,6 @@ class MesaController extends Controller
         //dd('mesaID',$mesa->id);
         //dd('user', $user);
         //dd('userID', $user->id);
-
 
 
         //  Verificar se há uma reserva ativa para esta mesa e para este usuário
@@ -274,7 +271,7 @@ class MesaController extends Controller
     // Função para mostrar reservas success
     public function sucesso(Reserva $reserva)
     {
-      dd($reserva->status);
+      //dd($reserva->status);
         $reserva->update(['status' => 'Feito checked-in']);
         return view('mesa.sucesso');
     }
