@@ -28,6 +28,7 @@
                     {{$reserva->edificio ? $reserva->edificio->cidade->nome : 'Cidade não encontrada'}}
                     <br><br>
                     <p><strong>Estado da reserva</strong></p>
+
                     @if ($reserva->status == 'reserved')
                     Reservado - Aguardando check-in
                     @elseif ($reserva->status == 'check-in')
@@ -43,7 +44,7 @@
                     <br><br>
                     <div class="d-flex mb-3">
                         <div class="me-auto p-2"></div>
-                        <a href="{{ route('reserva.index') }}"><button type="button" class="btn btn-primary">Voltar</button></a>
+                        <a href="{{ route('reservas.index') }}"><button type="button" class="btn btn-primary">Voltar</button></a>
                         <div class="p-2"></div>
                     </div>
 

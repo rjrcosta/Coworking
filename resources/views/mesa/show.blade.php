@@ -83,16 +83,15 @@
                         <x-input-label value="Cidade" />
                         <x-text-input class="form-control mt-2 mb-2" value="{{$cidade->nome}}" readonly /> 
 
-
-
                     </div>
+
                     <!-- QR CODE -->
-                    <div id="" style="height:400px; width:500px; " class="z-0 m-4 rounded-3">
+                    <div id="" style="height:400px; width:500px; " class="z-0 m-5 rounded-3">
                         <img src="{{ asset($mesa->qrcode) }}" alt="qrcode" class="img-fluid" style="max-width: 200px;">
                     </div>
 
                 </div>
-                <div class="d-flex mb-3 p-2">
+                <div class="d-flex justify-content-end mb-3 p-4">
                     <a href="{{ route('mesa.index') }}"><button type="button" class="btn btn-primary">Voltar</button></a>
                 </div>
             </div>

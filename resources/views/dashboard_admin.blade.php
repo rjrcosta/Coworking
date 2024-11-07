@@ -24,7 +24,7 @@
                         <!-- Users -->
                         <div class="card m-3" style="width: 18rem;">
                             <div class="card-body">
-                                <h5 class="card-title font-semibold text-xl">Edificios</h5>
+                                <h5 class="card-title font-semibold text-xl">Usuários</h5>
 
                                 <p class="card-text fs-1 text-center">{{$qtdusers}}</p>
                                 <x-input-label class="text-center" value="Quantidade" />
